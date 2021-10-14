@@ -28,6 +28,10 @@ public class Product {
     public double getPrise() {
         return prise;
     }
+
+    public ProductType getType() {
+        return type;
+    }
     public void setPrise(double newPrise) {
         prise = newPrise;
     }

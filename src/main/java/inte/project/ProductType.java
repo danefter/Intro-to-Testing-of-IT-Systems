@@ -1,12 +1,10 @@
 package inte.project;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ProductType {
     private String type;
-    private Map<ProductType,Collection<Product>> collection = new HashMap<>();
+    private ArrayList<Product> products = new ArrayList<>();
 
     public ProductType(String type) {
         this.type = type;
@@ -16,9 +14,18 @@ public class ProductType {
         return type;
     }
 
-    //add product
+    public ArrayList<Product> getProducts() {
+        return products;
+    }
 
-    //delet product
+    //add product
+    public void addProduct(Product product) {
+        if(getType().equals(product.getType().getType())) {
+            products.add(product);
+        }
+    }
+
+    //delete product
 
     //search product
 }
