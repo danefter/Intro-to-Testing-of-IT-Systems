@@ -30,6 +30,12 @@ public class CustomerTest {
     }
 
     @Test
+    void cunstructorAcceptsPhoneNumberThatStartsWithPlus(){
+        Customer customer = new Customer("Daniella Didriksson", "Snövägen 55", "danni@gmail.com", "+46773535788");
+        assertEquals("+46773535788", customer.getPhoneNumber());
+    }
+
+    @Test
     void lessDigitsThanAcceptedInPhoneNumberThrowsException(){ //the min length is 4 digits, but those places have an area code of 3 digitf, which means min of total 7 digits
         assertThrows(IllegalArgumentException.class, () -> {
             new Customer("Eva Ekman", "Ekerövägen 56", "evasmail@gmail.com", "+46799");
@@ -49,11 +55,37 @@ public class CustomerTest {
         assertEquals(12, customer.getPhoneNumber().length());
     }
 
-
-   /* @Test
-    void wrongCharacterUsedInPhoneNumberThrownsException(){ // eg +46-707885667
-        //TODO - continue testing here
-       
+    @Test
+    void wrongCharacterUsedInPhoneNumberThrownsException(){ // eg @, &, /
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Customer("Hanna Håkansson", "Hammarbystigen 87", "hannahakansson@hotmail.com", "070@788 9668");
+        });
     }
-    */
+
+    @Test
+    void hyphenInPhoneNumberIsRemovedAndNumberAccepted(){ //hyphen is this character: -
+        Customer customer = new Customer("Ida Ivarsson", "Ludvikavägen 11", "idaivarsson@outlook.com", "0771- 871668");
+        assertEquals("0771871668", customer.getPhoneNumber());
+    }
+
+    @Test
+    void changingPhoneNumberSetsNewPhoneNumber(){
+        Customer customer = new Customer("Jakob Jansson", "Sibyllavägen 2", "jakke@gmail.com", "+46 779981332");
+        customer.setPhoneNumber(" +46 789 117229");
+        assertEquals("+46789117229", customer.getPhoneNumber());
+    }
+
+    @Test
+    void changingEmailSetsNewEmail(){
+        Customer customer = new Customer("Kim Knutsson", "Karlaplan 66", "kimknutsson@gmail.com", "+46778899066");
+        customer.setEmail("kimknutsson2@gmail.com");
+        assertEquals("kimknutsson2@gmail.com", customer.getEmail());
+    }
+
+    @Test
+    void changingAddressSetsNewAdress(){
+        Customer customer = new Customer("Lina Larsson", "Storgatan 15", "linalarsson89@gmail.com", "0708707066");
+        customer.setAddress("Sjöholmsväg 4");
+        assertEquals("Sjöholmsväg 4", customer.getAddress());
+    }
 }
