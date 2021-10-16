@@ -15,5 +15,4 @@ class DateTest {
         Period date = new Period();
         assertEquals("15/10/2022", date.endToString());
     }
-
 }
