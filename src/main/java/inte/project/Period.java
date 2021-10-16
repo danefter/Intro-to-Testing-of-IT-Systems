@@ -1,8 +1,13 @@
 package inte.project;
 
+
 import java.text.SimpleDateFormat;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 import java.util.Date;
+
 
 
 public class Period {
@@ -20,6 +25,7 @@ public class Period {
         this.endMonth = Integer.parseInt(dateString[1]);
         this.endDay = Integer.parseInt(dateString[0]);
     }
+
     public int getStartYear(){
         return startYear;
     }
