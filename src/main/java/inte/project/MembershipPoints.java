@@ -23,8 +23,20 @@ public class MembershipPoints {
             this.points = (int)Math.round(points);
         }
     }
-    public void addPoints(int points){
-        this.points += points;
+    public void addPoints(int addPoints) throws IllegalArgumentException{
+        if(addPoints < 0){
+            throw new IllegalArgumentException("Added point can't be negative");
+        }else{
+            this.points += points;
+        }
+    }
+    // Illegalarg if points becomes negative
+    public void subtractPoints(int reduction) throws IllegalArgumentException{
+        if(points - reduction < 0){
+            throw new IllegalArgumentException("Not enough points for the subtraction");
+        }else{
+            points -= reduction;
+        }
     }
 
     public Period getPeriod(){
