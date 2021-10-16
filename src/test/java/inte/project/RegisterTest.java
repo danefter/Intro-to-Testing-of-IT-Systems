@@ -43,6 +43,6 @@ public class RegisterTest {
         CashTransaction payment = new CashTransaction(new Cash(1000, 11));
         r.calculateCurrentTotal(fridge, boat, cow);
         r.receiveCashPayment(payment);
-        Assertions.assertEquals(11000, r.getCurrentTotal());
+        Assertions.assertEquals(0, r.getCurrentTotal());
     }
 }
