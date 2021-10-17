@@ -25,4 +25,12 @@ public class CompanyTest {
             new Company("Motors AB", "Sturegatan 97", "motors@contact.se", "+4611-889 3455", orgNumber);
         });   
     }
+
+    @Test
+    void unacceptableCharactersInOrgNumberThrowsException(){
+        String orgNumber = "jk123-56660";
+        assertThrows(IllegalArgumentException.class, () ->{
+            new Company("Company", "Folkvägen 5", "company@contact.se", "+4677 899 2336", orgNumber);
+        });
+    }
 }
