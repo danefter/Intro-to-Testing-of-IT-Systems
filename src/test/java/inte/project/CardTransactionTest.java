@@ -14,7 +14,8 @@ public class CardTransactionTest {
 
     @Test
     void constructorCreatesCard() {
-        Customer customer = new Customer("name", "address", "name@email.com", "6666666");
+        int yearOfBirth = 1999;
+        Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", yearOfBirth);
         Card card = new Card("debit", customer, 5000);
         CardTransaction cardTransaction = new CardTransaction(card);
         Assertions.assertEquals(card, cardTransaction.getCard());
@@ -22,7 +23,8 @@ public class CardTransactionTest {
 
     @Test
     void getPaymentGetsPayment() {
-        Customer customer = new Customer("name", "address", "name@email.com", "6666666");
+        String orgNumber = "675522-7899";
+        Customer customer = new Company("name", "address", "name@email.com", "6666666", orgNumber);
         Card card = new Card("debit", customer, 5000);
         CardTransaction cardTransaction = new CardTransaction(card);
         cardTransaction.getPayment(2000);
@@ -31,7 +33,8 @@ public class CardTransactionTest {
 
     @Test
     void getPaymentMethodStillThrowsInsufficientBalance() {
-        Customer customer = new Customer("name", "address", "name@email.com", "6666666");
+        int yearOfBirth = 1990;
+        Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", yearOfBirth);
         Card card = new Card("debit", customer, 5000);
         CardTransaction cardTransaction = new CardTransaction(card);
         Exception exception = Assertions.assertThrows(IllegalStateException.class, () -> {
