@@ -11,7 +11,7 @@ public class PrivatePerson extends Customer{
             throw new IllegalArgumentException("Year of birth is too low, please try again");
         }
         if(yearOfBirth > LocalDate.now().getYear()){
-            throw new IllegalArgumentException("Year can not be in the future, please try again");
+            throw new IllegalArgumentException("Year of birth can not be in the future, please try again");
         }
         this.yearOfBirth = yearOfBirth;
     }
