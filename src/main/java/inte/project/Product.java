@@ -4,9 +4,9 @@ public class Product {
     private String Id;
     private String name;
     private double price;
-    private ProductType type;
+    private String type;
 
-    public Product (String Id, String name, double price , ProductType type) {
+    public Product (String Id, String name, double price , String type) {
         //Id must contain 6 numbers
         if (Id.length() != 6) {
             throw new IllegalStateException("Id must contain 6 numbers");
@@ -32,7 +32,7 @@ public class Product {
         return price;
     }
 
-    public ProductType getType() {
+    public String getType() {
         return type;
     }
 
