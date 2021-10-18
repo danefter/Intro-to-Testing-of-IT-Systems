@@ -33,4 +33,12 @@ public class CompanyTest {
             new Company("Company", "Folkvägen 5", "company@contact.se", "+4677 899 2336", orgNumber);
         });
     }
+
+    @Test
+    void noHyphenInOrgNumber(){
+        String orgNumber = "9876789876";
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Company("Car company", "Gråvägen 4", "carcompany@contact.se", "0707-657 122", orgNumber);
+        });
+    }
 }

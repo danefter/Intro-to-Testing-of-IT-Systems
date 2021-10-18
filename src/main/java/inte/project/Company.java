@@ -9,7 +9,7 @@ public class Company extends Customer{
         orgNumber = removeSpaces(orgNumber);
         checkForUnacceptableCharacters(orgNumber);
         if(orgNumber.length() != 11){ //10 digits and one hyphen gives length of 11
-            throw new IllegalArgumentException("Organisation number must be 10 digits");
+            throw new IllegalArgumentException("Organisation number must consist of 10 digits devided by a hyphen");
         }
         this.orgNumber = orgNumber;
     }
@@ -26,7 +26,7 @@ public class Company extends Customer{
         String temp = number;
         temp = temp.replaceAll("-", ""); 
         if(!temp.matches("[0-9]+")){ // if number does not follow digits 0-9
-            throw new IllegalArgumentException("The organisation number can only consist of digits and one hyphen");
+            throw new IllegalArgumentException("The organisation number can only consist of 10 digits and one hyphen");
         }
     }
     
