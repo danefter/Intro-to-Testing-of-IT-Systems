@@ -1,5 +1,8 @@
 package inte.project;
 
+// Wallet with points and the period which the points are valid. When a member checks out/makes a purchase
+// the class can be called to add and subtract points to the member. Thought is that the register(or other) handles the
+// points to determine what amount should be subtracted or added.
 
 public class MembershipPoints {
     private int points;

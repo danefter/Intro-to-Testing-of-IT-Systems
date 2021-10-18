@@ -1,11 +1,8 @@
 package inte.project;
 
+// Helping class to membershippoints to check if the points has expired or not.
 
 import java.text.SimpleDateFormat;
-
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-
 import java.util.Date;
 
 

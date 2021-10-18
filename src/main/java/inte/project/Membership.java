@@ -7,6 +7,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
+// Memebership connected to a customer with creation date and a membershippoints class which exists as a wallet
+// that can subtract from a purchase and points beeing added when a purchase is made.
+
 public class Membership {
     private int membershipID;
     private MembershipPoints membershipPoints;
