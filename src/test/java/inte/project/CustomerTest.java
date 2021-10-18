@@ -101,6 +101,11 @@ public class CustomerTest {
         customer.setAddress("Sjöholmsväg 4");
         assertEquals("Sjöholmsväg 4", customer.getAddress());
     }
+    @Test
+    void isMemberWithoutSettingMembership(){
+        Customer customer = new PrivatePerson("name", "address", "email", "0707990998", 1997);
+        assertFalse(customer.isMember());
+    }
 
     @Test
     void customerBecomesMember(){
@@ -131,5 +136,11 @@ public class CustomerTest {
         customer.removeMembership();
         customer.setMembership();
         assertTrue(customer.getMembership().getMember(customer.getMembership().getMemberID()).equals(customer));
+    }
+    @Test
+    void customerBecomesMemberGetMembership(){
+        Customer customer = new PrivatePerson("name", "address", "email", "0707990998", 1997);
+        customer.setMembership();
+        assertNotNull(customer.isMember());
     }
 }
