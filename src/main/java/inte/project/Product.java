@@ -1,6 +1,6 @@
 package inte.project;
 
-public abstract class Product {
+public abstract class Product implements Vat {
     private String Id;
     private String name;
     private double price;
@@ -39,5 +39,10 @@ public abstract class Product {
     public void setPrice(double newPrice) {
         price = newPrice;
     }
+
+    public double getPricePlusVAT() {
+        return  getVat() * getPrice() + getPrice();
+    }
+
 
 }

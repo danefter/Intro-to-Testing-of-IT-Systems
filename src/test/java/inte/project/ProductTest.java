@@ -39,6 +39,12 @@ class ProductTest {
     }
 
     @Test
+    void testGetPricePlusVat() {
+        Product product = new Tele("986523","phone",4500.0);
+        assertEquals(5850.0,product.getPricePlusVAT());
+
+    }
+    @Test
     void lessdidgtsThanSixInId() {
         IllegalStateException e = assertThrows(IllegalStateException.class, () -> {
             new Tele("24987","phone", 500.0);
