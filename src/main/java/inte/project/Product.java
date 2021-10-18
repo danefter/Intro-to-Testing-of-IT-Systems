@@ -11,6 +11,9 @@ public class Product {
         if (Id.length() != 6) {
             throw new IllegalStateException("Id must contain 6 numbers");
         }
+        if (price < 0) {
+            throw new IllegalStateException("price must be more");
+        }
         this.Id = Id;
         this.name = name;
         this.price = price;
@@ -32,6 +35,7 @@ public class Product {
     public ProductType getType() {
         return type;
     }
+
     public void setPrice(double newPrice) {
         price = newPrice;
     }

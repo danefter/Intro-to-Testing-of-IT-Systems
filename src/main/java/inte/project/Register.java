@@ -39,7 +39,7 @@ public class Register {
 
     public void calculateCurrentTotal(Product... products) {
         for (Product p: products)
-            this.currentTotal += p.getPrise();
+            this.currentTotal += p.getPrice();
         }
 
 
