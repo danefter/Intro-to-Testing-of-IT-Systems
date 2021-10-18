@@ -14,8 +14,8 @@ class ProductTypeTest {
 
     @Test
     void testAddProduct() {
-        ProductType type = new ProductType("data");
-        Product product = new Product("208614","tablet",2000, new ProductType("data"));
+        ProductType type = new ProductType("Tele");
+        Product product = new Product("208614","tablet",2000, new ProductType("Tele"));
 
         type.addProduct(product);
 
@@ -31,6 +31,18 @@ class ProductTypeTest {
 
         assertFalse(type.getProducts().contains(product));
 
+    }
+
+    @Test
+    void testDeleteProduct() {
+        ProductType type = new ProductType("Tele");
+        Product product = new Product("208614","tablet",2000, new ProductType("Tele"));
+
+        type.addProduct(product);
+
+        type.deleteProduct(product);
+        assertFalse(type.getProducts().contains(product));
+        
     }
 
 }

@@ -26,6 +26,11 @@ public class ProductType {
     }
 
     //delete product
+    public void deleteProduct(Product product) {
+        if(getType().equals(product.getType().getType())) {
+            products.remove(product);
+        }
+    }
 
     //search product
 }
