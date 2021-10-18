@@ -1,6 +1,6 @@
 package inte.project;
 
-public class Customer {
+public abstract class Customer {
     private String name;
     private String address;
     private String email;
@@ -8,7 +8,8 @@ public class Customer {
     
     public Customer(String name, String address, String email, String phoneNumber){
         phoneNumber = removePotentialSpaces(phoneNumber);
-        phoneNumber = checkForUnacceptableCharacters(phoneNumber);
+        phoneNumber = removeHyphen(phoneNumber);
+        checkForUnacceptableCharacters(phoneNumber);
         checkLengthOfPhoneNumber(phoneNumber);
         this.name = name;
         this.address = address;
@@ -55,16 +56,12 @@ public class Customer {
         return number = number.replaceAll("\\s+", "");
     }
 
-    private String checkForUnacceptableCharacters(String number){
-        if(number.contains("-")){ 
-            number = removeHyphen(number);
-        }
+    private void checkForUnacceptableCharacters(String number){
         if(!number.matches("[0-9]+")){ // if number does not follow digits 0-9
             if(!number.matches("\\+[0-9]+$")){ //if number does not follow the + followed by digits 0-9
-                throw new IllegalArgumentException("The phone number cab only consist of digits or one plus sign followed by digits");
+                throw new IllegalArgumentException("The phone number can only consist of digits or one plus sign followed by digits");
             }
         }
-        return number;
     }
 
     private String removeHyphen(String number){

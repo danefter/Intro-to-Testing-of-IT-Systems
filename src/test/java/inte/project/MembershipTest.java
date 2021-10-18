@@ -16,4 +16,10 @@ class MembershipTest {
         assertEquals(100, membership.getMembershipPoints().getPoints());
     }
 
+ /*   @Test
+    void toYoungCustomerThrowsException(){
+       TODO - good test to do
+    }
+    */
+
 }
