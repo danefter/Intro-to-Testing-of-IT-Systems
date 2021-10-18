@@ -18,9 +18,9 @@ class ProductTest {
     }
 
     @Test
-    void constructorTestPrise() {
+    void constructorTestPrice() {
         Product product = new Product("208614","tablet",2999.9, new ProductType(""));
-        assertEquals(2999.9,product.getPrise());
+        assertEquals(2999.9,product.getPrice());
     }
 
     @Test

@@ -3,17 +3,17 @@ package inte.project;
 public class Product {
     private String Id;
     private String name;
-    private double prise;
+    private double price;
     private ProductType type;
 
-    public Product (String Id, String name, double prise , ProductType type) {
+    public Product (String Id, String name, double price , ProductType type) {
         //Id must contain 6 numbers
         if (Id.length() != 6) {
             throw new IllegalStateException("Id must contain 6 numbers");
         }
         this.Id = Id;
         this.name = name;
-        this.prise = prise;
+        this.price = price;
         this.type = type;
     }
 
@@ -25,15 +25,15 @@ public class Product {
         return name;
     }
 
-    public double getPrise() {
-        return prise;
+    public double getPrice() {
+        return price;
     }
 
     public ProductType getType() {
         return type;
     }
-    public void setPrise(double newPrise) {
-        prise = newPrise;
+    public void setPrice(double newPrice) {
+        price = newPrice;
     }
 
 }
