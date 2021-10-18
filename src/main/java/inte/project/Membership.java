@@ -3,6 +3,9 @@ package inte.project;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+// Memebership connected to a customer with creation date and a membershippoints class which exists as a wallet
+// that can subtract from a purchase and points beeing added when a purchase is made.
+
 public class Membership {
     MembershipPoints membershipPoints;
     String membershipCreatedDate;
