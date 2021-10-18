@@ -26,6 +26,7 @@ public class MembershipPoints {
             this.points = (int)Math.round(points);
         }
     }
+    // Lägg till if empty add period and points
     public void addPoints(int addPoints) throws IllegalArgumentException{
         if(addPoints < 0){
             throw new IllegalArgumentException("Added point can't be negative");
