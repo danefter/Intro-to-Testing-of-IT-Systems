@@ -5,6 +5,8 @@ public abstract class Customer {
     private String address;
     private String email;
     private String phoneNumber;
+    private boolean member;
+    private Membership membership;
     
     public Customer(String name, String address, String email, String phoneNumber){
         phoneNumber = removePotentialSpaces(phoneNumber);
@@ -15,6 +17,26 @@ public abstract class Customer {
         this.address = address;
         this.email = email;
         this.phoneNumber = phoneNumber;
+    }
+
+    public boolean isMember(){ 
+        return member;
+    }
+
+    public void setIsMember(boolean value){
+        this.member = value; 
+    }
+
+    public void setMembership(){ 
+       membership = new Membership(this);
+       this.member = true;
+    }
+
+    public void removeMembership(){
+        if(this.isMember()){
+            membership.removeMembership(this);
+            this.member = false;
+        }
     }
 
     public String getName(){
@@ -44,6 +66,14 @@ public abstract class Customer {
     public void setPhoneNumber(String newNumber){
         newNumber = removePotentialSpaces(newNumber);
         this.phoneNumber = newNumber;
+    }
+
+    public Membership getMembership(){
+        return membership;
+    }
+
+    public int hashCode(){ 
+        return name.hashCode() * 1000 + email.hashCode();
     }
 
     private void checkLengthOfPhoneNumber(String number){

@@ -3,7 +3,6 @@ package inte.project;
 public class Company extends Customer{
     private String orgNumber;
 
-
     public Company(String name, String address, String email, String phoneNumber, String orgNumber){
         super(name, address, email, phoneNumber);
         orgNumber = removeSpaces(orgNumber);
@@ -29,5 +28,4 @@ public class Company extends Customer{
             throw new IllegalArgumentException("The organisation number can only consist of 10 digits and one hyphen");
         }
     }
-    
 }

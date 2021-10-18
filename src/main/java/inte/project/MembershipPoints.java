@@ -5,13 +5,13 @@ package inte.project;
 // points to determine what amount should be subtracted or added.
 
 public class MembershipPoints {
-    int points;
-    Period period;
+    private int points;
+    private Period period;
 
-    MembershipPoints(){
+    public MembershipPoints(){
         points = 0;
     }
-    MembershipPoints(int points){
+    public MembershipPoints(int points){
         if(points < 0){
             this.points = 0;
         }else{
@@ -19,7 +19,7 @@ public class MembershipPoints {
         }
         Period period = new Period();
     }
-    MembershipPoints(double points){
+    public MembershipPoints(double points){
         if(points < 0){
             this.points = 0;
         }else{
@@ -31,7 +31,7 @@ public class MembershipPoints {
         if(addPoints < 0){
             throw new IllegalArgumentException("Added point can't be negative");
         }else{
-            this.points += points;
+            this.points += addPoints;
         }
     }
     // Illegalarg if points becomes negative
