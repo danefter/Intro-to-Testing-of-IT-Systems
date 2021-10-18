@@ -72,9 +72,7 @@ public abstract class Customer {
         return membership;
     }
 
-    public int hashCode(){ 
-        return name.hashCode() * 1000 + email.hashCode();
-    }
+
 
     private void checkLengthOfPhoneNumber(String number){
         if(number.length() < 7 || number.length() > 16){
@@ -96,6 +94,10 @@ public abstract class Customer {
 
     private String removeHyphen(String number){
         return number = number.replaceAll("-", "");
+    }
+    @Override
+    public int hashCode(){
+        return name.hashCode() * 1000 + email.hashCode();
     }
 
 }
