@@ -44,17 +44,13 @@ public class Register {
 
 
     public void receiveCashPayment(CashTransaction cashTransaction) {
-        Cash cash;
-        for(Iterator var2 = cashTransaction.getPayment().iterator(); var2.hasNext(); this.currentPayment += cash.getTotal()) {
-            cash = (Cash)var2.next();
-            Cash oldBalance = (Cash)this.cashBalance.get(cash.getDenomination());
+        for(Cash cash: cashTransaction.getPayment()) {
+            Cash oldBalance = this.cashBalance.get(cash.getDenomination());
             oldBalance.add(cash.getQuantity());
         }
-
         while(this.currentPayment < this.currentTotal) {
             this.receiveCashPayment(new CashTransaction());
         }
-
         this.cashPaymentTotal += this.currentPayment;
         this.cashTransactions.put(LocalDateTime.now(), cashTransaction);
         this.printReceipt();
