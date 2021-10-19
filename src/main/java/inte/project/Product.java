@@ -3,15 +3,16 @@ package inte.project;
 public abstract class Product implements Vat {
     private String Id;
     private String name;
-    private double price;
+    //private double price;
+    private Money price;
     private String type;
 
-    public Product (String Id, String name, double price , String type) {
+    public Product (String Id, String name, Money price , String type) {
         //Id must contain 6 numbers
         if (Id.length() != 6) {
             throw new IllegalArgumentException("Id must contain 6 numbers");
         }
-        if (price < 0) {
+        if (price.getAmountInOre() < 0) {
             throw new IllegalArgumentException("price must be more");
         }
         this.Id = Id;
@@ -28,7 +29,7 @@ public abstract class Product implements Vat {
         return name;
     }
 
-    public double getPrice() {
+    public Money getPrice() {
         return price;
     }
 
@@ -36,12 +37,12 @@ public abstract class Product implements Vat {
         return type;
     }
 
-    public void setPrice(double newPrice) {
+    public void setPrice(Money newPrice) {
         price = newPrice;
     }
 
     public double getPricePlusVAT() {
-        return  getVat() * getPrice() + getPrice();
+        return  getVat() * getPrice().getAmountInOre() + getPrice().getAmountInOre();
     }
 
 
