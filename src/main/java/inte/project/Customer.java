@@ -8,7 +8,6 @@ public abstract class Customer {
     private String phoneNumber;
     private boolean member;
     private Membership membership;
-    private static CustomerHandler customerHandler = new CustomerHandler();
     
     public Customer(String name, String address, String email, String phoneNumber){
         phoneNumber = removePotentialSpaces(phoneNumber);
@@ -80,12 +79,6 @@ public abstract class Customer {
             throw new IllegalArgumentException("Customer is not a member");
         }
     }
-
-    protected CustomerHandler getCustomerHandler(){
-        return customerHandler;
-    }
-
-
     private void checkLengthOfPhoneNumber(String number){
         if(number.length() < 7 || number.length() > 16){
             throw new IllegalArgumentException("Phone number seems to be in the wrong format, please try again");
@@ -106,6 +99,9 @@ public abstract class Customer {
 
     private String removeHyphen(String number){
         return number = number.replaceAll("-", "");
+    }
+    private String toString(String number){
+        String string = ;
     }
     @Override
     public int hashCode(){
