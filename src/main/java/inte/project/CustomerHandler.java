@@ -38,21 +38,7 @@ public class CustomerHandler {
             throw new IllegalArgumentException("Customer already exists");
         }
     }
-   /* public void addPrivatePerson(String name, String address, String email, String phoneNumber, int birthYear) throws IllegalArgumentException{
-        Customer customer = new PrivatePerson(name, address, email, phoneNumber, birthYear);
-        if(!customerHashSet.contains(customer)){
-            customerHashSet.add(customer);
-            customerHashMapName.put(customer.getName(), customer);
-            customerHashMapAdress.put(customer.getAddress(), customer);
-            if(customer.isMember()){
-                customerHashMapMembershipID.put(customer.getMembership().getMemberID(), customer);
-            }
-            customerHashMapPhoneNumber.put(customer.getPhoneNumber(), customer);
-        }else{
-            throw new IllegalArgumentException("Customer already exists");
-        }
-    }
-    */
+
     public Collection<Customer> getAllCustomers(){
 
         return Collections.unmodifiableCollection(customerHashSet);
