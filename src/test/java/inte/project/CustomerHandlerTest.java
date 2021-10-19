@@ -39,4 +39,13 @@ class CustomerHandlerTest {
             ch.getCustomerByPhoneNumber("0707990998");
         });
     }
+    @Test
+    void removeExistingCustomer(){
+        CustomerHandler customerHandler = new CustomerHandler();
+        Customer cu = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", 1990);
+        customerHandler.addCustomer(cu);
+        customerHandler.removeCustomer(cu);
+        assertTrue(customerHandler.getAllCustomers().isEmpty());
+    }
+
 }

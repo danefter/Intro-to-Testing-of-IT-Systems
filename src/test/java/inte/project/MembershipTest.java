@@ -25,21 +25,7 @@ class MembershipTest {
         assertTrue(customer.isMember());
     }
 
-    @Test
-    void removeExistingMembership(){
-        Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", 1990);
-        Membership membership = new Membership(customer);
-        membership.removeMembership(customer);
-        assertNull(membership.getMembership(customer));
-    }
 
-    @Test
-    void removingMembershipSetsCustomerMembershipToFalse(){
-        Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", 1990);
-        Membership membership = new Membership(customer);
-        membership.removeMembership(customer);
-        assertFalse(customer.isMember());
-    }
 
     @Test
     void addingACustomerToBeAMemberSetsCorrectID(){

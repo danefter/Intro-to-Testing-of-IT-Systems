@@ -14,7 +14,7 @@ public class CustomerHandler {
     private HashMap<String, Customer> customerHashMapAdress;
     private HashMap<String, Customer> customerHashMapPhoneNumber;
 
-
+    // Författare Lukas
     // Initierar klass
     CustomerHandler(){
         customerHashSet = new HashSet<>();
@@ -38,21 +38,7 @@ public class CustomerHandler {
             throw new IllegalArgumentException("Customer already exists");
         }
     }
-   /* public void addPrivatePerson(String name, String address, String email, String phoneNumber, int birthYear) throws IllegalArgumentException{
-        Customer customer = new PrivatePerson(name, address, email, phoneNumber, birthYear);
-        if(!customerHashSet.contains(customer)){
-            customerHashSet.add(customer);
-            customerHashMapName.put(customer.getName(), customer);
-            customerHashMapAdress.put(customer.getAddress(), customer);
-            if(customer.isMember()){
-                customerHashMapMembershipID.put(customer.getMembership().getMemberID(), customer);
-            }
-            customerHashMapPhoneNumber.put(customer.getPhoneNumber(), customer);
-        }else{
-            throw new IllegalArgumentException("Customer already exists");
-        }
-    }
-    */
+
     public Collection<Customer> getAllCustomers(){
 
         return Collections.unmodifiableCollection(customerHashSet);
@@ -87,6 +73,13 @@ public class CustomerHandler {
         }else{
             throw new IllegalArgumentException("No costumer with that phonenumber exists");
         }
+    }
+    public void removeCustomer(Customer customer){
+        customerHashSet.remove(customer);
+        customerHashMapName.remove(customer);
+        customerHashMapMembershipID.remove(customer);
+        customerHashMapAdress.remove(customer);
+        customerHashMapPhoneNumber.remove(customer);
     }
 
 }

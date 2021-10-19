@@ -19,7 +19,6 @@ public abstract class Customer {
         this.address = address;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        customerHandler.addCustomer(this);
     }
 
     public boolean isMember(){ 
@@ -31,14 +30,16 @@ public abstract class Customer {
     }
 
     public void setMembership(){ 
-       membership = new Membership(this);
+       membership = null;
        this.member = true;
     }
 
     public void removeMembership(){
         if(this.isMember()){
-            membership.removeMembership(this);
+            membership = null;
             this.member = false;
+        }else{
+            throw new IllegalStateException("Customer is not a member");
         }
     }
 
@@ -71,14 +72,18 @@ public abstract class Customer {
         this.phoneNumber = newNumber;
     }
 
-    public Membership getMembership(){
-        return membership;
+
+    public Membership getMembership() throws IllegalArgumentException{
+        if(isMember()){
+            return membership;
+        }else{
+            throw new IllegalArgumentException("Customer is not a member");
+        }
     }
 
     protected CustomerHandler getCustomerHandler(){
         return customerHandler;
     }
-
 
 
     private void checkLengthOfPhoneNumber(String number){
