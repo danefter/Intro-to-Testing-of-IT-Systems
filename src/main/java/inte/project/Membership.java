@@ -1,3 +1,4 @@
+//Author: Lovisa & Lukas
 package inte.project;
 
 import java.text.SimpleDateFormat;

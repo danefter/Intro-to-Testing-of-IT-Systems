@@ -1,9 +1,11 @@
+// Author: Lukas
 package inte.project;
 // Klass som innehåller datastrukturen med alla customers och kan hantera dessa.
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+ 
 
 public class CustomerHandler {
     private HashSet<Customer> customerHashSet;

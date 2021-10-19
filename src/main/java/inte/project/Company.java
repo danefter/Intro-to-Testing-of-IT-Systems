@@ -1,3 +1,4 @@
+//Author: Lovisa 
 package inte.project;
 
 public class Company extends Customer{

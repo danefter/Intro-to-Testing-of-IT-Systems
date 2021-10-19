@@ -1,3 +1,4 @@
+//Author: Lovisa
 package inte.project;
 
 public abstract class Customer {
