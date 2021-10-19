@@ -25,7 +25,20 @@ public class CustomerHandler {
     }
     // Adderar privateperson so that they may be found by name, adress, memberID and phone if the person doesn't already exist in the database
     // if not member not added to membershipID hashmap
-    public void addPrivatePerson(String name, String address, String email, String phoneNumber, int birthYear) throws IllegalArgumentException{
+    public void addCustomer(Customer customer) throws IllegalArgumentException{
+        if(!customerHashSet.contains(customer)){
+            customerHashSet.add(customer);
+            customerHashMapName.put(customer.getName(), customer);
+            customerHashMapAdress.put(customer.getAddress(), customer);
+            if(customer.isMember()){
+                customerHashMapMembershipID.put(customer.getMembership().getMemberID(), customer);
+            }
+            customerHashMapPhoneNumber.put(customer.getPhoneNumber(), customer);
+        }else{
+            throw new IllegalArgumentException("Customer already exists");
+        }
+    }
+   /* public void addPrivatePerson(String name, String address, String email, String phoneNumber, int birthYear) throws IllegalArgumentException{
         Customer customer = new PrivatePerson(name, address, email, phoneNumber, birthYear);
         if(!customerHashSet.contains(customer)){
             customerHashSet.add(customer);
@@ -38,8 +51,8 @@ public class CustomerHandler {
         }else{
             throw new IllegalArgumentException("Customer already exists");
         }
-
     }
+    */
     public Collection<Customer> getAllCustomers(){
         return Collections.unmodifiableCollection(customerHashSet);
     }
