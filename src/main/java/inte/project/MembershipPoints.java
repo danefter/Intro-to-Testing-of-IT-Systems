@@ -51,7 +51,7 @@ public class MembershipPoints {
         return points;
     }
 
-    public int getCertainAmountOfPoints(int amount){ //TODO-testa
+    public int getCertainAmountOfPoints(int amount){ 
         if(points < amount){
             throw new IllegalArgumentException("You dont have enough points to collect");
         }else{

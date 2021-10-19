@@ -52,7 +52,7 @@ public class Payment {
     public int getPayment(int amount) {
         if (this.paymentType.equals("Cash")) addCashToTotal();
         if (this.paymentType.equals("Card")) addCardToTotal(amount);
-        if (this.paymentType.equals("Ponts")) totalPayments += pointPayment.getPoints();
+        if (this.paymentType.equals("Ponts")) totalPayments += pointPayment.getAllPoints();
         return totalPayments;
     }
 

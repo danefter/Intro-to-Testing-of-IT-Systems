@@ -66,4 +66,11 @@ class MembershipPointsTest {
         assertEquals(300, membershipPoints.getAllPoints());
     }
 
+    @Test
+    void collecting200PointsWhenOnly100ExistsThrowsException(){
+        MembershipPoints membershipPoints = new MembershipPoints(100);
+        assertThrows(IllegalArgumentException.class, () -> {
+            membershipPoints.getCertainAmountOfPoints(200);
+        });
+    }
 }
