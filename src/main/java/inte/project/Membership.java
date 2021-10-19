@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
 // Memebership connected to a customer with creation date and a membershippoints class which exists as a wallet
@@ -75,7 +74,7 @@ public class Membership {
         return customerToBeReturned;
     }   
 
-    private void setMembershipID(){ //ID is set via hashCode from orgNumber or just the yearOfBirth (depending on if customer is PrivatePerson or Company)
+    private void setMembershipID(){ //ID is set via hashCode from orgNumber or dateOfBirth (depending on if customer is PrivatePerson or Company)
         Set<Customer> customers = members.keySet(); // multiply by hashCode of email and that multiply by 2000
         Customer customer = null;
         for(Customer c : customers){
@@ -85,7 +84,7 @@ public class Membership {
         }
         if(customer instanceof PrivatePerson){
             PrivatePerson cu = (PrivatePerson)customer;
-            membershipID = cu.getYearOfBirth() * cu.getEmail().hashCode() * 2000;
+            membershipID = cu.getDateOfBirth().hashCode() * cu.getEmail().hashCode() * 2000;
         }else if(customer instanceof Company){
             Company cu = (Company)customer;
             membershipID = cu.getOrgNumber().hashCode() * cu.getEmail().hashCode() * 2000;

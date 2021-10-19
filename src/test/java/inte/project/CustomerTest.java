@@ -7,22 +7,22 @@ public class CustomerTest {
     
     @Test
     void constructorSetsName(){
-        int yearOfBirth = 1995;
-        Customer customer = new PrivatePerson("Anna Andersson", "Vasagatan 12", "anna.andersson@gmail.com", "0702445137", yearOfBirth); 
+        String dateOfBirth = "1995-10-13";
+        Customer customer = new PrivatePerson("Anna Andersson", "Vasagatan 12", "anna.andersson@gmail.com", "0702445137", dateOfBirth); 
         assertEquals("Anna Andersson", customer.getName());
     } 
 
     @Test
     void constructorSetsAddress(){
-        int yearOfBirth = 1973;
-        Customer customer = new PrivatePerson("Benny Björk", "Sveagatan 43", "bjorn_gunnarsson@gmail.com", "0734778559", yearOfBirth);
+        String dateOfBirth = "1973-04-11";
+        Customer customer = new PrivatePerson("Benny Björk", "Sveagatan 43", "bjorn_gunnarsson@gmail.com", "0734778559", dateOfBirth);
         assertEquals("Sveagatan 43", customer.getAddress());
     }
 
     @Test 
     void constructorSetsEmail(){
-        int yearOfBirth = 2000;
-        Customer customer = new PrivatePerson("Camilla Carlsson", "Hamngatan 20", "camilla77@hotmail.com", "0708657840", yearOfBirth);
+        String dateOfBirth = "2000-12-12";
+        Customer customer = new PrivatePerson("Camilla Carlsson", "Hamngatan 20", "camilla77@hotmail.com", "0708657840", dateOfBirth);
         assertEquals("camilla77@hotmail.com", customer.getEmail());
     }
 
@@ -42,17 +42,17 @@ public class CustomerTest {
 
     @Test
     void lessDigitsThanAcceptedInPhoneNumberThrowsException(){ //the min length is 4 digits, but those places have an area code of 3 digitf, which means min of total 7 digits
-        int yearOfBirth = 1984;
+        String dateOfBirth = "1984-08-5";
         assertThrows(IllegalArgumentException.class, () -> {
-            new PrivatePerson("Eva Ekman", "Ekerövägen 56", "evasmail@gmail.com", "+46799", yearOfBirth);
+            new PrivatePerson("Eva Ekman", "Ekerövägen 56", "evasmail@gmail.com", "+46799", dateOfBirth);
         });
     }
 
     @Test
     void moreDigitsThanAcceptedInPhoneNumberThrowsException(){ //12 is the maximum lenth exlusive the area code, which is 4 if you count the + sign. 16 is the maximum of characters.
-        int yearOfBirth = 2002;
+        String dateOfBirth = "2002-01-12";
         assertThrows(IllegalArgumentException.class, () -> {
-            new PrivatePerson("Fanny Fylke", "Hammarbyvägen 33", "fannyfylke@hotmail.com", "+4677123456789121", yearOfBirth);
+            new PrivatePerson("Fanny Fylke", "Hammarbyvägen 33", "fannyfylke@hotmail.com", "+4677123456789121", dateOfBirth);
         });
     }
 
@@ -73,23 +73,23 @@ public class CustomerTest {
 
     @Test
     void hyphenInPhoneNumberIsRemovedAndNumberAccepted(){ //hyphen is this character: -
-        int yearOfBirth = 1997;
-        Customer customer = new PrivatePerson("Ida Ivarsson", "Ludvikavägen 11", "idaivarsson@outlook.com", "0771- 871668", yearOfBirth);
+        String dateOfBirth = "1997-06-14";
+        Customer customer = new PrivatePerson("Ida Ivarsson", "Ludvikavägen 11", "idaivarsson@outlook.com", "0771- 871668", dateOfBirth);
         assertEquals("0771871668", customer.getPhoneNumber());
     }
 
     @Test
     void changingPhoneNumberSetsNewPhoneNumber(){
-        int yearOfBirth = 1989;
-        Customer customer = new PrivatePerson("Jakob Jansson", "Sibyllavägen 2", "jakke@gmail.com", "+46 779981332", yearOfBirth);
+        String dateOfBirth = "1989-11-7";
+        Customer customer = new PrivatePerson("Jakob Jansson", "Sibyllavägen 2", "jakke@gmail.com", "+46 779981332", dateOfBirth);
         customer.setPhoneNumber(" +46 789 117229");
         assertEquals("+46789117229", customer.getPhoneNumber());
     }
 
     @Test
     void changingEmailSetsNewEmail(){
-        int yearOfBirth = 2001;
-        Customer customer = new PrivatePerson("Kim Knutsson", "Karlaplan 66", "kimknutsson@gmail.com", "+46778899066", yearOfBirth);
+        String dateOfBirth = "2001-1-3";
+        Customer customer = new PrivatePerson("Kim Knutsson", "Karlaplan 66", "kimknutsson@gmail.com", "+46778899066", dateOfBirth);
         customer.setEmail("kimknutsson2@gmail.com");
         assertEquals("kimknutsson2@gmail.com", customer.getEmail());
     }
@@ -103,27 +103,27 @@ public class CustomerTest {
     }
     @Test
     void isMemberWithoutSettingMembership(){
-        Customer customer = new PrivatePerson("name", "address", "email", "0707990998", 1997);
+        Customer customer = new PrivatePerson("name", "address", "email", "0707990998", "1997-06-09");
         assertFalse(customer.isMember());
     }
 
     @Test
     void customerBecomesMember(){
-        Customer customer = new PrivatePerson("name", "address", "email", "0707990998", 1997);
+        Customer customer = new PrivatePerson("name", "address", "email", "0707990998", "1997-06-09");
         customer.setMembership();
         assertTrue(customer.isMember());
     }
 
     @Test
     void customerMembershipIsSavedInSystem(){
-        Customer customer = new PrivatePerson("name", "address", "email", "0707990998", 1997);
+        Customer customer = new PrivatePerson("name", "address", "email", "0707990998", "1997-06-09");
         customer.setMembership();
         assertTrue(customer.getMembership().getMember(customer.getMembership().getMemberID()).equals(customer));
     }
 
     @Test
     void removingCustomerMembership(){
-        Customer customer = new PrivatePerson("name", "address", "email", "0707990998", 1997);
+        Customer customer = new PrivatePerson("name", "address", "email", "0707990998", "1997-06-09");
         customer.setMembership();
         customer.removeMembership();
         assertFalse(customer.isMember());
@@ -131,7 +131,7 @@ public class CustomerTest {
 
     @Test
     void becomingMemberAgainAfterRemovingMembership(){
-        Customer customer = new PrivatePerson("name", "address", "email", "0707990998", 1997);
+        Customer customer = new PrivatePerson("name", "address", "email", "0707990998", "1997-06-09");
         customer.setMembership();
         customer.removeMembership();
         customer.setMembership();
@@ -140,7 +140,7 @@ public class CustomerTest {
 
     @Test
     void customerBecomesMemberGetMembership(){
-        Customer customer = new PrivatePerson("name", "address", "email", "0707990998", 1997);
+        Customer customer = new PrivatePerson("name", "address", "email", "0707990998", "1997-06-09");
         customer.setMembership();
         assertNotNull(customer.isMember());
     }

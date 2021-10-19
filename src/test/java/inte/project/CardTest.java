@@ -14,8 +14,8 @@ public class CardTest {
 
     @Test
     void constructorSetsCardType() {
-        int yearOfBirth = 1999;
-        Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", yearOfBirth);
+        String dateOfBirth = "1999-04-03";
+        Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
         Card card = new Card("debit", customer, 5000);
         Assertions.assertEquals("debit", card.getCardType());
     }
@@ -30,8 +30,8 @@ public class CardTest {
 
     @Test
     void constructorSetsBalance() {
-        int yearOfBirth = 2000;
-        Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", yearOfBirth);
+        String dateOfBirth = "2000-05-12";
+        Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
         Card card = new Card("debit", customer, 5000);
         Assertions.assertEquals(5000, card.getBalance());
     }

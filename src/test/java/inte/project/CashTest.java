@@ -110,8 +110,8 @@ public class CashTest {
     @Test
     void equalsFalseForOtherObject() {
         Cash cash = new Cash(20, 1);
-        int yearOfBirth = 1980;
-        Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", yearOfBirth);
+        String dateOfBirth = "1980-07-11";
+        Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
         Card card = new Card("debit", customer, 5000);
         Assertions.assertNotEquals(cash, card);
     }
