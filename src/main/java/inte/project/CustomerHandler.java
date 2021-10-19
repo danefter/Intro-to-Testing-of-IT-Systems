@@ -39,19 +39,39 @@ public class CustomerHandler {
 
     }
     public Collection<Customer> getAllCustomers(){
+
         return Collections.unmodifiableCollection(customerHashSet);
     }
-    public Customer getCustomerByName(String name){
-        return customerHashMapName.get(name);
+    public Customer getCustomerByName(String name) throws IllegalArgumentException{
+        if(customerHashMapName.containsKey(name)){
+            return customerHashMapName.get(name);
+        }else{
+            throw new IllegalArgumentException("No costumer with that name exists");
+        }
+
     }
     public Customer getCustomerByAdress(String adress){
-        return customerHashMapAdress.get(adress);
+        if(customerHashMapAdress.containsKey(adress)){
+            return customerHashMapAdress.get(adress);
+        }else{
+            throw new IllegalArgumentException("No costumer with that address exists");
+        }
+
     }
     public Customer getCustomerByMembershipID(int mID){
-        return customerHashMapMembershipID.get(mID);
+        if(customerHashMapAdress.containsKey(mID)){
+            return customerHashMapMembershipID.get(mID);
+        }else{
+            throw new IllegalArgumentException("No member with that ID exists");
+        }
+
     }
     public Customer getCustomerByPhoneNumber(String phone){
-        return customerHashMapPhoneNumber.get(phone);
+        if(customerHashMapPhoneNumber.containsKey(phone)){
+            return customerHashMapPhoneNumber.get(phone);
+        }else{
+            throw new IllegalArgumentException("No costumer with that phonenumber exists");
+        }
     }
 
 }
