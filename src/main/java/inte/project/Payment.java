@@ -1,10 +1,12 @@
 package inte.project;
+//author Dan Jensen
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 
-//@author Dan Jensen
+
 
 public class Payment {
 
@@ -14,26 +16,31 @@ public class Payment {
 
     private MembershipPoints pointPayment = new MembershipPoints();
 
+    private Money paymentTotal = new Money(0);
+
     private String paymentType;
 
-    private int totalPayments;
-
-    public Payment() {}
-
-    public Payment(Card... cards) {
-        for (Card card: cards)
-            cardPayments.put(card.getCardType(), card);
-        this.paymentType = "Card";
-    }
-
-    public Payment(Cash... cash) {
-        for (Cash money: cash)
+    public Payment(Money paymentTotal, Cash... cash) {
+        this.paymentTotal = paymentTotal;
+        for (Cash money : cash) {
             this.collectCashPayments(money);
+            paymentTotal.add(money.getTotal());
+        }
         this.paymentType = "Cash";
     }
 
-    public Payment(MembershipPoints points) {
-        this.pointPayment = points;
+    public Payment(Money paymentTotal, Card... cards) {
+        this.paymentTotal = paymentTotal;
+        for (Card card: cards) {
+            cardPayments.put(card.getCardType(), card);
+            paymentTotal.add(card.pay(paymentTotal));
+        }
+        this.paymentType = "Cards";
+    }
+
+    public Payment(Money paymentTotal) {
+        this.paymentTotal = paymentTotal;
+        paymentTotal.add(new Money(pointPayment.getCertainAmountOfPoints(paymentTotal.getAmountOfCrown())));
         this.paymentType = "Points";
     }
 
@@ -45,34 +52,18 @@ public class Payment {
         }
     }
 
-    public String getPaymentType() {
-        return paymentType;
+    public Money getPayment() {
+        return paymentTotal;
     }
-
-    public int getPayment(int amount) {
-        if (this.paymentType.equals("Cash")) addCashToTotal();
-        if (this.paymentType.equals("Card")) addCardToTotal(amount);
-        if (this.paymentType.equals("Ponts")) totalPayments += pointPayment.getAllPoints();
-        return totalPayments;
-    }
-
-    public void addCashToTotal() {
-        cashPayment.values().forEach(cash -> totalPayments += cash.getTotal());
-    }
-
-    public void addCardToTotal(int amount) {
-            cardPayments.values().forEach(card -> totalPayments += card.pay(amount));
-    }
-
-    public Collection<Card> getCardPayments() {
+    public Collection<Card> getCardPaymentValues() {
         return Collections.unmodifiableCollection(this.cardPayments.values());
     }
 
-    public Collection<Cash> getCashPayment() {
+    public Collection<Cash> getCashPaymentValues() {
         return Collections.unmodifiableCollection(this.cashPayment.values());
     }
 
-    public MembershipPoints getPointPayment() {
-        return pointPayment;
+    public String getPaymentType() {
+        return paymentType;
     }
 }
