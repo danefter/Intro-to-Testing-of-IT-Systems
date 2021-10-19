@@ -6,6 +6,7 @@ public abstract class Product implements Vat {
     //private double price;
     private Money price;
     private String type;
+    private Store store;
 
     public Product (String Id, String name, Money price , String type) {
         //Id must contain 6 numbers
@@ -45,5 +46,16 @@ public abstract class Product implements Vat {
         return  getVat() * getPrice().getAmountInOre() + getPrice().getAmountInOre();
     }
 
+    public void addStore(Store s) {
+        this.store = s;
+    }
+
+    public void addProductsToStore(Store s , int qua) {
+        s.addProduct(this,qua);
+    }
+
+    public Store getStore() {
+        return store;
+    }
 
 }
