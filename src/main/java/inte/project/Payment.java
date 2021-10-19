@@ -8,9 +8,9 @@ import java.util.HashMap;
 
 public class Payment {
 
-    private HashMap<String, Card> cardPayments = new HashMap();
+    private HashMap<String, Card> cardPayments = new HashMap<>();
 
-    private HashMap<Integer, Cash> cashPayment = new HashMap();
+    private HashMap<Integer, Cash> cashPayment = new HashMap<>();
 
     private MembershipPoints pointPayment = new MembershipPoints();
 
@@ -61,7 +61,8 @@ public class Payment {
     }
 
     public void addCardToTotal(int amount) {
-            cardPayments.values().forEach(card -> totalPayments += card.pay(amount));
+       // TODO - kommenterade bort koden då den gav felmeddelande och behöver fixas
+       // cardPayments.values().forEach(card -> totalPayments += card.pay(amount));
     }
 
     public Collection<Card> getCardPayments() {

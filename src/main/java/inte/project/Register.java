@@ -8,7 +8,6 @@ package inte.project;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 public class Register {
@@ -16,9 +15,9 @@ public class Register {
     private int cashPaymentTotal;
     private int currentTotal;
     private int currentPayment;
-    private HashMap<LocalDateTime, CardTransaction> cardTransactions = new HashMap();
-    private HashMap<LocalDateTime, CashTransaction> cashTransactions = new HashMap();
-    private HashMap<Integer, Cash> cashBalance = new HashMap();
+    private HashMap<LocalDateTime, CardTransaction> cardTransactions = new HashMap<>();
+    private HashMap<LocalDateTime, CashTransaction> cashTransactions = new HashMap<>();
+    private HashMap<Integer, Cash> cashBalance = new HashMap<>();
 
     List<Cash> acceptedDenominations = Arrays.asList(
             new Cash(1, 0),
@@ -39,7 +38,7 @@ public class Register {
 
     public void calculateCurrentTotal(Product... products) {
         for (Product p: products)
-            this.currentTotal += p.getPrice();
+            this.currentTotal += p.getPrice().getAmountInOre();
         }
 
 
@@ -71,6 +70,10 @@ public class Register {
 
     public int getCashPaymentTotal() {
         return this.cashPaymentTotal;
+    }
+
+    public int getCardPaymentTotal(){
+        return this.cardPaymentTotal;
     }
 
     public void resetTotals() {

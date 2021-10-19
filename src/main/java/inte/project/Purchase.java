@@ -14,9 +14,9 @@ public class Purchase {
   
     private HashMap<String, Payment> paymentMethods = new HashMap<>();
 
-    public void Purchase(Product... products) {
+    public Purchase(Product... products) {
         for (Product p: products) {
-            this.currentTotal += p.getPrice();
+            this.currentTotal += p.getPrice().getAmountInOre();
             this.productsToPurchase.put(p.getId(), p);
         }
     }
