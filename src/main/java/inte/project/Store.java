@@ -46,6 +46,7 @@ public class Store {
             int q = products.get(product) + qua;
             products.put(product,q);
         }
+        product.addStore(this);
     }
 
     //delete product

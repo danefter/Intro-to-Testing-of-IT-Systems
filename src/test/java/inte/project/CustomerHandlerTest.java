@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CustomerHandlerTest {
     @Test
     void addNewCustomerExistHashSet(){
-        Customer customer = new PrivatePerson("name", "address", "email", "0708988900", 1997);
+        Customer customer = new PrivatePerson("name", "address", "email", "0708988900", "1997-05-13");
         assertFalse(customer.getCustomerHandler().getAllCustomers().isEmpty());
     }
     @Test
@@ -18,18 +18,18 @@ class CustomerHandlerTest {
     }
     @Test
     void addNewCustomerExistHashMap(){
-        Customer customer = new PrivatePerson("name", "address", "email", "0708988900", 1997);
+        Customer customer = new PrivatePerson("name", "address", "email", "0708988900", "1997-05-13");
         assertNotNull(customer.getCustomerHandler().getCustomerByName("name"));
     }
     @Test
     void addNewCustomerExistHashMapAdress(){
-        Customer customer = new PrivatePerson("name", "address", "email", "0708988900", 1997);
+        Customer customer = new PrivatePerson("name", "address", "email", "0708988900", "1997-05-13");
         assertNotNull(customer.getCustomerHandler().getCustomerByAdress("address"));
     }
 
     @Test
     void addNewCustomerExistHashMapPhone(){
-        Customer customer = new PrivatePerson("name", "address", "email", "0708988900", 1997);
+        Customer customer = new PrivatePerson("name", "address", "email", "0708988900", "1997-05-13");
         assertNotNull(customer.getCustomerHandler().getCustomerByPhoneNumber("0708988900"));
     }
     @Test
