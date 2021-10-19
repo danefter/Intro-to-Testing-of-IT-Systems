@@ -58,6 +58,19 @@ public class Store {
 
     }
 
+    //search product after type
+    public Map<Product,Integer> searchProduct(String type) {
+        Map<Product,Integer> productsType = new HashMap<>();
+        for (Map.Entry<Product,Integer> me : products.entrySet()) {
+            Product p = me.getKey();
+            int q = me.getValue();
+            if(p.getType().equals(type)) {
+                productsType.put(p,q);
+            }
+        }
+        return productsType;
+    }
+
 
 }
 

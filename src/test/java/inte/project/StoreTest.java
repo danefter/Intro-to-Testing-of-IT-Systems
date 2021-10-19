@@ -3,6 +3,9 @@ package inte.project;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 class StoreTest {
 
     @Test
@@ -76,6 +79,26 @@ class StoreTest {
         });
 
         assertEquals("",e.getMessage());
+    }
+
+    @Test
+    void testSearchAfterProducts() {
+        Product product = new Appliances("348723","Fridge",5000.0);
+        Product product1 = new Appliances("347654","Stove",4500.0);
+        Product product2 = new Tele("341276","Mobile",11000.0);
+        Product product3 = new HouseHold("346576","Mixer",1500.0);
+
+        Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+        store.addProduct(product,100);
+        store.addProduct(product1,30);
+        store.addProduct(product2,400);
+        store.addProduct(product3,350);
+
+        Map<Product,Integer> newMap = new HashMap<>();
+        newMap.put(product,100);
+        newMap.put(product1,30);
+
+        assertEquals(newMap,store.searchProduct("Appliances"));
     }
 
 }
