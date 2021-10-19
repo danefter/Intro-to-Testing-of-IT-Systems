@@ -1,4 +1,6 @@
 package inte.project;
+//author Karolina Klimek kakl1405
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
