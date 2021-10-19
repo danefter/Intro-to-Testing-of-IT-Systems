@@ -46,7 +46,7 @@ class ProductTest {
     }
     @Test
     void lessdidgtsThanSixInId() {
-        IllegalStateException e = assertThrows(IllegalStateException.class, () -> {
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
             new Tele("24987","phone", 500.0);
         });
 
@@ -55,7 +55,7 @@ class ProductTest {
 
     @Test
     void priceLessThan0Kr() {
-        IllegalStateException e = assertThrows(IllegalStateException.class, () -> {
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
             new Tele("245694","phone",-45);
         });
 

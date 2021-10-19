@@ -9,7 +9,7 @@ public class Store {
     private String city;
     private String phoneNumber;
 
-    private Map<Product,Integer> products = new HashMap<>();
+    protected Map<Product,Integer> products = new HashMap<>();
 
     public Store(String address, int postCode, String city, String phoneNumber) {
         this.address = address;
@@ -32,6 +32,30 @@ public class Store {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public int getQuantity(Product product) {
+        return products.get(product);
+    }
+
+    //add product
+    public void addProduct(Product product, int qua) {
+        if (!products.containsKey(product)) {
+            products.put(product,qua);
+        } else {
+            int q = products.get(product) + qua;
+            products.put(product,q);
+        }
+    }
+
+    //delete product
+    public void deleteProduct(Product product, int qua) {
+        if (qua > products.get(product))
+            throw new IllegalStateException("");
+
+        int q = products.get(product) - qua ;
+        products.put(product,q);
+
     }
 
 
