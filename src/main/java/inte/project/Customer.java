@@ -20,17 +20,21 @@ public abstract class Customer {
         this.phoneNumber = phoneNumber;
     }
 
-    public boolean isMember(){ 
+    public boolean isMember(){
         return member;
     }
 
     public void setIsMember(boolean value){
-        this.member = value; 
+        this.member = value;
     }
 
-    public void setMembership(){ 
-       membership = null;
+    public void addMembership(){
+       membership = new Membership();
        this.member = true;
+       generateMembershipID();
+        if (getMembership() == null) {
+            
+        }
     }
 
     public void removeMembership(){
@@ -100,10 +104,22 @@ public abstract class Customer {
     private String removeHyphen(String number){
         return number = number.replaceAll("-", "");
     }
-    private String toString(String number){
+    public String toString(String number){
         String stringCustomer = name + address + email + phoneNumber;
         stringCustomer += getMembership().toString();
         return stringCustomer;
+    }
+
+    private void generateMembershipID(){
+        Customer customer = this;
+        if(this instanceof Company){
+            Company cu = (Company)  customer;
+            getMembership().setMemberID(cu.getOrgNumber().hashCode() * cu.getEmail().hashCode() * 2000);
+        }else if(customer instanceof PrivatePerson){
+            PrivatePerson cu = (PrivatePerson)customer;
+            getMembership().setMemberID(cu.getDateOfBirth().hashCode() * cu.getEmail().hashCode() * 2000);
+        }
+
     }
     @Override
     public int hashCode(){

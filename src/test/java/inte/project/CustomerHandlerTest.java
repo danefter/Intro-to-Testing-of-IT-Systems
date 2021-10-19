@@ -6,36 +6,40 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CustomerHandlerTest {
-    /*
+
     @Test
     void addNewCustomerExistHashSet(){
-        Customer customer = new PrivatePerson("name", "address", "email", "0708988900", "1997-05-13");
-        assertFalse(customer.getCustomerHandler().getAllCustomers().isEmpty());
+        CustomerHandler ch = new CustomerHandler();
+        ch.addCustomer(new PrivatePerson("name", "address", "email", "0708988900", "1997-05-13"));
+        assertFalse(ch.getAllCustomers().isEmpty());
     }
-    */
+
     @Test
     void gettingEmptyHashSet(){
         CustomerHandler ch = new CustomerHandler();
         assertTrue(ch.getAllCustomers().isEmpty());
     }
-    /*
+
     @Test
-    void addNewCustomerExistHashMap(){
-        Customer customer = new PrivatePerson("name", "address", "email", "0708988900", "1997-05-13");
-        assertNotNull(customer.getCustomerHandler().getCustomerByName("name"));
+    void addNewCustomerExistHashMapName(){
+        CustomerHandler ch = new CustomerHandler();
+        ch.addCustomer(new PrivatePerson("name", "address", "email", "0708988900", "1997-05-13"));
+        assertNotNull(ch.getCustomerByName("name"));
     }
     @Test
     void addNewCustomerExistHashMapAdress(){
-        Customer customer = new PrivatePerson("name", "address", "email", "0708988900", "1997-05-13");
-        assertNotNull(customer.getCustomerHandler().getCustomerByAdress("address"));
+        CustomerHandler ch = new CustomerHandler();
+        ch.addCustomer(new PrivatePerson("name", "address", "email", "0708988900", "1997-05-13"));
+        assertNotNull(ch.getCustomerByAdress("address"));
     }
 
     @Test
     void addNewCustomerExistHashMapPhone(){
-        Customer customer = new PrivatePerson("name", "address", "email", "0708988900", "1997-05-13");
-        assertNotNull(customer.getCustomerHandler().getCustomerByPhoneNumber("0708988900"));
+        CustomerHandler ch = new CustomerHandler();
+        ch.addCustomer(new PrivatePerson("name", "address", "email", "0708988900", "1997-05-13"));
+        assertNotNull(ch.getCustomerByPhoneNumber("0708988900"));
     }
-    */
+
 
     @Test
     void getNonExistingCustomerThrowsIllegal(){

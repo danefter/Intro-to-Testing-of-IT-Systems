@@ -60,7 +60,7 @@ public class CustomerHandler {
 
     }
     public Customer getCustomerByMembershipID(int mID){
-        if(customerHashMapAdress.containsKey(mID)){
+        if(customerHashMapMembershipID.containsKey(mID)){
             return customerHashMapMembershipID.get(mID);
         }else{
             throw new IllegalArgumentException("No member with that ID exists");

@@ -110,7 +110,7 @@ public class CustomerTest {
     @Test
     void customerBecomesMember(){
         Customer customer = new PrivatePerson("name", "address", "email", "0707990998", "1997-06-09");
-        customer.setMembership();
+        customer.addMembership();
         assertTrue(customer.isMember());
     }
 
@@ -118,7 +118,7 @@ public class CustomerTest {
     @Test
     void removingCustomerMembership(){
         Customer customer = new PrivatePerson("name", "address", "email", "0707990998", "1997-06-09");
-        customer.setMembership();
+        customer.addMembership();
         customer.removeMembership();
         assertFalse(customer.isMember());
     }
@@ -128,8 +128,22 @@ public class CustomerTest {
     @Test
     void customerBecomesMemberGetMembership(){
         Customer customer = new PrivatePerson("name", "address", "email", "0707990998", "1997-06-09");
-        customer.setMembership();
+        customer.addMembership();
         assertNotNull(customer.isMember());
+    }
+    @Test
+    void removingMembershipSetsCustomerMembershipToFalse(){
+        Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "1997-06-09");
+        customer.addMembership();
+        customer.removeMembership();
+        assertFalse(customer.isMember());
+    }
+    @Test
+    void addingACustomerToBeAMemberSetsCorrectID(){
+        Customer customer = new PrivatePerson("name", "address", "email", "0707898890", "1997-06-09");
+        int correctID = ((PrivatePerson)customer).getDateOfBirth().hashCode() * customer.getEmail().hashCode() * 2000;
+        customer.addMembership();
+        assertEquals(correctID, customer.getMembership().getMemberID());
     }
 
 }

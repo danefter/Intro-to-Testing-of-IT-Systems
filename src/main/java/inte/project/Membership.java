@@ -24,6 +24,7 @@ public class Membership {
         Date today = new Date();
         membershipCreatedDate = formatter.format(today);
     }
+
     
     Membership(int points){
         membershipPoints = new MembershipPoints(points);
@@ -36,6 +37,9 @@ public class Membership {
     public int getMemberID(){
         return membershipID;
     }
+    public void setMemberID(int mID){
+        membershipID = mID;
+    }
 
     public MembershipPoints getMembershipPoints(){
         return membershipPoints;
@@ -45,7 +49,7 @@ public class Membership {
         if(customer instanceof PrivatePerson){
             PrivatePerson cu = (PrivatePerson)customer;
             customer.getMembership().setMembershipID(cu.getYearOfBirth() * cu.getEmail().hashCode() * 2000);
-=======
+
 
     public Membership getMembership(Customer customer){ 
         return members.get(customer);
@@ -79,23 +83,7 @@ public class Membership {
         return customerToBeReturned;
     }   
 
-    private void setMembershipID(){ //ID is set via hashCode from orgNumber or dateOfBirth (depending on if customer is PrivatePerson or Company)
-        Set<Customer> customers = members.keySet(); // multiply by hashCode of email and that multiply by 2000
-        Customer customer = null;
-        for(Customer c : customers){
-            if(members.get(c).equals(this)){
-                customer = c;
-            }
-        }
-        if(customer instanceof PrivatePerson){
-            PrivatePerson cu = (PrivatePerson)customer;
-            membershipID = cu.getDateOfBirth().hashCode() * cu.getEmail().hashCode() * 2000;
->>>>>>> 828ecdf83aec0b25cd5b9296822abcb5eee7258a
-        }else if(customer instanceof Company){
-            Company cu = (Company)customer;
-            customer.getMembership().setMembershipID(cu.getOrgNumber().hashCode() * cu.getEmail().hashCode() * 2000);
-        }
-    }
+
 */
 
     public String toString(){

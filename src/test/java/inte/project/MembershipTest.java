@@ -35,24 +35,12 @@ class MembershipTest {
         assertNull(membership.getMembership(customer));
     }
 
-    @Test
-    void removingMembershipSetsCustomerMembershipToFalse(){
-        Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "1997-06-09");
-        Membership membership = new Membership(customer);
-        membership.removeMembership(customer);
-        assertFalse(customer.isMember());
-    }
+
     */
 
 
 
-    @Test
-    void addingACustomerToBeAMemberSetsCorrectID(){
-        Customer customer = new PrivatePerson("name", "address", "email", "0707898890", "1997-06-09");
-        int correctID = ((PrivatePerson)customer).getDateOfBirth().hashCode() * customer.getEmail().hashCode() * 2000;
-        customer.setMembership();
-        assertEquals(correctID, customer.getMembership().getMemberID());
-    }
+
 
     
 
