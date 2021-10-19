@@ -101,7 +101,9 @@ public abstract class Customer {
         return number = number.replaceAll("-", "");
     }
     private String toString(String number){
-        String string = ;
+        String stringCustomer = name + address + email + phoneNumber;
+        stringCustomer += getMembership().toString();
+        return stringCustomer;
     }
     @Override
     public int hashCode(){

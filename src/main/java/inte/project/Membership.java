@@ -40,7 +40,7 @@ public class Membership {
     public MembershipPoints getMembershipPoints(){
         return membershipPoints;
     }
-<<<<<<< HEAD
+
  /*   private void setMembershipID(Customer customer){ //ID is set via hashCode from orgNumber or just the yearOfBirth (depending on if customer is PrivatePerson or Company)
         if(customer instanceof PrivatePerson){
             PrivatePerson cu = (PrivatePerson)customer;

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MembershipTest {
+    /*
     @Test
     void constructorTestId() {
         Membership membership = new Membership(new PrivatePerson("namn", "address", "email", "0707889885", "1997-06-09"));        
@@ -25,9 +26,7 @@ class MembershipTest {
         assertTrue(customer.isMember());
     }
 
-<<<<<<< HEAD
 
-=======
     @Test
     void removeExistingMembership(){
         Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "1997-06-09");
@@ -43,7 +42,9 @@ class MembershipTest {
         membership.removeMembership(customer);
         assertFalse(customer.isMember());
     }
->>>>>>> 828ecdf83aec0b25cd5b9296822abcb5eee7258a
+    */
+
+
 
     @Test
     void addingACustomerToBeAMemberSetsCorrectID(){
