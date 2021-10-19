@@ -1,4 +1,5 @@
 package inte.project;
+//author Dan Jensen
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
