@@ -114,12 +114,6 @@ public class CustomerTest {
         assertTrue(customer.isMember());
     }
 
-    @Test
-    void customerMembershipIsSavedInSystem(){
-        Customer customer = new PrivatePerson("name", "address", "email", "0707990998", "1997-06-09");
-        customer.setMembership();
-        assertTrue(customer.getMembership().getMember(customer.getMembership().getMemberID()).equals(customer));
-    }
 
     @Test
     void removingCustomerMembership(){
@@ -129,14 +123,7 @@ public class CustomerTest {
         assertFalse(customer.isMember());
     }
 
-    @Test
-    void becomingMemberAgainAfterRemovingMembership(){
-        Customer customer = new PrivatePerson("name", "address", "email", "0707990998", "1997-06-09");
-        customer.setMembership();
-        customer.removeMembership();
-        customer.setMembership();
-        assertTrue(customer.getMembership().getMember(customer.getMembership().getMemberID()).equals(customer));
-    }
+
 
     @Test
     void customerBecomesMemberGetMembership(){
@@ -145,9 +132,4 @@ public class CustomerTest {
         assertNotNull(customer.isMember());
     }
 
-    @Test
-    void newCustomerIsAddedToCustomerHandler(){
-        Customer customer = new Company("name", "address", "email", "0706545567", "989987-1233");
-        assertTrue(customer.getCustomerHandler().getAllCustomers().contains(customer));
-    }
 }

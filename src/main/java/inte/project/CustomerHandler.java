@@ -14,7 +14,7 @@ public class CustomerHandler {
     private HashMap<String, Customer> customerHashMapAdress;
     private HashMap<String, Customer> customerHashMapPhoneNumber;
 
-
+    // Författare Lukas
     // Initierar klass
     CustomerHandler(){
         customerHashSet = new HashSet<>();
@@ -73,6 +73,13 @@ public class CustomerHandler {
         }else{
             throw new IllegalArgumentException("No costumer with that phonenumber exists");
         }
+    }
+    public void removeCustomer(Customer customer){
+        customerHashSet.remove(customer);
+        customerHashMapName.remove(customer);
+        customerHashMapMembershipID.remove(customer);
+        customerHashMapAdress.remove(customer);
+        customerHashMapPhoneNumber.remove(customer);
     }
 
 }
