@@ -1,3 +1,4 @@
+//Author: Lovisa
 package inte.project;
 
 public abstract class Customer {
@@ -7,6 +8,7 @@ public abstract class Customer {
     private String phoneNumber;
     private boolean member;
     private Membership membership;
+    private static CustomerHandler customerHandler = new CustomerHandler();
     
     public Customer(String name, String address, String email, String phoneNumber){
         phoneNumber = removePotentialSpaces(phoneNumber);
@@ -17,6 +19,7 @@ public abstract class Customer {
         this.address = address;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        customerHandler.addCustomer(this);
     }
 
     public boolean isMember(){ 
@@ -70,6 +73,10 @@ public abstract class Customer {
 
     public Membership getMembership(){
         return membership;
+    }
+
+    protected CustomerHandler getCustomerHandler(){
+        return customerHandler;
     }
 
 

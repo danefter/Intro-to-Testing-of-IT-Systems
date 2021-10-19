@@ -137,10 +137,17 @@ public class CustomerTest {
         customer.setMembership();
         assertTrue(customer.getMembership().getMember(customer.getMembership().getMemberID()).equals(customer));
     }
+
     @Test
     void customerBecomesMemberGetMembership(){
         Customer customer = new PrivatePerson("name", "address", "email", "0707990998", 1997);
         customer.setMembership();
         assertNotNull(customer.isMember());
+    }
+
+    @Test
+    void newCustomerIsAddedToCustomerHandler(){
+        Customer customer = new Company("name", "address", "email", "0706545567", "989987-1233");
+        assertTrue(customer.getCustomerHandler().getAllCustomers().contains(customer));
     }
 }

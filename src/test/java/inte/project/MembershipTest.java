@@ -41,6 +41,14 @@ class MembershipTest {
         assertFalse(customer.isMember());
     }
 
+    @Test
+    void addingACustomerToBeAMemberSetsCorrectID(){
+        Customer customer = new PrivatePerson("name", "address", "email", "0707898890", 1990);
+        int correctID = ((PrivatePerson)customer).getYearOfBirth() * customer.getEmail().hashCode() * 2000;
+        customer.setMembership();
+        assertEquals(correctID, customer.getMembership().getMemberID());
+    }
+
     
 
 

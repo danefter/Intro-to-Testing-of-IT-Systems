@@ -1,4 +1,5 @@
 package inte.project;
+//author Karolina Klimek kakl1405
 
 // ser till att all hantering av pengar hanteras konsekvent i hela systemet.
 // Hanterar endast SEK
