@@ -1,6 +1,8 @@
 package inte.project;
 //author Karolina Klimek kakl1405
 
+import java.util.Objects;
+
 // ser till att all hantering av pengar hanteras konsekvent i hela systemet.
 // Hanterar endast SEK
 public class Money implements Comparable<Money> {
@@ -15,7 +17,7 @@ public class Money implements Comparable<Money> {
     public Money(int crown, int ore){
         this.amountInOre = crown*ORE_PER_CROWN + ore;
     }
-    private int getAmountOfCrown(){
+    public int getAmountOfCrown(){
         return amountInOre /ORE_PER_CROWN;
     }
     private int getAmountOfOre(){
@@ -43,6 +45,19 @@ public class Money implements Comparable<Money> {
 
     public int compareTo(Money other){
         return amountInOre - other.amountInOre;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Money)) return false;
+        Money money = (Money) o;
+        return amountInOre == money.amountInOre;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(amountInOre);
     }
 
     public String toString(){

@@ -1,5 +1,5 @@
 package inte.project;
-
+//author Dan Jensen
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,7 +8,7 @@ public class GiftCard extends Card{
 
     String dateOfIssue;
 
-    public GiftCard(String cardType, Customer cardOwner, int balance) {
+    public GiftCard(String cardType, Customer cardOwner, Money balance) {
         super(cardType, cardOwner, balance);
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date today = new Date();

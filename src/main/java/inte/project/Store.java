@@ -39,22 +39,22 @@ public class Store {
     }
 
     //add product
-    public void addProduct(Product product, int qua) {
+    public void addProduct(Product product, int quantity) {
         if (!products.containsKey(product)) {
-            products.put(product,qua);
+            products.put(product,quantity);
         } else {
-            int q = products.get(product) + qua;
+            int q = products.get(product) + quantity;
             products.put(product,q);
         }
         product.addStore(this);
     }
 
     //delete product
-    public void deleteProduct(Product product, int qua) {
-        if (qua > products.get(product))
+    public void deleteProduct(Product product, int quantity) {
+        if (quantity > products.get(product))
             throw new IllegalStateException("");
 
-        int q = products.get(product) - qua ;
+        int q = products.get(product) - quantity ;
         products.put(product,q);
 
     }
