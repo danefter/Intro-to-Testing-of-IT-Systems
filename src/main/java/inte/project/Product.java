@@ -1,5 +1,5 @@
 package inte.project;
-
+//author Marah Zeibak
 public abstract class Product implements Vat {
     private String Id;
     private String name;
