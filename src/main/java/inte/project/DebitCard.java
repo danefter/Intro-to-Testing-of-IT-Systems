@@ -1,7 +1,7 @@
 package inte.project;
 
 public class DebitCard extends Card{
-    public DebitCard(String cardType, Customer cardOwner, int balance) {
+    public DebitCard(String cardType, Customer cardOwner, Money balance) {
         super(cardType, cardOwner, balance);
     }
 

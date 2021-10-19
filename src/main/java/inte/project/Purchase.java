@@ -1,36 +1,60 @@
 package inte.project;
+//author Dan Jensen
 
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 
 public class Purchase {
 
-    private int currentTotal;
-    private int currentPayment;
+    private Money currentTotal = new Money(0);
+    private Money currentPayment = new Money(0);
     private String dateOfPurchase;
 
     private HashMap<String, Product> productsToPurchase = new HashMap<>();
-  
+    private HashMap<String, Product> productsPurchased = new HashMap<>();
     private HashMap<String, Payment> paymentMethods = new HashMap<>();
 
     public Purchase(Product... products) {
         for (Product p: products) {
-            this.currentTotal += p.getPrice().getAmountInOre();
+            this.currentTotal.add(p.getPrice());
             this.productsToPurchase.put(p.getId(), p);
         }
     }
 
-    public void payForProducts(int amount) {
-        do {
-            Payment payment = new Payment();
-            currentPayment += payment.getPayment(amount);
-            paymentMethods.put(payment.getPaymentType(), payment);
-        }
-        while (currentPayment < currentTotal);
+    public void paySeparatelyForProducts(Payment... payments) {
+        for (Payment p: payments) {
+            currentPayment.add(p.getPayment());
+            paymentMethods.put(p.getPaymentType(), p);}
+        while (currentPayment.getAmountInOre() < currentTotal.getAmountInOre());
+        productsPurchased.putAll(productsToPurchase);
         setDateOfPurchase();
     }
 
+    public void payTotalForProducts(Payment payment) {
+        do {
+            payment = new Payment(getCurrentTotal());
+            currentPayment.add(payment.getPayment());
+            paymentMethods.put(payment.getPaymentType(), payment);}
+        while (currentPayment.getAmountInOre() < currentTotal.getAmountInOre());
+        productsPurchased.putAll(productsToPurchase);
+        setDateOfPurchase();
+    }
+
+    public Collection<Cash> getCardsFromPayment() {
+        return paymentMethods.get("Card").getCashPaymentValues();
+    }
+
+    public Collection<Cash> getCashFromPayment() {
+        return paymentMethods.get("Cash").getCashPaymentValues();
+    }
+
+    public void removeProduct(String ID) {
+        Product productToRemove = productsToPurchase.get(ID);
+        productsToPurchase.remove(ID);
+        currentTotal.subtract(productToRemove.getPrice());
+    }
 
     public void setDateOfPurchase() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -38,24 +62,19 @@ public class Purchase {
         dateOfPurchase = formatter.format(today);
     }
 
-    public int getCurrentTotal() {
-        return currentTotal;
+    public HashMap<String, Product> getProductsPurchased() {
+        return productsPurchased;
     }
 
-    public void setCurrentTotal(int currentTotal) {
-        this.currentTotal = currentTotal;
-    }
-
-    public int getCurrentPayment() {
-        return currentPayment;
-    }
-
-    public void setCurrentPayment(int currentPayment) {
-        this.currentPayment = currentPayment;
+    public HashMap<String, Payment> getPaymentMethods() {
+        return paymentMethods;
     }
 
     public String getDateOfPurchase() {
         return dateOfPurchase;
     }
 
+    public Money getCurrentTotal() {
+        return currentTotal;
+    }
 }

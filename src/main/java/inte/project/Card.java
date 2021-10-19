@@ -1,18 +1,24 @@
 package inte.project;
 
-public class Card {
+//author Dan Jensen
+
+public abstract class Card {
     private final String cardType;
     private final Customer cardOwner;
-    private int balance;
+    private Money balance;
 
-    public Card(String cardType, Customer cardOwner, int balance) {
+    public Card(String cardType, Customer cardOwner, Money balance) {
         this.cardType = cardType;
         this.cardOwner = cardOwner;
         this.balance = balance;
     }
 
-    public int getBalance() {
+    public Money getBalance() {
         return this.balance;
+    }
+
+    public int getBalanceAmount() {
+        return this.balance.getAmountOfCrown();
     }
 
     public Customer getCardOwner() {
@@ -23,17 +29,20 @@ public class Card {
         return this.cardType;
     }
 
-    public void setBalance(int balance) {
-        this.balance = balance;
+    public void addBalance(Money money) {
+        this.balance = balance.add(money);
     }
 
-    public void pay(int amount) {
-        if (this.balance < amount) {
+    public void subtractBalance(Money money) {
+        this.balance = balance.subtract(money);
+    }
+
+    public Money pay(Money amount) {
+        if (this.balance.getAmountOfCrown() < amount.getAmountOfCrown()) {
             throw new IllegalStateException("Insufficient balance.");
         }
-        this.setBalance(this.balance - amount);
+        this.subtractBalance(amount);
+        return amount;
     }
 
-    public void receive(int amount) {
-    }
 }

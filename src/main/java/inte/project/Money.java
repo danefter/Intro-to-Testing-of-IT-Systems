@@ -15,7 +15,7 @@ public class Money implements Comparable<Money> {
     public Money(int crown, int ore){
         this.amountInOre = crown*ORE_PER_CROWN + ore;
     }
-    private int getAmountOfCrown(){
+    public int getAmountOfCrown(){
         return amountInOre /ORE_PER_CROWN;
     }
     private int getAmountOfOre(){
