@@ -94,11 +94,11 @@ class StoreTest {
         store.addProduct(product2,400);
         store.addProduct(product3,350);
 
-        Map<Product,Integer> newMap = new HashMap<>();
-        newMap.put(product,100);
-        newMap.put(product1,30);
+        Map<Product,Integer> newMapWithProducts = new HashMap<>();
+        newMapWithProducts.put(product,100);
+        newMapWithProducts.put(product1,30);
 
-        assertEquals(newMap,store.searchProduct("Appliances"));
+        assertEquals(newMapWithProducts,store.searchProduct("Appliances"));
     }
 
 }
