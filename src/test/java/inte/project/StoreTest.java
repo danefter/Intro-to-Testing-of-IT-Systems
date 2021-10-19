@@ -31,7 +31,7 @@ class StoreTest {
 
     @Test
     void testGetQuantityProducts() {
-        Product product = new HouseHold("986543","Mixer",1000.0);
+        Product product = new HouseHold("986543","Mixer",new Money(1000));
         Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
         store.addProduct(product, 100);
 
@@ -40,7 +40,7 @@ class StoreTest {
 
     @Test
     void testAddProduct() {
-        Product product = new HouseHold("986543","Mixer",1000.0);
+        Product product = new HouseHold("986543","Mixer",new Money(1000));
         Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
         store.addProduct(product, 100);
 
@@ -49,7 +49,7 @@ class StoreTest {
 
     @Test
     void testAddProductWithExistingQuantity() {
-        Product product = new HouseHold("986543","Mixer",1000.0);
+        Product product = new HouseHold("986543","Mixer",new Money(1000));
         Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
         store.addProduct(product, 100);
         store.addProduct(product,200);
@@ -59,7 +59,7 @@ class StoreTest {
 
     @Test
     void testDeleteProduct() {
-        Product product = new Appliances("348723","Fridge",5000.0);
+        Product product = new Appliances("348723","Fridge",new Money(5000));
         Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
         store.addProduct(product,300);
 
@@ -71,7 +71,7 @@ class StoreTest {
 
     @Test
     void testDeleteProductsWithMoreQuantity(){
-        Product product = new Appliances("348723","Fridge",5000.0);
+        Product product = new Appliances("348723","Fridge",new Money(5000));
         IllegalStateException e = assertThrows(IllegalStateException.class, () -> {
             Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
             store.addProduct(product,300);
@@ -83,10 +83,10 @@ class StoreTest {
 
     @Test
     void testSearchAfterProducts() {
-        Product product = new Appliances("348723","Fridge",5000.0);
-        Product product1 = new Appliances("347654","Stove",4500.0);
-        Product product2 = new Tele("341276","Mobile",11000.0);
-        Product product3 = new HouseHold("346576","Mixer",1500.0);
+        Product product = new Appliances("348723","Fridge",new Money(5000));
+        Product product1 = new Appliances("347654","Stove",new Money(4500));
+        Product product2 = new Tele("341276","Mobile",new Money(10000));
+        Product product3 = new HouseHold("346576","Mixer",new Money(1500));
 
         Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
         store.addProduct(product,100);

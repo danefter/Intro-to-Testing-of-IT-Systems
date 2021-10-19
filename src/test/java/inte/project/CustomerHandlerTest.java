@@ -1,5 +1,6 @@
 package inte.project;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,6 +10,11 @@ class CustomerHandlerTest {
     void addNewCustomerExistHashSet(){
         Customer customer = new PrivatePerson("name", "address", "email", "0708988900", "1997-05-13");
         assertFalse(customer.getCustomerHandler().getAllCustomers().isEmpty());
+    }
+    @Test
+    void gettingEmptyHashSet(){
+        CustomerHandler ch = new CustomerHandler();
+        assertTrue(ch.getAllCustomers().isEmpty());
     }
     @Test
     void addNewCustomerExistHashMap(){
@@ -26,5 +32,11 @@ class CustomerHandlerTest {
         Customer customer = new PrivatePerson("name", "address", "email", "0708988900", "1997-05-13");
         assertNotNull(customer.getCustomerHandler().getCustomerByPhoneNumber("0708988900"));
     }
-
+    @Test
+    void getNonExistingCustomerThrowsIllegal(){
+        CustomerHandler ch = new CustomerHandler();
+        Assertions.assertThrows(IllegalArgumentException.class, () ->{
+            ch.getCustomerByPhoneNumber("0707990998");
+        });
+    }
 }
