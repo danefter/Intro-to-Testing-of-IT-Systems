@@ -47,12 +47,21 @@ public class MembershipPoints {
         return period;
     }
 
-    public int getPoints(){
+    public int getAllPoints(){
         return points;
     }
 
+    public int getCertainAmountOfPoints(int amount){ //TODO-testa
+        if(points < amount){
+            throw new IllegalArgumentException("You dont have enough points to collect");
+        }else{
+            points -= amount;
+        }
+        return amount;
+    }
+
     public String toString(){
-        return "Points: " + getPoints() + "\nCreated: " + period.startToString() + "\nExpires: " + period.endToString();
+        return "Points: " + getAllPoints() + "\nCreated: " + period.startToString() + "\nExpires: " + period.endToString();
     }
 
 }
