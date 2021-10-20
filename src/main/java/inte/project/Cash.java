@@ -38,6 +38,10 @@ public class Cash implements Comparable<Cash> {
         return (new Money(this.denomination.getAmountOfCrown() * this.quantity));
     }
 
+    public Money getTotalInOre() {
+        return (new Money(this.denomination.getAmountOfCrown() * this.quantity * 100));
+    }
+
     public void add(int quantity) {
         this.quantity += quantity;
     }

@@ -1,5 +1,4 @@
 package inte.project;
-//author Dan Jensen
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -27,17 +26,15 @@ public class Purchase {
         for (Payment p: payments) {
             currentPayment.add(p.getPayment());
             paymentMethods.put(p.getPaymentType(), p);}
-        while (currentPayment.getAmountInOre() < currentTotal.getAmountInOre());
+        if (currentPayment.getAmountInOre() < currentTotal.getAmountInOre()) paySeparatelyForProducts();
         productsPurchased.putAll(productsToPurchase);
         setDateOfPurchase();
     }
 
     public void payTotalForProducts(Payment payment) {
-        do {
-            payment = new Payment(getCurrentTotal());
-            currentPayment.add(payment.getPayment());
-            paymentMethods.put(payment.getPaymentType(), payment);}
-        while (currentPayment.getAmountInOre() < currentTotal.getAmountInOre());
+        currentPayment.add(payment.getPayment());
+        paymentMethods.put(payment.getPaymentType(), payment);
+        if (currentPayment.getAmountInOre() < currentTotal.getAmountInOre()) paySeparatelyForProducts();
         productsPurchased.putAll(productsToPurchase);
         setDateOfPurchase();
     }
@@ -75,6 +72,10 @@ public class Purchase {
     }
 
     public Money getCurrentTotal() {
+        return currentTotal;
+    }
+
+    public Money getCurrentPayment() {
         return currentTotal;
     }
 }
