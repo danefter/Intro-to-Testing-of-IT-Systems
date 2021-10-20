@@ -123,7 +123,7 @@ class StoreTest {
 
         String pro =  product1.toString() + " " + store.getQuantity(product1)+ "\n" + product.toString() +" "+ store.getQuantity(product) + "\n" ;
 
-       // assertEquals(pro,store.searchProduct("Appliances"));
+        assertEquals(pro,store.searchProduct("Appliances"));
     }
 
 }

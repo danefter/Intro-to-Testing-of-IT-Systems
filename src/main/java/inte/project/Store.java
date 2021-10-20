@@ -2,6 +2,7 @@ package inte.project;
 //author Marah Zeibak
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class Store {
     private String address;
@@ -9,7 +10,7 @@ public class Store {
     private String city;
     private String phoneNumber;
 
-    protected Map<Product,Integer> products = new HashMap<>();
+    protected Map<Product,Integer> products = new TreeMap<>();
 
     public Store(String address, int postCode, String city, String phoneNumber) {
         this.address = address;

@@ -1,6 +1,6 @@
 package inte.project;
 //author Marah Zeibak
-public abstract class Product implements Vat {
+public abstract class Product implements Vat , Comparable<Product>{
     private String Id;
     private String name;
     //private double price;
@@ -61,6 +61,19 @@ public abstract class Product implements Vat {
 
     public String toString() {
         return Id + " " + name + " " + price + " " +type + " Store: " + store;
+    }
+
+    public int compareTo(Product product) {
+        if (price.getAmountInOre() < product.getPrice().getAmountInOre())
+            return -1;
+        else if(price.getAmountInOre() > product.getPrice().getAmountInOre())
+            return 1;
+        else if(Id.compareTo(product.getId()) < product.getId().compareTo(Id))
+            return -1;
+        else if(Id.compareTo(product.getId()) > product.getId().compareTo(Id))
+            return 1;
+        else
+            return 0;
     }
 
 }
