@@ -33,7 +33,7 @@ public abstract class Customer {
        this.member = true;
        generateMembershipID();
         if (getMembership() == null) {
-            
+
         }
     }
 
