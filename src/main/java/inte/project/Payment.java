@@ -15,6 +15,10 @@ public class Payment {
     private HashMap<Integer, Cash> cashPayment = new HashMap<>();
     private MembershipPoints pointPayment = new MembershipPoints();
 
+    public Payment(Money paymentAmount) {
+        this.paymentAmount = paymentAmount;
+    }
+
     public Payment(Money paymentAmount, Cash... cash) {
         this.paymentAmount = paymentAmount;
         for (Cash money : cash) {
@@ -58,6 +62,7 @@ public class Payment {
     public Collection<Cash> getCashPaymentValues() {
         return Collections.unmodifiableCollection(this.cashPayment.values());
     }
+
 
     public String getPaymentType() {
         return paymentType;

@@ -1,14 +1,13 @@
 package inte.project;
 
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 
 public class Purchase implements Discount{
 
     private Money currentTotal = new Money(0);
     private Money currentPayment = new Money(0);
+    private final List<String> acceptablePaymentTypes = Arrays.asList("Cash", "Card", "Points");
     private String dateOfPurchase;
 
     private HashMap<String, Product> productsToPurchase = new HashMap<>();
@@ -26,7 +25,7 @@ public class Purchase implements Discount{
         for (Payment p: payments) {
             this.currentPayment = currentPayment.add(p.getPayment());
             paymentMethods.put(p.getPaymentType(), p);}
-        if (currentPayment.getAmountInOre() < currentTotal.getAmountInOre()) paySeparatelyForProducts();
+        if (currentPayment.getAmountInOre() < currentTotal.getAmountInOre()) throw new IllegalStateException("Insufficient amount.");
         productsPurchased.putAll(productsToPurchase);
         setDateOfPurchase();
     }
@@ -34,7 +33,7 @@ public class Purchase implements Discount{
     public void payTotalForProducts(Payment payment) {
         this.currentPayment = currentPayment.add(payment.getPayment());
         paymentMethods.put(payment.getPaymentType(), payment);
-        if (currentPayment.getAmountInOre() < currentTotal.getAmountInOre()) paySeparatelyForProducts();
+        if (currentPayment.getAmountInOre() < currentTotal.getAmountInOre()) throw new IllegalStateException("Insufficient amount.");
         productsPurchased.putAll(productsToPurchase);
         setDateOfPurchase();
     }
@@ -120,6 +119,6 @@ public class Purchase implements Discount{
     }
 
     public Money getCurrentPayment() {
-        return currentTotal;
+        return currentPayment;
     }
 }
