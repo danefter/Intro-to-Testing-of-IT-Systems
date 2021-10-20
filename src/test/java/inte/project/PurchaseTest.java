@@ -177,4 +177,32 @@ public class PurchaseTest {
         });
         Assertions.assertEquals("Discount causes price increase.", exception.getMessage());
     }
+
+    @Test
+    void applyDiscountPercentToProductThrowsNegativeDiscount() {
+        Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
+        Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
+        Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
+        Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        Purchase purchase = new Purchase(product, product1, product2, product3);
+        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            purchase.applyDiscountPercentToProduct(1.50, "348723");
+        });
+        Assertions.assertEquals("Discount causes price increase.", exception.getMessage());
+    }
+
+    @Test
+    void applyDiscountAmountToProductThrowsNegativeDiscount() {
+        Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
+        Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
+        Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
+        Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        Purchase purchase = new Purchase(product, product1, product2, product3);
+        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            purchase.applyDiscountAmountToProduct(new Money(1500, 0), "348723");
+        });
+        Assertions.assertEquals("Discount causes price increase.", exception.getMessage());
+    }
+
+
 }
