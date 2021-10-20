@@ -42,20 +42,25 @@ public abstract class Product implements Vat {
         price = newPrice;
     }
 
-    public double getPricePlusVAT() {
-        return  getVat() * getPrice().getAmountInOre() + getPrice().getAmountInOre();
+    public int getPricePlusVAT() {
+
+        return  (int)(getVat() * getPrice().getAmountInOre() + getPrice().getAmountInOre());
     }
 
     public void addStore(Store s) {
         this.store = s;
     }
 
-    public void addProductsToStore(Store s , int qua) {
-        s.addProduct(this,qua);
+    public void addProductsToStore(Store s , int quantity) {
+        s.addProduct(this,quantity);
     }
 
     public Store getStore() {
         return store;
+    }
+
+    public String toString() {
+        return Id + " " + name + " " + price + " " +type + " Store: " + store;
     }
 
 }

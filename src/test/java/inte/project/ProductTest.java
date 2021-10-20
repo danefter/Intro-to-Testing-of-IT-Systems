@@ -62,4 +62,22 @@ class ProductTest {
         assertEquals("price must be more", e.getMessage());
     }
 
+    @Test
+    void testAddProductsToStoreFromProductClass() {
+        Product product = new Tele("346765","Mobile",new Money(3000));
+        Store store = new Store("Vasagata 8",15143,"Stockholm","0734238796");
+        product.addProductsToStore(store,400);
+
+        assertTrue(store.products.containsKey(product));
+    }
+
+    @Test
+    void testGetStore() {
+        Product product = new Tele("346765","Mobile",new Money(3000));
+        Store store = new Store("Vasagata 8",15143,"Stockholm","0734238796");
+        store.addProduct(product,500);
+
+        assertEquals(product.getStore().toString(),store.toString());
+    }
+
 }

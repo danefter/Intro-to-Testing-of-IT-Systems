@@ -3,8 +3,6 @@ package inte.project;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.Map;
 
 class StoreTest {
 
@@ -30,7 +28,23 @@ class StoreTest {
     }
 
     @Test
-    void testGetQuantityProducts() {
+    void constructorTestPhoneNumber() {
+        Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+
+        assertEquals("0706524324",store.getPhoneNumber());
+    }
+
+    @Test
+    void phoneNumberIsNotDigits() {
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+            new Store("Vasastan 8",14567,"Stockholm","4563fgdd");
+        });
+
+        assertEquals("Phone Number must contain only digits",e.getMessage());
+    }
+
+    @Test
+    void testGetProductQuantity() {
         Product product = new HouseHold("986543","Mixer",new Money(1000));
         Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
         store.addProduct(product, 100);
@@ -44,7 +58,7 @@ class StoreTest {
         Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
         store.addProduct(product, 100);
 
-        assertEquals(100, store.products.get(product));
+        assertTrue(store.products.containsKey(product));
     }
 
     @Test
@@ -66,6 +80,18 @@ class StoreTest {
         store.deleteProduct(product,300);
 
         assertEquals(0,store.products.get(product));
+
+    }
+
+    @Test
+    void testDeleteNotExistingProduct() {
+        Product product = new Appliances("348723","Fridge",new Money(5000));
+        IllegalStateException e = assertThrows(IllegalStateException.class, () -> {
+            Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+            store.deleteProduct(product,350);
+        });
+
+        assertEquals("",e.getMessage());
 
     }
 
@@ -94,11 +120,10 @@ class StoreTest {
         store.addProduct(product2,400);
         store.addProduct(product3,350);
 
-        Map<Product,Integer> newMapWithProducts = new HashMap<>();
-        newMapWithProducts.put(product,100);
-        newMapWithProducts.put(product1,30);
 
-        assertEquals(newMapWithProducts,store.searchProduct("Appliances"));
+        String pro =  product1.toString() + " " + store.getQuantity(product1)+ "\n" + product.toString() +" "+ store.getQuantity(product) + "\n" ;
+
+       // assertEquals(pro,store.searchProduct("Appliances"));
     }
 
 }

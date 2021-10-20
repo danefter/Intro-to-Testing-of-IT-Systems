@@ -15,6 +15,7 @@ public class Store {
         this.address = address;
         this.postCode = postCode;
         this.city = city;
+        checkPhoneNumberISDigits(phoneNumber);
         this.phoneNumber = phoneNumber;
     }
 
@@ -51,7 +52,7 @@ public class Store {
 
     //delete product
     public void deleteProduct(Product product, int quantity) {
-        if (quantity > products.get(product))
+        if (!products.containsKey(product) || quantity > products.get(product))
             throw new IllegalStateException("");
 
         int q = products.get(product) - quantity ;
@@ -60,16 +61,28 @@ public class Store {
     }
 
     //search product after type
-    public Map<Product,Integer> searchProduct(String type) {
-        Map<Product,Integer> productsType = new HashMap<>();
+    public String searchProduct(String type) {
+        String script = "";
         for (Map.Entry<Product,Integer> map : products.entrySet()) {
             Product p = map.getKey();
             int q = map.getValue();
             if(p.getType().equals(type)) {
-                productsType.put(p,q);
+                script += p + " " + q + "\n";
             }
         }
-        return productsType;
+        return script;
+    }
+
+    public void checkPhoneNumberISDigits(String phoneNumber) {
+        for (char c : phoneNumber.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                throw new IllegalArgumentException("Phone Number must contain only digits");
+            }
+        }
+    }
+
+    public String toString() {
+        return address +" " + postCode + " " + city + " " + phoneNumber;
     }
 
 
