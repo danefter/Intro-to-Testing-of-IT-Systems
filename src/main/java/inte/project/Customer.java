@@ -39,9 +39,6 @@ public abstract class Customer {
         membership = new Membership();
         this.member = true;
         generateMembershipID();
-        if (getMembership() == null) {
-            //TODO - what should happen here?
-        }
     }
 
     public void removeMembership(){
@@ -86,7 +83,7 @@ public abstract class Customer {
     }
 
     public Membership getMembership() throws IllegalArgumentException{
-        if(isMember()){
+        if(membership != null){
             return membership;
         }else{
             throw new IllegalArgumentException("Customer is not a member");
@@ -133,8 +130,10 @@ public abstract class Customer {
 
     @Override
     public String toString(){
-        String stringCustomer = name + address + email + phoneNumber;
-        stringCustomer += getMembership().toString();
+        String stringCustomer = "Name: " + name + "\nAddress: " + address + "\nEmail: " + email + "\nPhonenumber: " + phoneNumber + "\n\n";
+        if(membership != null){
+            stringCustomer += getMembership().toString();
+        }
         return stringCustomer;
     }
 

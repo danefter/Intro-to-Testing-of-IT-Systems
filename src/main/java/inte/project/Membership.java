@@ -79,6 +79,6 @@ public class Membership {
 */
 
     public String toString(){
-        return "Membership\n Created on: " + membershipCreatedDate + membershipPoints.toString();
+        return "Membership\n Created on: " + membershipCreatedDate + membershipPoints.toString() + "\n";
     }
 }

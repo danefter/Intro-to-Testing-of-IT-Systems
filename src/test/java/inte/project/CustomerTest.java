@@ -151,5 +151,17 @@ public class CustomerTest {
             customer.addMembership();
         });
     }
+    @Test
+    void toStringNotMember(){
+        Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2008-06-09");
+        System.out.print(customer.toString());
+        assertEquals("Name: Person person\nAddress: Adressvägen 4\nEmail: personperson@gmail.com\nPhonenumber: 0712345678\n\n", customer.toString());
+    }
+    @Test
+    void toStringIsMember(){
+        Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2008-06-09");
+        System.out.print(customer.toString());
+        assertEquals("Name: Person person\nAddress: Adressvägen 4\nEmail: personperson@gmail.com\nPhonenumber: 0712345678\n\n", customer.toString());
+    }
 
 }
