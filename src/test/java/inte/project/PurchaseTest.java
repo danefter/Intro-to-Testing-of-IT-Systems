@@ -40,6 +40,7 @@ public class PurchaseTest {
         Product product2 = new Tele("341276", "Mobile", new Money(10000));
         Product product3 = new HouseHold("346576", "Mixer", new Money(1500));
         Purchase purchase = new Purchase(product, product1, product2, product3);
+<<<<<<< Updated upstream
         Cash cash = new Cash(20, 2000);
         Cash cash1 = new Cash(20, 5000);
         Payment payment = new Payment(purchase.getCurrentTotal(), cash, cash1);
@@ -57,6 +58,22 @@ public class PurchaseTest {
         Cash cash = new Cash(20, 2000);
         Cash cash1 = new Cash(20, 5000);
         Payment payment = new Payment(purchase.getCurrentTotal(), cash, cash1);
+=======
+        Cash cash = new Cash(20, 2000);
+        Cash cash1 = new Cash(20, 5000);
+        Payment payment = new Payment(purchase.getCurrentTotal(), cash, cash1);
+        purchase.payTotalForProducts(payment);
+    }
+
+    @Test
+    void purchaseProductsWithPoints() {
+        Product product = new Appliances("348723", "Fridge", new Money(5000));
+        Product product1 = new Appliances("347654", "Stove", new Money(4500));
+        Product product2 = new Tele("341276", "Mobile", new Money(10000));
+        Product product3 = new HouseHold("346576", "Mixer", new Money(1500));
+        Purchase purchase = new Purchase(product, product1, product2, product3);
+        Payment payment = new Payment(purchase.getCurrentTotal());
+>>>>>>> Stashed changes
         purchase.payTotalForProducts(payment);
         Assertions.assertEquals(purchase.getCurrentTotal(), payment.getPayment());
     }
