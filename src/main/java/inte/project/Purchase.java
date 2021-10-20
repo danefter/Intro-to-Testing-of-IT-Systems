@@ -74,4 +74,8 @@ public class Purchase {
     public Money getCurrentTotal() {
         return currentTotal;
     }
+
+    public Money getCurrentPayment() {
+        return currentTotal;
+    }
 }
