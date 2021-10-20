@@ -25,7 +25,8 @@ public class Purchase {
     public void paySeparatelyForProducts(Payment... payments) {
         for (Payment p: payments) {
             currentPayment.add(p.getPayment());
-            paymentMethods.put(p.getPaymentType(), p);}
+            paymentMethods.put(p.getPaymentType(), p);
+            currentTotal.subtract(p.getPayment());}
         if (currentPayment.getAmountInOre() < currentTotal.getAmountInOre()) paySeparatelyForProducts();
         productsPurchased.putAll(productsToPurchase);
         setDateOfPurchase();
@@ -34,6 +35,7 @@ public class Purchase {
     public void payTotalForProducts(Payment payment) {
         currentPayment.add(payment.getPayment());
         paymentMethods.put(payment.getPaymentType(), payment);
+        currentTotal.subtract(payment.getPayment());
         if (currentPayment.getAmountInOre() < currentTotal.getAmountInOre()) paySeparatelyForProducts();
         productsPurchased.putAll(productsToPurchase);
         setDateOfPurchase();

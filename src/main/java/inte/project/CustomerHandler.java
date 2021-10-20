@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
- 
 
 public class CustomerHandler {
     private HashSet<Customer> customerHashSet;
@@ -14,9 +13,8 @@ public class CustomerHandler {
     private HashMap<String, Customer> customerHashMapAdress;
     private HashMap<String, Customer> customerHashMapPhoneNumber;
 
-    // Författare Lukas
     // Initierar klass
-    CustomerHandler(){
+    public CustomerHandler(){
         customerHashSet = new HashSet<>();
         customerHashMapMembershipID = new HashMap<>();
         customerHashMapName = new HashMap<>();
@@ -40,33 +38,33 @@ public class CustomerHandler {
     }
 
     public Collection<Customer> getAllCustomers(){
-
         return Collections.unmodifiableCollection(customerHashSet);
     }
+
     public Customer getCustomerByName(String name) throws IllegalArgumentException{
         if(customerHashMapName.containsKey(name)){
             return customerHashMapName.get(name);
         }else{
             throw new IllegalArgumentException("No costumer with that name exists");
         }
-
     }
+
     public Customer getCustomerByAdress(String adress){
         if(customerHashMapAdress.containsKey(adress)){
             return customerHashMapAdress.get(adress);
         }else{
             throw new IllegalArgumentException("No costumer with that address exists");
         }
-
     }
+
     public Customer getCustomerByMembershipID(int mID){
         if(customerHashMapMembershipID.containsKey(mID)){
             return customerHashMapMembershipID.get(mID);
         }else{
             throw new IllegalArgumentException("No member with that ID exists");
         }
-
     }
+
     public Customer getCustomerByPhoneNumber(String phone){
         if(customerHashMapPhoneNumber.containsKey(phone)){
             return customerHashMapPhoneNumber.get(phone);
@@ -74,12 +72,15 @@ public class CustomerHandler {
             throw new IllegalArgumentException("No costumer with that phonenumber exists");
         }
     }
+
     public void removeCustomer(Customer customer){
         customerHashSet.remove(customer);
-        customerHashMapName.remove(customer);
-        customerHashMapMembershipID.remove(customer);
-        customerHashMapAdress.remove(customer);
-        customerHashMapPhoneNumber.remove(customer);
+        customerHashMapName.remove(customer.getName());
+        if(customer.isMember()){
+            customerHashMapMembershipID.remove(customer.getMembership().getMemberID());
+        }
+        customerHashMapAdress.remove(customer.getAddress());
+        customerHashMapPhoneNumber.remove(customer.getPhoneNumber());
     }
 
 }

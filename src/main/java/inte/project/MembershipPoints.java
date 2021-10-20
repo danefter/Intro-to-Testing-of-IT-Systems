@@ -12,14 +12,16 @@ public class MembershipPoints {
     public MembershipPoints(){
         points = 0;
     }
+    
     public MembershipPoints(int points){
         if(points < 0){
             this.points = 0;
         }else{
             this.points = points;
         }
-        Period period = new Period();
+        period = new Period();
     }
+
     public MembershipPoints(double points){
         if(points < 0){
             this.points = 0;

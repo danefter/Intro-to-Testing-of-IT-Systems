@@ -16,6 +16,7 @@ public class PurchaseTest {
         DebitCard card = new DebitCard("Debitcard", person, new Money(100000000));
         Payment payment = new Payment(purchase.getCurrentTotal(), card);
         purchase.payTotalForProducts(payment);
+        Assertions.assertEquals(purchase.getCurrentTotal(), payment.getPayment());
     }
 
     @Test
@@ -40,8 +41,9 @@ public class PurchaseTest {
         Product product2 = new Tele("341276", "Mobile", new Money(10000));
         Product product3 = new HouseHold("346576", "Mixer", new Money(1500));
         Purchase purchase = new Purchase(product, product1, product2, product3);
-        Cash cash = new Cash(20, 2000);
-        Cash cash1 = new Cash(20, 5000);
+        Money money = new Money(20, 0);
+        Cash cash = new Cash(money, 2000);
+        Cash cash1 = new Cash(money, 5000);
         Payment payment = new Payment(purchase.getCurrentTotal(), cash, cash1);
         purchase.payTotalForProducts(payment);
         Assertions.assertEquals(purchase.getCurrentTotal(), payment.getPayment());
@@ -67,7 +69,7 @@ public class PurchaseTest {
         Product product2 = new Tele("341276", "Mobile", new Money(10000));
         Product product3 = new HouseHold("346576", "Mixer", new Money(1500));
         Purchase purchase = new Purchase(product, product1, product2, product3);
-        Cash cash = new Cash(200, 10);
+        Cash cash = new Cash(new Money(200, 0), 10);
         MembershipPoints points = new MembershipPoints(5000);
         Payment payment = new Payment(new Money(5000), points);
         Payment payment2 = new Payment(new Money(2000), cash);
