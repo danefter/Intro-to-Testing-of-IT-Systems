@@ -11,6 +11,7 @@ public class MembershipPoints {
 
     public MembershipPoints(){
         points = 0;
+        period = new Period();
     }
     
     public MembershipPoints(int points){

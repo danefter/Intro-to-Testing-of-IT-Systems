@@ -1,6 +1,8 @@
 //Author: Lovisa
 package inte.project;
 
+import java.time.LocalDate;
+
 public abstract class Customer {
     private String name;
     private String address;
@@ -29,11 +31,16 @@ public abstract class Customer {
     }
 
     public void addMembership(){ //create membership better name?
+        if(this instanceof PrivatePerson){
+            if(((PrivatePerson)this).getYearOfBirth() > LocalDate.now().getYear() - 18){
+                throw new IllegalArgumentException("To become a member one needs to be older than 18");
+            }
+        }
         membership = new Membership();
         this.member = true;
         generateMembershipID();
         if (getMembership() == null) {
-            //TODO - throw exception
+            //TODO - what should happen here?
         }
     }
 

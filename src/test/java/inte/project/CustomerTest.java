@@ -144,4 +144,12 @@ public class CustomerTest {
         assertEquals(correctID, customer.getMembership().getMemberID());
     }
 
+    @Test
+    void customerYoungerThan18TriesToBecomeMemberThrowsException(){
+        Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2008-06-09");
+        assertThrows(IllegalArgumentException.class, () -> {
+            customer.addMembership();
+        });
+    }
+
 }
