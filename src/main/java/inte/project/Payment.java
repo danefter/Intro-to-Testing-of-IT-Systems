@@ -20,6 +20,10 @@ public class Payment {
 
     private String paymentType;
 
+    public Payment(Money paymentTotal) {
+        this.paymentTotal = paymentTotal;
+    }
+
     public Payment(Money paymentTotal, Cash... cash) {
         this.paymentTotal = paymentTotal;
         for (Cash money : cash) {
@@ -38,11 +42,11 @@ public class Payment {
         this.paymentType = "Cards";
     }
 
-    public Payment(Money paymentTotal) {
-        this.paymentTotal = paymentTotal;
-        paymentTotal.add(new Money(pointPayment.getCertainAmountOfPoints(paymentTotal.getAmountOfCrown())));
+    public Payment(Money paymentTotal, MembershipPoints pointPayment) {
+        paymentTotal.add(new Money(pointPayment.getCertainAmountOfPoints(paymentTotal.getAmountInOre())));
         this.paymentType = "Points";
     }
+
 
 
     public void collectCashPayments(Cash money) {
