@@ -27,7 +27,6 @@ public class Purchase {
             currentPayment.add(p.getPayment());
             paymentMethods.put(p.getPaymentType(), p);}
         if (currentPayment.getAmountInOre() < currentTotal.getAmountInOre()) paySeparatelyForProducts();
-
         productsPurchased.putAll(productsToPurchase);
         setDateOfPurchase();
     }
