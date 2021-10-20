@@ -17,6 +17,8 @@ public class Payment {
 
     private Money paymentTotal = new Money(0);
 
+    private Money paidAmount = new Money(0);
+
     private String paymentType;
 
     public Payment(Money paymentTotal) {
@@ -27,7 +29,7 @@ public class Payment {
         this.paymentTotal = paymentTotal;
         for (Cash money : cash) {
             this.collectCashPayments(money);
-            paymentTotal.add(money.getTotal());
+            paidAmount.add(money.getTotal());
         }
         this.paymentType = "Cash";
     }
@@ -36,13 +38,13 @@ public class Payment {
         this.paymentTotal = paymentTotal;
         for (Card card: cards) {
             cardPayments.put(card.getCardType(), card);
-            paymentTotal.add(card.pay(paymentTotal));
+            paidAmount.add(card.pay(paymentTotal));
         }
         this.paymentType = "Cards";
     }
 
     public Payment(Money paymentTotal, MembershipPoints pointPayment) {
-        paymentTotal.add(new Money(pointPayment.getCertainAmountOfPoints(paymentTotal.getAmountInOre())));
+        paidAmount.add(new Money(pointPayment.getCertainAmountOfPoints(paymentTotal.getAmountInOre())));
         this.paymentType = "Points";
     }
 
@@ -56,7 +58,7 @@ public class Payment {
     }
 
     public Money getPayment() {
-        return paymentTotal;
+        return paidAmount;
     }
     public Collection<Card> getCardPaymentValues() {
         return Collections.unmodifiableCollection(this.cardPayments.values());
