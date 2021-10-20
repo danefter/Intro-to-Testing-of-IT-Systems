@@ -1,11 +1,11 @@
 package inte.project;
 //author Marah Zeibak
 public abstract class Product implements Vat , Comparable<Product>{
-    private String Id;
-    private String name;
+    private final String Id;
+    private final String name;
     //private double price;
     private Money price;
-    private String type;
+    private final String type;
     private Store store;
 
     public Product (String Id, String name, Money price , String type) {

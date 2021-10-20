@@ -14,10 +14,26 @@ class StoreTest {
     }
 
     @Test
+    void testSetAddress() {
+        Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+        store.setAddress("Gamlagata 3");
+
+        assertEquals("Gamlagata 3",store.getAddress());
+    }
+
+    @Test
     void constructorTestPostCode() {
         Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
 
         assertEquals(12456,store.getPostCode());
+    }
+
+    @Test
+    void testSetPostCode() {
+        Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+        store.setPostCode(34895);
+
+        assertEquals(34895,store.getPostCode());
     }
 
     @Test
@@ -32,6 +48,14 @@ class StoreTest {
         Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
 
         assertEquals("0706524324",store.getPhoneNumber());
+    }
+
+    @Test
+    void testSetPhoneNumber() {
+        Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+        store.setPhoneNumber("0722222222");
+
+        assertEquals("0722222222",store.getPhoneNumber());
     }
 
     @Test
@@ -121,7 +145,7 @@ class StoreTest {
         store.addProduct(product3,350);
 
 
-        String pro =  product1.toString() + " " + store.getQuantity(product1)+ "\n" + product.toString() +" "+ store.getQuantity(product) + "\n" ;
+        String pro =  product1 + " " + store.getQuantity(product1)+ "\n" + product +" "+ store.getQuantity(product) + "\n" ;
 
         assertEquals(pro,store.searchProduct("Appliances"));
     }

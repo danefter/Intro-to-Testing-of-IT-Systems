@@ -5,49 +5,63 @@ import org.junit.jupiter.api.Test;
 
 class ProductTest {
 
+    private static final String ID = "207813";
+    private static final String NAME = "tablet";
+    private static final String TYPE = "Tele";
+    private static final int PRICE = 2999;
+    private static final int NEW_PRICE = 300;
+    private static final int PRICE_WITHOUT_VAT = 4500;
+    private static final int PRICE_PLUS_VAT = 5850;
+    private static final String INVALID_ID = "24987";
+    private static final int INVALID_PRICE = -45;
+    private Product product;
+    private Store store;
+
     @Test
     void constructorTestId() {
-        Product product = new Tele("207813","screen", new Money(4000));
-        assertEquals("207813",product.getId());
+        product = new Tele(ID,"screen", new Money(4000));
+        assertEquals(ID,product.getId());
     }
 
     @Test
     void constructorTestName() {
-        Product product = new Tele("208614","tablet",new Money(2000));
-        assertEquals("tablet",product.getName());
+        product = new Tele("208614",NAME,new Money(2000));
+        assertEquals(NAME,product.getName());
     }
 
     @Test
     void constructorTestPrice() {
-        Product product = new Tele("208614","tablet",new Money(2999));
-        assertEquals(2999,product.getPrice().getAmountInOre());
+        product = new Tele("208614","tablet",new Money(PRICE));
+        assertEquals(PRICE,product.getPrice().getAmountInOre());
     }
 
     @Test
     void constructorTestType() {
-        Product product = new Tele("986523","phone",new Money(450));
+        product = new Tele("986523","phone",new Money(450));
 
-        assertEquals("Tele",product.getType());
+        assertEquals(TYPE,product.getType());
     }
 
     @Test
     void setPriceTest() {
-        Product product = new Tele("986523","phone",new Money(450));
-        product.setPrice(new Money(300));
+        product = new Tele("986523","phone",new Money(450));
+        product.setPrice(new Money(NEW_PRICE));
 
-        assertEquals(300.0,product.getPrice().getAmountInOre());
+        assertEquals(NEW_PRICE,product.getPrice().getAmountInOre());
     }
 
     @Test
     void testGetPricePlusVat() {
-        Product product = new Tele("986523","phone",new Money(4500));
-        assertEquals(5850,product.getPricePlusVAT());
+        product = new Tele("986523","phone",new Money(PRICE_WITHOUT_VAT));
+
+        assertEquals(PRICE_PLUS_VAT,product.getPricePlusVAT());
 
     }
+
     @Test
-    void lessdidgtsThanSixInId() {
+    void lessDigitsThanSixInId() {
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
-            new Tele("24987","phone", new Money(4500));
+            new Tele(INVALID_ID,"phone", new Money(4500));
         });
 
         assertEquals("Id must contain 6 numbers", e.getMessage());
@@ -56,7 +70,7 @@ class ProductTest {
     @Test
     void priceLessThan0Kr() {
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
-            new Tele("245694","phone",new Money(-45));
+            new Tele("245694","phone",new Money(INVALID_PRICE));
         });
 
         assertEquals("price must be more", e.getMessage());
@@ -64,8 +78,8 @@ class ProductTest {
 
     @Test
     void testAddProductsToStoreFromProductClass() {
-        Product product = new Tele("346765","Mobile",new Money(3000));
-        Store store = new Store("Vasagata 8",15143,"Stockholm","0734238796");
+        product = new Tele("346765","Mobile",new Money(3000));
+        store = new Store("Vasagata 8",15143,"Stockholm","0734238796");
         product.addProductsToStore(store,400);
 
         assertTrue(store.products.containsKey(product));
@@ -73,8 +87,8 @@ class ProductTest {
 
     @Test
     void testGetStore() {
-        Product product = new Tele("346765","Mobile",new Money(3000));
-        Store store = new Store("Vasagata 8",15143,"Stockholm","0734238796");
+        product = new Tele("346765","Mobile",new Money(3000));
+        store = new Store("Vasagata 8",15143,"Stockholm","0734238796");
         store.addProduct(product,500);
 
         assertEquals(product.getStore().toString(),store.toString());

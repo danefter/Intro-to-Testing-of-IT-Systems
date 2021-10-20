@@ -1,13 +1,13 @@
 package inte.project;
 //author Marah Zeibak
-import java.util.HashMap;
+
 import java.util.Map;
 import java.util.TreeMap;
 
 public class Store {
     private String address;
     private int postCode;
-    private String city;
+    private final String city;
     private String phoneNumber;
 
     protected Map<Product,Integer> products = new TreeMap<>();
@@ -24,8 +24,16 @@ public class Store {
         return address;
     }
 
+    public void setAddress(String newAddress) {
+        address = newAddress;
+    }
+
     public int getPostCode() {
         return postCode;
+    }
+
+    public void setPostCode(int newPostCode) {
+        postCode = newPostCode;
     }
 
     public String getCity() {
@@ -34,6 +42,10 @@ public class Store {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public void setPhoneNumber(String newPhoneNumber) {
+        phoneNumber = newPhoneNumber;
     }
 
     public int getQuantity(Product product) {
