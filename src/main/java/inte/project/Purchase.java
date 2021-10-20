@@ -17,25 +17,23 @@ public class Purchase {
 
     public Purchase(Product... products) {
         for (Product p: products) {
-            this.currentTotal.add(p.getPrice());
+            this.currentTotal = currentTotal.add(p.getPrice());
             this.productsToPurchase.put(p.getId(), p);
         }
     }
 
     public void paySeparatelyForProducts(Payment... payments) {
         for (Payment p: payments) {
-            currentPayment.add(p.getPayment());
-            paymentMethods.put(p.getPaymentType(), p);
-            currentTotal.subtract(p.getPayment());}
+            this.currentPayment = currentPayment.add(p.getPayment());
+            paymentMethods.put(p.getPaymentType(), p);}
         if (currentPayment.getAmountInOre() < currentTotal.getAmountInOre()) paySeparatelyForProducts();
         productsPurchased.putAll(productsToPurchase);
         setDateOfPurchase();
     }
 
     public void payTotalForProducts(Payment payment) {
-        currentPayment.add(payment.getPayment());
+        this.currentPayment = currentPayment.add(payment.getPayment());
         paymentMethods.put(payment.getPaymentType(), payment);
-        currentTotal.subtract(payment.getPayment());
         if (currentPayment.getAmountInOre() < currentTotal.getAmountInOre()) paySeparatelyForProducts();
         productsPurchased.putAll(productsToPurchase);
         setDateOfPurchase();

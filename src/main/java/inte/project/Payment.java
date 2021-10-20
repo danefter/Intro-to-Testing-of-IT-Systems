@@ -18,8 +18,7 @@ public class Payment {
     public Payment(Money paymentAmount, Cash... cash) {
         this.paymentAmount = paymentAmount;
         for (Cash money : cash) {
-            this.collectCashPayments(money);
-            this.amountPaid.add(money.getTotal());
+            amountPaid = amountPaid.add(this.collectCashPayments(money));
         }
         this.paymentType = "Cash";
     }
@@ -39,20 +38,22 @@ public class Payment {
         this.paymentType = "Points";
     }
 
-    public void collectCashPayments(Cash money) {
+    public Money collectCashPayments(Cash money) {
         if (!this.cashPayment.containsKey(money.getDenomination().getAmountOfCrown()))
         this.cashPayment.put(money.getDenomination().getAmountOfCrown(), money);
         else this.cashPayment.get(money.getDenomination().getAmountOfCrown()).add(money.getQuantity());
+        return money.getTotal();
     }
 
     public Money getPayment() {
-        if (this.paymentType.equals("Cach")) return amountPaid;
+        if (this.paymentType.equals("Cash")) return amountPaid;
         return paymentAmount;
     }
 
     public Collection<Card> getCardPaymentValues() {
         return Collections.unmodifiableCollection(this.cardPayments.values());
     }
+
 
     public Collection<Cash> getCashPaymentValues() {
         return Collections.unmodifiableCollection(this.cashPayment.values());

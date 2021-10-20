@@ -31,12 +31,19 @@ public class PaymentTest {
         Assertions.assertEquals("Points", payment.getPaymentType());
     }
 
+    @Test
+    void cashPaymentConstructor() {
+        Money money = new Money(200, 0);
+        Payment payment = new Payment(money, new Cash(money, 10), new Cash(money, 10));
+        Assertions.assertEquals("Cash", payment.getPaymentType());
+    }
 
     @Test
     void getCashPayment() {
-        Money money = new Money(200, 0);
+        Money money = new Money(20, 0);
+        Money money1 = new Money(400, 0);
         Payment payment = new Payment(money, new Cash(money, 10), new Cash(money, 10));
-        Assertions.assertEquals(money, payment.getPayment());
+        Assertions.assertEquals(money1, payment.getPayment());
     }
 
     @Test
@@ -56,5 +63,7 @@ public class PaymentTest {
         Payment payment = new Payment(pay, points);
         Assertions.assertEquals(pay, payment.getPayment());
     }
+
+
 
 }

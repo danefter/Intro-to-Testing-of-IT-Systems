@@ -6,6 +6,16 @@ import org.junit.jupiter.api.Test;
 public class PurchaseTest {
 
     @Test
+    void returnCurrentPayment(){
+        Product product = new Appliances("348723", "Fridge", new Money(100, 0));
+        Product product1 = new Appliances("347654", "Stove", new Money(100, 0));
+        Product product2 = new Tele("341276", "Mobile", new Money(100, 0));
+        Product product3 = new HouseHold("346576", "Mixer", new Money(100, 0));
+        Purchase purchase = new Purchase(product, product1, product2, product3);
+        Assertions.assertEquals(purchase.getCurrentTotal(), new Money(400, 0));
+    }
+
+    @Test
     void purchaseProductsWithOnePayment() {
         Product product = new Appliances("348723", "Fridge", new Money(5000));
         Product product1 = new Appliances("347654", "Stove", new Money(4500));
@@ -36,14 +46,14 @@ public class PurchaseTest {
 
     @Test
     void purchaseProductsWithCash() {
-        Product product = new Appliances("348723", "Fridge", new Money(5000));
-        Product product1 = new Appliances("347654", "Stove", new Money(4500));
-        Product product2 = new Tele("341276", "Mobile", new Money(10000));
-        Product product3 = new HouseHold("346576", "Mixer", new Money(1500));
+        Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
+        Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
+        Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
+        Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
         Purchase purchase = new Purchase(product, product1, product2, product3);
-        Money money = new Money(20, 0);
-        Cash cash = new Cash(money, 2000);
-        Cash cash1 = new Cash(money, 5000);
+        Money money = new Money(1000, 0);
+        Cash cash = new Cash(money, 2);
+        Cash cash1 = new Cash(money, 2);
         Payment payment = new Payment(purchase.getCurrentTotal(), cash, cash1);
         purchase.payTotalForProducts(payment);
         Assertions.assertEquals(purchase.getCurrentTotal(), payment.getPayment());
@@ -76,4 +86,6 @@ public class PurchaseTest {
         purchase.paySeparatelyForProducts(payment, payment2);
         Assertions.assertEquals(purchase.getCurrentTotal(), purchase.getCurrentPayment());
     }
+
+
 }
