@@ -1,17 +1,14 @@
 package inte.project;
 
-public class Discount {
+public interface Discount {
 
-    double percentage = 1.00;
 
-    Money amount = new Money(0);
-
-    public Discount(double percentage) {
-        this.percentage = percentage;
+    default double applyDiscountPercent(double percent) {
+        return percent;
     }
 
-    public Discount(Money amount) {
-        this.amount = amount;
+    default Money applyDiscountAmount(Money amount) {
+        return amount;
     }
 
 }

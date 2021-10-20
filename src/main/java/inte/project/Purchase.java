@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 
-public class Purchase {
+public class Purchase implements Discount{
 
     private Money currentTotal = new Money(0);
     private Money currentPayment = new Money(0);
@@ -39,8 +39,38 @@ public class Purchase {
         setDateOfPurchase();
     }
 
-    public Collection<Cash> getCardsFromPayment() {
-        return paymentMethods.get("Card").getCashPaymentValues();
+    public void applyDiscountPercentToAllPurchases(double percent){
+        if (percent > 1.00) throw new IllegalArgumentException("Discount causes price increase.");
+        this.currentTotal = currentTotal.subtract((int) (currentTotal.getAmountInOre() * applyDiscountPercent(percent)));
+    }
+
+    public void applyDiscountPercentToProductType(double percent, String productType){
+        if (percent > 1.00) throw new IllegalArgumentException("Discount causes price increase.");
+        for (Product p : productsToPurchase.values()) {
+            if (p.getType().equals(productType)) {
+                this.currentTotal = currentTotal.subtract((int) (p.getPrice().getAmountInOre() * applyDiscountPercent(percent)));
+            }
+        }
+    }
+
+    public void applyDiscountAmountToAllPurchases(Money amount){
+        if (amount.getAmountOfCrown() > getCurrentTotal().getAmountOfCrown())
+            throw new IllegalArgumentException("Discount causes price increase.");
+        this.currentTotal = currentTotal.subtract(amount);
+    }
+
+    public void applyDiscountAmountToProductType(Money amount, String productType){
+        for (Product p : productsToPurchase.values()) {
+            if (p.getType().equals(productType) && amount.getAmountOfCrown() > p.getPrice().getAmountOfCrown())
+                throw new IllegalArgumentException("Discount causes price increase.");
+            if (p.getType().equals(productType)) {
+                this.currentTotal = currentTotal.subtract(amount);
+            }
+        }
+    }
+
+    public Collection<Card> getCardsFromPayment() {
+        return paymentMethods.get("Card").getCardPaymentValues();
     }
 
     public Collection<Cash> getCashFromPayment() {
@@ -50,7 +80,7 @@ public class Purchase {
     public void removeProduct(String ID) {
         Product productToRemove = productsToPurchase.get(ID);
         productsToPurchase.remove(ID);
-        currentTotal.subtract(productToRemove.getPrice());
+        currentTotal = currentTotal.subtract(productToRemove.getPrice());
     }
 
     public void setDateOfPurchase() {

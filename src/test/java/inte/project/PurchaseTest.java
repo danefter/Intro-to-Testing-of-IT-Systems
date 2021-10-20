@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 public class PurchaseTest {
 
     @Test
-    void returnCurrentPayment(){
+    void returnCurrentPayment() {
         Product product = new Appliances("348723", "Fridge", new Money(100, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(100, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(100, 0));
@@ -88,4 +88,93 @@ public class PurchaseTest {
     }
 
 
+    @Test
+    void applyDiscountPercentToAllPurchases() {
+        Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
+        Purchase purchase = new Purchase(product);
+        purchase.applyDiscountPercentToAllPurchases(0.25);
+        Assertions.assertEquals(new Money(750, 0), purchase.getCurrentTotal());
+    }
+
+    @Test
+    void applyDiscountPercentToProductType() {
+        Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
+        Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
+        Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
+        Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        Purchase purchase = new Purchase(product, product1, product2, product3);
+        purchase.applyDiscountPercentToProductType(1.00, "Appliances");
+        Assertions.assertEquals(new Money(2000, 0), purchase.getCurrentTotal());
+    }
+
+    @Test
+    void applyDiscountAmountToAllPurchases() {
+        Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
+        Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
+        Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
+        Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        Purchase purchase = new Purchase(product, product1, product2, product3);
+        purchase.applyDiscountAmountToAllPurchases(new Money(2000, 0));
+        Assertions.assertEquals(new Money(2000, 0), purchase.getCurrentTotal());
+    }
+
+    @Test
+    void applyDiscountAmountToProductType() {
+        Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
+        Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
+        Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
+        Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        Purchase purchase = new Purchase(product, product1, product2, product3);
+        purchase.applyDiscountAmountToProductType(new Money(500, 0), "Appliances");
+        Assertions.assertEquals(new Money(3000, 0), purchase.getCurrentTotal());
+    }
+
+    @Test
+    void applyDiscountAmountToProductTypeThrows() {
+        Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
+        Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
+        Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
+        Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        Purchase purchase = new Purchase(product, product1, product2, product3);
+        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            purchase.applyDiscountAmountToProductType(new Money(1500, 0), "Appliances");
+        });
+        Assertions.assertEquals("Discount causes price increase.", exception.getMessage());
+    }
+
+    @Test
+    void applyDiscountAmountToAllPurchasesThrows() {
+        Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
+        Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
+        Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
+        Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        Purchase purchase = new Purchase(product, product1, product2, product3);
+        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            purchase.applyDiscountAmountToAllPurchases(new Money(20000, 0));
+        });
+        Assertions.assertEquals("Discount causes price increase.", exception.getMessage());
+    }
+
+    @Test
+    void applyDiscountPercentToAllPurchasesThrows() {
+        Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
+        Purchase purchase = new Purchase(product);
+        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            purchase.applyDiscountPercentToAllPurchases(1.50);
+        });
+        Assertions.assertEquals("Discount causes price increase.", exception.getMessage());
+    }
+
+    @Test
+    void applyDiscountPercentToProductTypeThrows() {
+        Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
+        Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
+        Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
+        Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        Purchase purchase = new Purchase(product, product1, product2, product3);
+        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            purchase.applyDiscountPercentToProductType(1.50, "Appliances");
+        });
+        Assertions.assertEquals("Discount causes price increase.", exception.getMessage());
+    }
 }
