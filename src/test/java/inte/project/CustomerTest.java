@@ -123,8 +123,6 @@ public class CustomerTest {
         assertFalse(customer.isMember());
     }
 
-
-
     @Test
     void customerBecomesMemberGetMembership(){
         Customer customer = new PrivatePerson("name", "address", "email", "0707990998", "1997-06-09");

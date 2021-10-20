@@ -11,7 +11,6 @@ public class Purchase {
     private Money currentPayment = new Money(0);
     private String dateOfPurchase;
 
-
     private HashMap<String, Product> productsToPurchase = new HashMap<>();
     private HashMap<String, Product> productsPurchased = new HashMap<>();
     private HashMap<String, Payment> paymentMethods = new HashMap<>();
@@ -22,7 +21,6 @@ public class Purchase {
             this.productsToPurchase.put(p.getId(), p);
         }
     }
-
 
     public void paySeparatelyForProducts(Payment... payments) {
         for (Payment p: payments) {
@@ -42,8 +40,6 @@ public class Purchase {
         productsPurchased.putAll(productsToPurchase);
         setDateOfPurchase();
     }
-
-
 
     public Collection<Cash> getCardsFromPayment() {
         return paymentMethods.get("Card").getCashPaymentValues();

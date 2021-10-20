@@ -11,7 +11,7 @@ public class Register {
     private int cashPaymentTotal;
     private Money currentTotal;
     private Money currentPayment;
-    private HashMap<Integer, Cash> cashBalance = new HashMap();
+    private HashMap<Integer, Cash> cashBalance = new HashMap<>();
 
     List<Cash> acceptedDenominations = Arrays.asList(
             new Cash(new Money(1, 0), 0),
@@ -29,12 +29,10 @@ public class Register {
             this.cashBalance.putIfAbsent(cash.getDenomination().getAmountOfCrown(), cash);
         }
 
-
     public void calculateCurrentTotal(Product... products) {
         for (Product p: products)
             this.currentTotal.add(p.getPrice());
         }
-
 
     public Money getCurrentTotal() {
         return this.currentTotal;
@@ -44,6 +42,13 @@ public class Register {
         return this.cashPaymentTotal;
     }
 
+    public int getCardPaymentTotal(){
+        return cardPaymentTotal;
+    }
+
+    public Money getCurrentPayment(){
+        return currentPayment;
+    }
 
     public void printReceipt() {
     }

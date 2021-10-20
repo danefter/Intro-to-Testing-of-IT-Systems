@@ -20,20 +20,20 @@ public abstract class Customer {
         this.phoneNumber = phoneNumber;
     }
 
-    public boolean isMember(){
+    public boolean isMember(){ 
         return member;
     }
 
-    public void setIsMember(boolean value){
-        this.member = value;
+    public void setIsMember(boolean value){ //eg customer.setIsMember(false);
+        this.member = value; 
     }
 
-    public void addMembership(){
-       membership = new Membership();
-       this.member = true;
-       generateMembershipID();
+    public void addMembership(){ //create membership better name?
+        membership = new Membership();
+        this.member = true;
+        generateMembershipID();
         if (getMembership() == null) {
-            
+            //TODO - throw exception
         }
     }
 
@@ -72,9 +72,11 @@ public abstract class Customer {
 
     public void setPhoneNumber(String newNumber){
         newNumber = removePotentialSpaces(newNumber);
+        newNumber = removeHyphen(newNumber);
+        checkForUnacceptableCharacters(newNumber);
+        checkLengthOfPhoneNumber(newNumber);
         this.phoneNumber = newNumber;
     }
-
 
     public Membership getMembership() throws IllegalArgumentException{
         if(isMember()){
@@ -83,6 +85,7 @@ public abstract class Customer {
             throw new IllegalArgumentException("Customer is not a member");
         }
     }
+
     private void checkLengthOfPhoneNumber(String number){
         if(number.length() < 7 || number.length() > 16){
             throw new IllegalArgumentException("Phone number seems to be in the wrong format, please try again");
@@ -104,11 +107,6 @@ public abstract class Customer {
     private String removeHyphen(String number){
         return number = number.replaceAll("-", "");
     }
-    public String toString(String number){
-        String stringCustomer = name + address + email + phoneNumber;
-        stringCustomer += getMembership().toString();
-        return stringCustomer;
-    }
 
     private void generateMembershipID(){
         Customer customer = this;
@@ -119,11 +117,18 @@ public abstract class Customer {
             PrivatePerson cu = (PrivatePerson)customer;
             getMembership().setMemberID(cu.getDateOfBirth().hashCode() * cu.getEmail().hashCode() * 2000);
         }
-
     }
+
     @Override
     public int hashCode(){
         return name.hashCode() * 1000 + email.hashCode();
+    }
+
+    @Override
+    public String toString(){
+        String stringCustomer = name + address + email + phoneNumber;
+        stringCustomer += getMembership().toString();
+        return stringCustomer;
     }
 
 }
