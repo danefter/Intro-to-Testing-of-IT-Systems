@@ -75,10 +75,12 @@ public class CustomerHandler {
 
     public void removeCustomer(Customer customer){
         customerHashSet.remove(customer);
-        customerHashMapName.remove(customer);
-        customerHashMapMembershipID.remove(customer);
-        customerHashMapAdress.remove(customer);
-        customerHashMapPhoneNumber.remove(customer);
+        customerHashMapName.remove(customer.getName());
+        if(customer.isMember()){
+            customerHashMapMembershipID.remove(customer.getMembership().getMemberID());
+        }
+        customerHashMapAdress.remove(customer.getAddress());
+        customerHashMapPhoneNumber.remove(customer.getPhoneNumber());
     }
 
 }
