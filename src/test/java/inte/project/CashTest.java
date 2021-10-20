@@ -11,79 +11,90 @@ public class CashTest {
 
     @Test
     void constructorWorksWithValidDenomination() {
-        Cash cash = new Cash(20, 1);
-        Assertions.assertEquals(20, cash.getDenomination());
+        Money money = new Money(20, 0);
+        Cash cash = new Cash(money, 1);
+        Assertions.assertEquals(money, cash.getDenomination());
     }
 
     @Test
     void constructorWorksWithValidQuantity() {
-        Cash cash = new Cash(20, 1);
+        Money money = new Money(20, 0);
+        Cash cash = new Cash(money, 1);
         Assertions.assertEquals(1, cash.getQuantity());
     }
 
     @Test
     void constructorThrowsInvalidDenomination() {
+        Money money = new Money(21, 0);
         Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new Cash(21, 1);
+            new Cash(money, 1);
         });
         Assertions.assertEquals("Invalid denomination.", exception.getMessage());
     }
 
     @Test
     void constructorThrowsInvalidDenominationEqualToZero() {
+        Money money = new Money(0);
         Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new Cash(0, 1);
+            new Cash(money, 1);
         });
         Assertions.assertEquals("Denomination can't be less than or equal to zero.", exception.getMessage());
     }
 
     @Test
     void constructorThrowsInvalidDenominationLessThanZero() {
+        Money money = new Money(-1);
         Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new Cash(-1, 1);
+            new Cash(money, 1);
         });
         Assertions.assertEquals("Denomination can't be less than or equal to zero.", exception.getMessage());
     }
 
     @Test
     void constructorThrowsInvalidQuantityLessThanZero() {
+        Money money = new Money(20, 0);
         Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new Cash(20, -1);
+            new Cash(money, -1);
         });
         Assertions.assertEquals("Quantity can't be less than zero.", exception.getMessage());
     }
 
     @Test
     void addChangesQuantityCorrectly() {
-        Cash cash = new Cash(20, 1);
+        Money money = new Money(20, 0);
+        Cash cash = new Cash(money, 1);
         cash.add(1);
         Assertions.assertEquals(2, cash.getQuantity());
     }
 
     @Test
     void addChangesTotalCorrectly() {
-        Cash cash = new Cash(20, 1);
+        Money money = new Money(20, 0);
+        Cash cash = new Cash(money, 1);
         cash.add(1);
-        Assertions.assertEquals(40, cash.getTotal());
+        Assertions.assertEquals(new Money(40, 0), cash.getTotal());
     }
 
     @Test
     void removeChangesQuantityCorrectly() {
-        Cash cash = new Cash(20, 1);
+        Money money = new Money(20, 0);
+        Cash cash = new Cash(money, 1);
         cash.remove(1);
         Assertions.assertEquals(0, cash.getQuantity());
     }
 
     @Test
     void removeChangesTotalCorrectly() {
-        Cash cash = new Cash(20, 1);
+        Money money = new Money(20, 0);
+        Cash cash = new Cash(money, 1);
         cash.remove(1);
-        Assertions.assertEquals(0, cash.getTotal());
+        Assertions.assertEquals(new Money(0), cash.getTotal());
     }
 
     @Test
     void removeThrowsNegativeCash() {
-        Cash cash = new Cash(20, 1);
+        Money money = new Money(20, 0);
+        Cash cash = new Cash(money, 1);
         Exception exception = Assertions.assertThrows(IllegalStateException.class, () -> {
             cash.remove(2);
         });
@@ -92,15 +103,18 @@ public class CashTest {
 
     @Test
     void equalsTrueForSameDenomination() {
-        Cash cash1 = new Cash(20, 1);
-        Cash cash2 = new Cash(20, 1);
+        Money money = new Money(20, 0);
+        Cash cash1 = new Cash(money, 1);
+        Cash cash2 = new Cash(money, 1);
         Assertions.assertEquals(cash1, cash2);
     }
 
     @Test
     void equalsFalseForNotSameDenomination() {
-        Cash cash1 = new Cash(50, 1);
-        Cash cash2 = new Cash(20, 1);
+        Money money = new Money(20, 0);
+        Money money2 = new Money(50, 0);
+        Cash cash1 = new Cash(money2, 1);
+        Cash cash2 = new Cash(money, 1);
         Assertions.assertNotEquals(cash1, cash2);
     }
 

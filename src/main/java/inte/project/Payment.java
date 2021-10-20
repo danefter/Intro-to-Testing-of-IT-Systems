@@ -15,51 +15,49 @@ public class Payment {
 
     private MembershipPoints pointPayment = new MembershipPoints();
 
-    private Money paymentTotal = new Money(0);
+    private Money amountPaid = new Money(0);
 
-    private Money paidAmount = new Money(0);
+    private Money paymentAmount;
 
     private String paymentType;
 
-    public Payment(Money paymentTotal) {
-        this.paymentTotal = paymentTotal;
-    }
-
-    public Payment(Money paymentTotal, Cash... cash) {
-        this.paymentTotal = paymentTotal;
+    public Payment(Money paymentAmount, Cash... cash) {
+        this.paymentAmount = paymentAmount;
         for (Cash money : cash) {
             this.collectCashPayments(money);
-            paidAmount.add(money.getTotal());
+            this.amountPaid.add(money.getTotal());
         }
         this.paymentType = "Cash";
     }
 
-    public Payment(Money paymentTotal, Card... cards) {
-        this.paymentTotal = paymentTotal;
+    public Payment(Money paymentAmount, Card... cards) {
+        this.paymentAmount = paymentAmount;
         for (Card card: cards) {
             cardPayments.put(card.getCardType(), card);
-            paidAmount.add(card.pay(paymentTotal));
+            card.pay(paymentAmount);
         }
-        this.paymentType = "Cards";
+        this.paymentType = "Card";
     }
 
-    public Payment(Money paymentTotal, MembershipPoints pointPayment) {
-        paidAmount.add(new Money(pointPayment.getCertainAmountOfPoints(paymentTotal.getAmountInOre())));
+
+    public Payment(Money paymentAmount, MembershipPoints pointPayment) {
+        this.paymentAmount = paymentAmount;
+        this.paymentAmount.add(new Money(pointPayment.getCertainAmountOfPoints(paymentAmount.getAmountInOre())));
         this.paymentType = "Points";
     }
 
 
-
     public void collectCashPayments(Cash money) {
-        Cash earlierMoney = this.cashPayment.putIfAbsent(money.getDenomination(), money);
-        if (earlierMoney != null) {
-            earlierMoney.add(money.getQuantity());
-        }
+        if (!this.cashPayment.containsKey(money.getDenomination().getAmountOfCrown()))
+        this.cashPayment.put(money.getDenomination().getAmountOfCrown(), money);
+        else this.cashPayment.get(money.getDenomination().getAmountOfCrown()).add(money.getQuantity());
     }
 
     public Money getPayment() {
-        return paidAmount;
+        if (this.paymentType.equals("Cach")) return amountPaid;
+        return paymentAmount;
     }
+
     public Collection<Card> getCardPaymentValues() {
         return Collections.unmodifiableCollection(this.cardPayments.values());
     }
