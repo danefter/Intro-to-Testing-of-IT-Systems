@@ -17,11 +17,11 @@ public class PaymentTest {
     }
 
     @Test
-    void cardsPaymentConstructor() {
+    void cardPaymentToString() {
         PrivatePerson person = new PrivatePerson("Albin Ahl", "Regngatan 33", "abbeAhl@gmail.com", "0707896779", "1993-6-5");
-        DebitCard card = new DebitCard("Debitcard", person, new Money(100000000));
+        GiftCard card = new GiftCard("Giftcard", person, new Money(100000000));
         Payment payment = new Payment(new Money(5000, 0), card);
-        Assertions.assertEquals("Card", payment.getPaymentType());
+        Assertions.assertEquals("Giftcard: Albin Ahl\nAmount paid: 5000:00 kr\nRemaining balance: 995000:00 kr" , payment.toString());
     }
 
     @Test
@@ -31,10 +31,24 @@ public class PaymentTest {
     }
 
     @Test
+    void pointsPaymentToString() {
+        MembershipPoints points = new MembershipPoints(500000);
+        Payment payment = new Payment(new Money(5000, 0), points);
+        Assertions.assertEquals(points + "\nAmount paid: 5000:00 kr", payment.toString());
+    }
+
+    @Test
     void cashPaymentConstructor() {
         Money money = new Money(200, 0);
         Payment payment = new Payment(money, new Cash(money, 10), new Cash(money, 10));
         Assertions.assertEquals("Cash", payment.getPaymentType());
+    }
+
+    @Test
+    void cashPaymentToString() {
+        Money money = new Money(200, 0);
+        Payment payment = new Payment(money, new Cash(money, 10), new Cash(money, 10));
+        Assertions.assertEquals("Cash:\nAmount paid: 4000:00 kr", payment.toString());
     }
 
     @Test

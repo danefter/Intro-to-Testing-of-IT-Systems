@@ -13,12 +13,8 @@ public abstract class Card {
         this.balance = balance;
     }
 
-    public Money getBalance() {
-        return this.balance;
-    }
-
-    public int getBalanceAmount() {
-        return this.balance.getAmountOfCrown();
+    public String getBalanceAmount() {
+        return this.balance.toString();
     }
 
     public Customer getCardOwner() {
@@ -45,4 +41,8 @@ public abstract class Card {
         return amount;
     }
 
+
+    public String toString() {
+        return cardType + ": " + cardOwner.getName();
+    }
 }

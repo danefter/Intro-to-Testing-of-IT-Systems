@@ -34,7 +34,7 @@ public class CardTest {
         Money balance = new Money(5000, 0);
         Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
         Card card = new DebitCard("Debitcard", customer, balance);
-        Assertions.assertEquals(5000, card.getBalanceAmount());
+        Assertions.assertEquals("5000:00 kr", card.getBalanceAmount());
     }
 
     @Test
@@ -49,5 +49,13 @@ public class CardTest {
         Assertions.assertEquals("Insufficient balance.", exception.getMessage());
     }
 
+    @Test
+    void toStringTest() {
+        String orgNumber = "789765-8765";
+        Money balance = new Money(5000, 0);
+        Customer customer = new Company("name", "address", "name@email.com", "6666666", orgNumber);
+        Card card = new DebitCard("Debitcard", customer, balance);
+        Assertions.assertEquals(card.toString(), "Debitcard: name");
+    }
 
 }
