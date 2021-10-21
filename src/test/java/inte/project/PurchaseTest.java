@@ -12,7 +12,7 @@ public class PurchaseTest {
         Product product2 = new Tele("341276", "Mobile", new Money(100, 0));
         Product product3 = new HouseHold("346576", "Mixer", new Money(100, 0));
         Purchase purchase = new Purchase(product, product1, product2, product3);
-        Assertions.assertEquals(purchase.getCurrentTotal(), new Money(400, 0));
+        Assertions.assertEquals(purchase.getCurrentTotal(), new Money(515, 0));
     }
 
 
@@ -69,9 +69,12 @@ public class PurchaseTest {
         Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
         Purchase purchase = new Purchase(product, product1, product2, product3);
         Money money = new Money(1000, 0);
-        Cash cash = new Cash(money, 2);
-        Cash cash1 = new Cash(money, 2);
-        Payment payment = new Payment(purchase.getCurrentTotal(), cash, cash1);
+        Money money100 = new Money(100, 0);
+        Money money50 = new Money(50, 0);
+        Cash cash = new Cash(money, 5);
+        Cash cash1 = new Cash(money100, 1);
+        Cash cash2 = new Cash(money50, 1);
+        Payment payment = new Payment(purchase.getCurrentTotal(), cash, cash1, cash2);
         purchase.payTotalForProducts(payment);
         Assertions.assertEquals(purchase.getCurrentTotal(), payment.getPayment());
     }
@@ -118,7 +121,11 @@ public class PurchaseTest {
         purchase.paySeparatelyForProducts(payment, payment2);
         Assertions.assertEquals("Purchase date: " + purchase.getDateOfPurchase()
                 + "\nPayment methods: [\n"+ points + "\nAmount paid: 5000:00 kr, \n"
-                + "Cash:\n" + "Amount paid: 4000:00 kr]"
+                + "Cash:\n" + "Amount paid: 4000:00 kr]" + "\nProducts: [" +
+                 "\n347654 Stove 2000:00 kr Appliances Store: null, " +
+                 "\n346576 Mixer 2000:00 kr Household Store: null, " +
+                 "\n341276 Mobile 1000:00 kr Tele Store: null, " +
+                "\n348723 Fridge 2000:00 kr Appliances Store: null]" + "\nTotal discount amount: " + "0:00 kr"
                 , purchase.toString());
     }
 
@@ -133,16 +140,18 @@ public class PurchaseTest {
         MembershipPoints points = new MembershipPoints(500000);
         Payment payment = new Payment(new Money(5000, 0), points);
         Payment payment2 = new Payment(new Money(1000, 0), cash);
-        purchase.paySeparatelyForProducts(payment, payment2);
-        Assertions.assertEquals(purchase.getCurrentTotal(), purchase.getCurrentPayment());
+        Exception exception = Assertions.assertThrows(IllegalStateException.class, () -> {
+            purchase.paySeparatelyForProducts(payment, payment2);
+        });
+        Assertions.assertEquals("Insufficient amount.", exception.getMessage());
     }
 
     @Test
     void applyDiscountPercentToAllPurchases() {
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Purchase purchase = new Purchase(product);
-        purchase.applyDiscountPercentToAllPurchases(0.25);
-        Assertions.assertEquals(new Money(750, 0), purchase.getCurrentTotal());
+        purchase.applyDiscountPercentToTotalPurchase(0.25);
+        Assertions.assertEquals(new Money(975, 0), purchase.getCurrentTotal());
     }
 
     @Test
@@ -153,7 +162,7 @@ public class PurchaseTest {
         Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
         Purchase purchase = new Purchase(product, product1, product2, product3);
         purchase.applyDiscountPercentToProductType(1.00, "Appliances");
-        Assertions.assertEquals(new Money(2000, 0), purchase.getCurrentTotal());
+        Assertions.assertEquals(new Money(3150, 0), purchase.getCurrentTotal());
     }
 
     @Test
@@ -163,8 +172,8 @@ public class PurchaseTest {
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
         Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
         Purchase purchase = new Purchase(product, product1, product2, product3);
-        purchase.applyDiscountAmountToAllPurchases(new Money(2000, 0));
-        Assertions.assertEquals(new Money(2000, 0), purchase.getCurrentTotal());
+        purchase.applyDiscountAmountToTotalPurchase(new Money(2000, 0));
+        Assertions.assertEquals(new Money(3150, 0), purchase.getCurrentTotal());
     }
 
     @Test
@@ -175,7 +184,7 @@ public class PurchaseTest {
         Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
         Purchase purchase = new Purchase(product, product1, product2, product3);
         purchase.applyDiscountAmountToProductType(new Money(500, 0), "Appliances");
-        Assertions.assertEquals(new Money(3000, 0), purchase.getCurrentTotal());
+        Assertions.assertEquals(new Money(4150, 0), purchase.getCurrentTotal());
     }
 
     @Test
@@ -192,6 +201,29 @@ public class PurchaseTest {
     }
 
     @Test
+    void purchaseProductsWithSeparateMethodsAndProductTypeDiscountToString() {
+        Product product = new Appliances("348723", "Fridge", new Money(2000, 0));
+        Product product1 = new Appliances("347654", "Stove", new Money(2000, 0));
+        Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
+        Product product3 = new HouseHold("346576", "Mixer", new Money(2000, 0));
+        Purchase purchase = new Purchase(product, product1, product2, product3);
+        Cash cash = new Cash(new Money(200, 0), 20);
+        MembershipPoints points = new MembershipPoints(500000);
+        purchase.applyDiscountAmountToProductType(new Money(500, 0), "Appliances");
+        Payment payment = new Payment(new Money(5000, 0), points);
+        Payment payment2 = new Payment(new Money(4000, 0), cash);
+        purchase.paySeparatelyForProducts(payment, payment2);
+        Assertions.assertEquals("Purchase date: " + purchase.getDateOfPurchase()
+                        + "\nPayment methods: [\n"+ points + "\nAmount paid: 5000:00 kr, \n"
+                        + "Cash:\n" + "Amount paid: 4000:00 kr]" + "\nProducts: [" +
+                        "\n347654 Stove 2000:00 kr Appliances Store: null Discount: 500:00 kr, " +
+                        "\n346576 Mixer 2000:00 kr Household Store: null, " +
+                        "\n341276 Mobile 1000:00 kr Tele Store: null, " +
+                        "\n348723 Fridge 2000:00 kr Appliances Store: null Discount: 500:00 kr]" + "\nTotal discount amount: " + "1000:00 kr"
+                , purchase.toString());
+    }
+
+    @Test
     void applyDiscountAmountToAllPurchasesThrows() {
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
@@ -199,7 +231,7 @@ public class PurchaseTest {
         Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
         Purchase purchase = new Purchase(product, product1, product2, product3);
         Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            purchase.applyDiscountAmountToAllPurchases(new Money(20000, 0));
+            purchase.applyDiscountAmountToTotalPurchase(new Money(20000, 0));
         });
         Assertions.assertEquals("Discount causes price increase.", exception.getMessage());
     }
@@ -209,7 +241,7 @@ public class PurchaseTest {
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Purchase purchase = new Purchase(product);
         Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            purchase.applyDiscountPercentToAllPurchases(1.50);
+            purchase.applyDiscountPercentToTotalPurchase(1.50);
         });
         Assertions.assertEquals("Discount causes price increase.", exception.getMessage());
     }

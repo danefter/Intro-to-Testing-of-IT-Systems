@@ -10,5 +10,4 @@ public interface Discount {
     default Money applyDiscountAmount(Money amount) {
         return amount;
     }
-
 }
