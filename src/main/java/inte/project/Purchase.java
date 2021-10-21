@@ -16,7 +16,7 @@ public class Purchase implements Discount{
 
     public Purchase(Product... products) {
         for (Product p: products) {
-            this.currentTotal = currentTotal.add(p.getPrice());
+            this.currentTotal = currentTotal.add(p.getPricePlusVAT());
             this.productsToPurchase.put(p.getId(), p);
         }
     }
