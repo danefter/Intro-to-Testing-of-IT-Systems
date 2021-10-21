@@ -156,6 +156,10 @@ public class Purchase implements Discount{
         return currentPayment;
     }
 
+    public Customer getCustomer(){
+        return customer;
+    }
+
     public String toString() {
         if (purchaseDiscountPercent == 0.0)
         return "Purchase date: " + getDateOfPurchase() + "\nPayment methods: "
