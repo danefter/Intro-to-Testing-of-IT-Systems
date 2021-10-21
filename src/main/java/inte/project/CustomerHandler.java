@@ -9,14 +9,12 @@ import java.util.HashSet;
 public class CustomerHandler {
     private HashSet<Customer> customerHashSet;
     private HashMap<String, Customer> customerHashMapName;
-    private HashMap<Integer, Customer> customerHashMapMembershipID;
     private HashMap<String, Customer> customerHashMapAdress;
     private HashMap<String, Customer> customerHashMapPhoneNumber;
 
     // Initierar klass
     public CustomerHandler(){
         customerHashSet = new HashSet<>();
-        customerHashMapMembershipID = new HashMap<>();
         customerHashMapName = new HashMap<>();
         customerHashMapAdress = new HashMap<>();
         customerHashMapPhoneNumber = new HashMap<>();
@@ -28,9 +26,6 @@ public class CustomerHandler {
             customerHashSet.add(customer);
             customerHashMapName.put(customer.getName(), customer);
             customerHashMapAdress.put(customer.getAddress(), customer);
-            if(customer.isMember()){
-                customerHashMapMembershipID.put(customer.getMembership().getMemberID(), customer);
-            }
             customerHashMapPhoneNumber.put(customer.getPhoneNumber(), customer);
         }else{
             throw new IllegalArgumentException("Customer already exists");
@@ -57,14 +52,6 @@ public class CustomerHandler {
         }
     }
 
-    public Customer getCustomerByMembershipID(int mID){
-        if(customerHashMapMembershipID.containsKey(mID)){
-            return customerHashMapMembershipID.get(mID);
-        }else{
-            throw new IllegalArgumentException("No member with that ID exists");
-        }
-    }
-
     public Customer getCustomerByPhoneNumber(String phone){
         if(customerHashMapPhoneNumber.containsKey(phone)){
             return customerHashMapPhoneNumber.get(phone);
@@ -76,9 +63,6 @@ public class CustomerHandler {
     public void removeCustomer(Customer customer){
         customerHashSet.remove(customer);
         customerHashMapName.remove(customer.getName());
-        if(customer.isMember()){
-            customerHashMapMembershipID.remove(customer.getMembership().getMemberID());
-        }
         customerHashMapAdress.remove(customer.getAddress());
         customerHashMapPhoneNumber.remove(customer.getPhoneNumber());
     }

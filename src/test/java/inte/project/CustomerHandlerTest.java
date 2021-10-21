@@ -19,6 +19,34 @@ class CustomerHandlerTest {
         CustomerHandler ch = new CustomerHandler();
         assertTrue(ch.getAllCustomers().isEmpty());
     }
+    @Test
+    void addCustomerThenAddMember(){
+        CustomerHandler ch = new CustomerHandler();
+        ch.addCustomer(new PrivatePerson("name", "address", "email", "0708988900", "1997-05-13"));
+        ch.getCustomerByAdress("address").addMembership();
+        assertTrue(ch.getCustomerByName("name").isMember());
+    }
+    @Test
+    void addCustomerThenAddMemberThenRemoveMember(){
+        CustomerHandler ch = new CustomerHandler();
+        ch.addCustomer(new PrivatePerson("name", "address", "email", "0708988900", "1997-05-13"));
+        ch.getCustomerByAdress("address").addMembership();
+        ch.getCustomerByAdress("address").removeMembership();
+        assertFalse(ch.getCustomerByName("name").isMember());
+    }
+    @Test
+    void exceptionGetByAdressOrName(){
+        CustomerHandler ch = new CustomerHandler();
+        assertThrows(IllegalArgumentException.class, () -> ch.getCustomerByAdress("address"));
+        assertThrows(IllegalArgumentException.class, () -> ch.getCustomerByAdress("address"));
+    }
+    @Test
+    void exceptionAddSameCustomer(){
+        CustomerHandler ch = new CustomerHandler();
+        Customer cu = new PrivatePerson("name", "address", "email", "0708988900", "1997-05-13");
+        ch.addCustomer(cu);;
+        assertThrows(IllegalArgumentException.class, () -> ch.addCustomer(new PrivatePerson("name", "address", "email", "0708988900", "1997-05-13")));
+    }
 
     @Test
     void addNewCustomerExistHashMapName(){
@@ -65,7 +93,36 @@ class CustomerHandlerTest {
         customerHandler.addCustomer(new PrivatePerson("magnus", "Adressvägen 7", "magnus@gmail.com", "3412345678", "1993-01-01"));
         customerHandler.addCustomer(new PrivatePerson("blim", "Adressvägen 8", "blim@gmail.com", "4312345678", "1994-01-01"));
         customerHandler.addCustomer(new PrivatePerson("blam", "Adressvägen 9", "blam@gmail.com", "5212345678", "1995-01-01"));
-        System.out.print(customerHandler.getAllCustomers().toString());
+        assertEquals("[Name: blam\n" +
+                "Address: Adressvägen 9\n" +
+                "Email: blam@gmail.com\n" +
+                "Phonenumber: 5212345678\n" +
+                "\n" +
+                ", Name: maggie\n" +
+                "Address: Adressvägen 6\n" +
+                "Email: maggie@gmail.com\n" +
+                "Phonenumber: 2512345678\n" +
+                "\n" +
+                ", Name: lukas\n" +
+                "Address: Adressvägen 5\n" +
+                "Email: lukas@gmail.com\n" +
+                "Phonenumber: 1612345678\n" +
+                "\n" +
+                ", Name: Person person\n" +
+                "Address: Adressvägen 4\n" +
+                "Email: personperson@gmail.com\n" +
+                "Phonenumber: 0712345678\n" +
+                "\n" +
+                ", Name: blim\n" +
+                "Address: Adressvägen 8\n" +
+                "Email: blim@gmail.com\n" +
+                "Phonenumber: 4312345678\n" +
+                "\n" +
+                ", Name: magnus\n" +
+                "Address: Adressvägen 7\n" +
+                "Email: magnus@gmail.com\n" +
+                "Phonenumber: 3412345678\n" +
+                "\n]", customerHandler.getAllCustomers().toString());
     }
     @Test
     void removeCustomerTest(){
