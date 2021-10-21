@@ -1,14 +1,13 @@
 package inte.project;
 
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 
 public class Purchase implements Discount{
 
     private Money currentTotal = new Money(0);
     private Money currentPayment = new Money(0);
+    private Customer customer;
     private String dateOfPurchase;
 
     private HashMap<String, Product> productsToPurchase = new HashMap<>();
@@ -25,8 +24,10 @@ public class Purchase implements Discount{
     public void paySeparatelyForProducts(Payment... payments) {
         for (Payment p: payments) {
             this.currentPayment = currentPayment.add(p.getPayment());
-            paymentMethods.put(p.getPaymentType(), p);}
-        if (currentPayment.getAmountInOre() < currentTotal.getAmountInOre()) paySeparatelyForProducts();
+            paymentMethods.put(p.getPaymentType(), p);
+            if (!p.getPaymentType().equals("Cash")) customer = p.getCustomer();
+        }
+        if (currentPayment.getAmountInOre() < currentTotal.getAmountInOre()) throw new IllegalStateException("Insufficient amount.");
         productsPurchased.putAll(productsToPurchase);
         setDateOfPurchase();
     }
@@ -34,7 +35,8 @@ public class Purchase implements Discount{
     public void payTotalForProducts(Payment payment) {
         this.currentPayment = currentPayment.add(payment.getPayment());
         paymentMethods.put(payment.getPaymentType(), payment);
-        if (currentPayment.getAmountInOre() < currentTotal.getAmountInOre()) paySeparatelyForProducts();
+        if (currentPayment.getAmountInOre() < currentTotal.getAmountInOre()) throw new IllegalStateException("Insufficient amount.");
+        if (!payment.getPaymentType().equals("Cash")) customer = payment.getCustomer();
         productsPurchased.putAll(productsToPurchase);
         setDateOfPurchase();
     }
@@ -64,7 +66,7 @@ public class Purchase implements Discount{
             if (p.getType().equals(productType) && amount.getAmountOfCrown() > p.getPrice().getAmountOfCrown())
                 throw new IllegalArgumentException("Discount causes price increase.");
             if (p.getType().equals(productType)) {
-                this.currentTotal = currentTotal.subtract(amount);
+                this.currentTotal = currentTotal.subtract(applyDiscountAmount(amount));
             }
         }
     }
@@ -75,12 +77,13 @@ public class Purchase implements Discount{
         if (p == null) throw new NullPointerException("Product not included in purchase.");
         this.currentTotal = currentTotal.subtract((int) (p.getPrice().getAmountInOre() * applyDiscountPercent(percent)));
     }
+    
     public void applyDiscountAmountToProduct(Money amount, String productId){
         Product p = productsToPurchase.get(productId);
         if (p == null) throw new NullPointerException("Product not included in purchase.");
         if (amount.getAmountOfCrown() > p.getPrice().getAmountOfCrown())
             throw new IllegalArgumentException("Discount causes price increase.");
-        this.currentTotal = currentTotal.subtract(amount);
+        this.currentTotal = currentTotal.subtract(applyDiscountAmount(amount));
     }
 
     public Collection<Card> getCardsFromPayment() {
@@ -120,6 +123,6 @@ public class Purchase implements Discount{
     }
 
     public Money getCurrentPayment() {
-        return currentTotal;
+        return currentPayment;
     }
 }
