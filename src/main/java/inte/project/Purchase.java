@@ -7,7 +7,7 @@ public class Purchase implements Discount{
 
     private Money currentTotal = new Money(0);
     private Money currentPayment = new Money(0);
-    private final List<String> acceptablePaymentTypes = Arrays.asList("Cash", "Card", "Points");
+    private Customer customer;
     private String dateOfPurchase;
 
     private HashMap<String, Product> productsToPurchase = new HashMap<>();
@@ -24,7 +24,9 @@ public class Purchase implements Discount{
     public void paySeparatelyForProducts(Payment... payments) {
         for (Payment p: payments) {
             this.currentPayment = currentPayment.add(p.getPayment());
-            paymentMethods.put(p.getPaymentType(), p);}
+            paymentMethods.put(p.getPaymentType(), p);
+            if (!p.getPaymentType().equals("Cash")) customer = p.getCustomer();
+        }
         if (currentPayment.getAmountInOre() < currentTotal.getAmountInOre()) throw new IllegalStateException("Insufficient amount.");
         productsPurchased.putAll(productsToPurchase);
         setDateOfPurchase();
@@ -34,6 +36,7 @@ public class Purchase implements Discount{
         this.currentPayment = currentPayment.add(payment.getPayment());
         paymentMethods.put(payment.getPaymentType(), payment);
         if (currentPayment.getAmountInOre() < currentTotal.getAmountInOre()) throw new IllegalStateException("Insufficient amount.");
+        if (!payment.getPaymentType().equals("Cash")) customer = payment.getCustomer();
         productsPurchased.putAll(productsToPurchase);
         setDateOfPurchase();
     }
