@@ -48,4 +48,7 @@ public class Period {
     public String endToString(){
         return endDay + "/" + endMonth + "/" + endYear;
     }
+    public String toString(){
+        return "\nCreated: " + startToString() + "\nExpires: " + endToString();
+    }
 }

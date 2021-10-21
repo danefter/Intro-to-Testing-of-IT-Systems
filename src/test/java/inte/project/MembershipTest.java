@@ -43,7 +43,11 @@ class MembershipTest {
         Date today = new Date();
         String dateForCustomerBecomingMember = "";
         dateForCustomerBecomingMember = formatter.format(today);
-        assertEquals("Membership\n Created on: " + dateForCustomerBecomingMember + customer.getMembership().getMembershipPoints().toString(), customer.getMembership().toString());
+        assertEquals("Membership\n Created on: " + dateForCustomerBecomingMember + "\n" + customer.getMembership().getMembershipPoints().toString() + "\n", customer.getMembership().toString());
     }
-
+    @Test
+    void constructorWithPointsSetsCorrectPoints(){
+        Membership mem = new Membership(100);
+        assertEquals(100,mem.getMembershipPoints().getAllPoints());
+    }
 }

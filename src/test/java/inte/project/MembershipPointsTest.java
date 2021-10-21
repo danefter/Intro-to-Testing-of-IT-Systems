@@ -11,6 +11,11 @@ class MembershipPointsTest {
         assertNotNull(membershipPoints);
     }
     @Test
+    void constructorSetsToZeroPoints(){
+        MembershipPoints membershipPoints = new MembershipPoints();
+        assertEquals(0, membershipPoints.getAllPoints());
+    }
+    @Test
     void constructorNegativePointsSetToZero(){
         MembershipPoints membershipPoints = new MembershipPoints(-100);
         assertEquals(0, membershipPoints.getAllPoints());
@@ -29,6 +34,18 @@ class MembershipPointsTest {
     void getPointsOneArgConstructor(){
         MembershipPoints membershipPoints = new MembershipPoints(100);
         assertEquals(100, membershipPoints.getAllPoints());
+    }
+    @Test
+    void getPeriodExists(){
+        MembershipPoints membershipPoints = new MembershipPoints(100);
+        assertNotNull(membershipPoints.getPeriod());
+    }
+    @Test
+    void toStringNoPoints(){
+        MembershipPoints membershipPoints = new MembershipPoints();
+        assertEquals("Points: 0\n" +
+                "Created: 21/10/2021\n" +
+                "Expires: 21/10/2022" , membershipPoints.toString());
     }
     @Test
     void addPointToExistingMembershipPoint(){

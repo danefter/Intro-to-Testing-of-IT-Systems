@@ -61,7 +61,7 @@ public class MembershipPoints {
     }
 
     public String toString(){
-        return "Points: " + getAllPoints() + "\nCreated: " + period.startToString() + "\nExpires: " + period.endToString();
+        return "Points: " + getAllPoints() + period.toString();
     }
 
 }
