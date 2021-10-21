@@ -12,7 +12,7 @@ public class Payment {
     private String paymentType;
     private Customer customer;
 
-    private HashMap<String, Card> cardPayments = new HashMap<>();
+    private Card cardPayment;
     private HashMap<Integer, Cash> cashPayment = new HashMap<>();
     private MembershipPoints pointPayment = new MembershipPoints();
 
@@ -30,7 +30,7 @@ public class Payment {
 
     public Payment(Money paymentAmount, Card card) {
         this.paymentAmount = paymentAmount;
-        cardPayments.put(card.getCardType(), card);
+        this.cardPayment = card;
         card.pay(paymentAmount);
         customer = card.getCardOwner();
         this.paymentType = "Card";
@@ -38,7 +38,7 @@ public class Payment {
 
     public Payment(Money paymentAmount, MembershipPoints pointPayment) {
         this.paymentAmount = paymentAmount;
-        this.paymentAmount.add(new Money(pointPayment.getCertainAmountOfPoints(paymentAmount.getAmountInOre())));
+        amountPaid = amountPaid.add(new Money(pointPayment.getCertainAmountOfPoints(paymentAmount.getAmountInOre())));
         this.paymentType = "Points";
     }
 
@@ -54,10 +54,6 @@ public class Payment {
         return paymentAmount;
     }
 
-    public Collection<Card> getCardPaymentValues() {
-        return Collections.unmodifiableCollection(this.cardPayments.values());
-    }
-
 
     public Collection<Cash> getCashPaymentValues() {
         return Collections.unmodifiableCollection(this.cashPayment.values());
@@ -70,5 +66,20 @@ public class Payment {
 
     public Customer getCustomer() {
         return customer;
+    }
+
+    public Card getCardPayment() {
+        return cardPayment;
+    }
+
+    @Override
+    public String toString() {
+        if (this.paymentType.equals("Card") && cardPayment.getCardType().equals("Debitcard"))
+            return getCardPayment().toString() + "\nAmount paid: " + paymentAmount;
+        if (this.paymentType.equals("Card") && cardPayment.getCardType().equals("Giftcard"))
+            return getCardPayment().toString() + "\nAmount paid: " + paymentAmount + "\nRemaining balance: " + cardPayment.getBalanceAmount();
+        if (this.paymentType.equals("Points"))
+            return pointPayment.toString() + "\nAmount paid: " + amountPaid;
+        return "Cash:" + "\nAmount paid: " + amountPaid;
     }
 }

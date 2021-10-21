@@ -96,12 +96,30 @@ public class PurchaseTest {
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
         Product product3 = new HouseHold("346576", "Mixer", new Money(2000, 0));
         Purchase purchase = new Purchase(product, product1, product2, product3);
-        Cash cash = new Cash(new Money(200, 0), 10);
-        MembershipPoints points = new MembershipPoints(500000);
+        Cash cash = new Cash(new Money(200, 0), 20);
+        MembershipPoints points = new MembershipPoints(5000000);
         Payment payment = new Payment(new Money(5000, 0), points);
-        Payment payment2 = new Payment(new Money(2000, 0), cash);
+        Payment payment2 = new Payment(new Money(4000, 0), cash);
         purchase.paySeparatelyForProducts(payment, payment2);
         Assertions.assertEquals(purchase.getCurrentTotal(), purchase.getCurrentPayment());
+    }
+
+    @Test
+    void purchaseProductsWithSeparateMethodsToString() {
+        Product product = new Appliances("348723", "Fridge", new Money(2000, 0));
+        Product product1 = new Appliances("347654", "Stove", new Money(2000, 0));
+        Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
+        Product product3 = new HouseHold("346576", "Mixer", new Money(2000, 0));
+        Purchase purchase = new Purchase(product, product1, product2, product3);
+        Cash cash = new Cash(new Money(200, 0), 20);
+        MembershipPoints points = new MembershipPoints(500000);
+        Payment payment = new Payment(new Money(5000, 0), points);
+        Payment payment2 = new Payment(new Money(4000, 0), cash);
+        purchase.paySeparatelyForProducts(payment, payment2);
+        Assertions.assertEquals("Purchase date: " + purchase.getDateOfPurchase()
+                + "\nPayment methods: [\n"+ points + "\nAmount paid: 5000:00 kr, \n"
+                + "Cash:\n" + "Amount paid: 4000:00 kr]"
+                , purchase.toString());
     }
 
     @Test

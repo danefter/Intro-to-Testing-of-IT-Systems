@@ -86,8 +86,8 @@ public class Purchase implements Discount{
         this.currentTotal = currentTotal.subtract(applyDiscountAmount(amount));
     }
 
-    public Collection<Card> getCardsFromPayment() {
-        return paymentMethods.get("Card").getCardPaymentValues();
+    public Payment getCardPayment() {
+        return paymentMethods.get("Card");
     }
 
     public Collection<Cash> getCashFromPayment() {
@@ -110,8 +110,12 @@ public class Purchase implements Discount{
         return productsPurchased;
     }
 
-    public HashMap<String, Payment> getPaymentMethods() {
-        return paymentMethods;
+    public Collection<String> getPaymentMethodsAsString() {
+        ArrayList<String> paymentMethodsToString = new ArrayList<>();
+        for (Payment p : paymentMethods.values()) {
+            paymentMethodsToString.add("\n"+p.toString());
+        }
+        return Collections.unmodifiableCollection(paymentMethodsToString);
     }
 
     public String getDateOfPurchase() {
@@ -124,5 +128,10 @@ public class Purchase implements Discount{
 
     public Money getCurrentPayment() {
         return currentPayment;
+    }
+
+    public String toString() {
+        return "Purchase date: " + getDateOfPurchase() + "\nPayment methods: "
+                + getPaymentMethodsAsString();
     }
 }

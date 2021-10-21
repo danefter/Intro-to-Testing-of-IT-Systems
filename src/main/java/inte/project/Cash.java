@@ -56,9 +56,11 @@ public class Cash implements Comparable<Cash> {
             this.quantity = cashAfterRemoval;
     }
 
+
     public int compareTo(Cash other) {
         return this.denomination.compareTo(other.getDenomination());
     }
+
 
     public boolean equals(Object other) {
         if (other instanceof Cash) {
@@ -70,5 +72,9 @@ public class Cash implements Comparable<Cash> {
 
     public int hashCode() {
         return Objects.hash(this.denomination.getAmountOfCrown() + this.quantity);
+    }
+
+    public String toString() {
+        return getTotal().toString();
     }
 }
