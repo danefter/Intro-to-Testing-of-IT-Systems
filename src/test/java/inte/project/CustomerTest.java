@@ -43,17 +43,13 @@ public class CustomerTest {
     @Test
     void lessDigitsThanAcceptedInPhoneNumberThrowsException(){ //the min length is 4 digits, but those places have an area code of 3 digitf, which means min of total 7 digits
         String dateOfBirth = "1984-08-5";
-        assertThrows(IllegalArgumentException.class, () -> {
-            new PrivatePerson("Eva Ekman", "Ekerövägen 56", "evasmail@gmail.com", "+46799", dateOfBirth);
-        });
+        assertThrows(IllegalArgumentException.class, () -> new PrivatePerson("Eva Ekman", "Ekerövägen 56", "evasmail@gmail.com", "+46799", dateOfBirth));
     }
 
     @Test
     void moreDigitsThanAcceptedInPhoneNumberThrowsException(){ //12 is the maximum lenth exlusive the area code, which is 4 if you count the + sign. 16 is the maximum of characters.
         String dateOfBirth = "2002-01-12";
-        assertThrows(IllegalArgumentException.class, () -> {
-            new PrivatePerson("Fanny Fylke", "Hammarbyvägen 33", "fannyfylke@hotmail.com", "+4677123456789121", dateOfBirth);
-        });
+        assertThrows(IllegalArgumentException.class, () -> new PrivatePerson("Fanny Fylke", "Hammarbyvägen 33", "fannyfylke@hotmail.com", "+4677123456789121", dateOfBirth));
     }
 
     @Test
@@ -66,9 +62,7 @@ public class CustomerTest {
     @Test
     void wrongCharacterUsedInPhoneNumberThrownsException(){ // eg @, &, /
         String orgNumber = "453654-7687";
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Company("Hanna Håkansson", "Hammarbystigen 87", "hannahakansson@hotmail.com", "070@788 9668", orgNumber);
-        });
+        assertThrows(IllegalArgumentException.class, () -> new Company("Hanna Håkansson", "Hammarbystigen 87", "hannahakansson@hotmail.com", "070@788 9668", orgNumber));
     }
 
     @Test
@@ -127,7 +121,6 @@ public class CustomerTest {
     void customerBecomesMemberGetMembership(){
         Customer customer = new PrivatePerson("name", "address", "email", "0707990998", "1997-06-09");
         customer.addMembership();
-        assertNotNull(customer.isMember());
     }
     @Test
     void removingMembershipSetsCustomerMembershipToFalse(){
@@ -138,8 +131,8 @@ public class CustomerTest {
     }
     @Test
     void addingACustomerToBeAMemberSetsCorrectID(){
-        Customer customer = new PrivatePerson("name", "address", "email", "0707898890", "1997-06-09");
-        int correctID = ((PrivatePerson)customer).getDateOfBirth().hashCode() * customer.getEmail().hashCode() * 2000;
+        PrivatePerson customer = new PrivatePerson("name", "address", "email", "0707898890", "1997-06-09");
+        int correctID = customer.getDateOfBirth().hashCode() * customer.getEmail().hashCode() * 2000;
         customer.addMembership();
         assertEquals(correctID, customer.getMembership().getMemberID());
     }
@@ -147,20 +140,18 @@ public class CustomerTest {
     @Test
     void customerYoungerThan18TriesToBecomeMemberThrowsException(){
         Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2008-06-09");
-        assertThrows(IllegalArgumentException.class, () -> {
-            customer.addMembership();
-        });
+        assertThrows(IllegalArgumentException.class, customer::addMembership);
     }
     @Test
     void toStringNotMember(){
         Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2008-06-09");
-        System.out.print(customer.toString());
+        System.out.print(customer);
         assertEquals("Name: Person person\nAddress: Adressvägen 4\nEmail: personperson@gmail.com\nPhonenumber: 0712345678\n\n", customer.toString());
     }
     @Test
     void toStringIsMember(){
         Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2008-06-09");
-        System.out.print(customer.toString());
+        System.out.print(customer);
         assertEquals("Name: Person person\nAddress: Adressvägen 4\nEmail: personperson@gmail.com\nPhonenumber: 0712345678\n\n", customer.toString());
     }
 
