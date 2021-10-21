@@ -29,4 +29,8 @@ public class Company extends Customer{
             throw new IllegalArgumentException("The organisation number can only consist of 10 digits and one hyphen");
         }
     }
+
+    public String toString(){
+        return "Organisation number: " + orgNumber;
+    }
 }

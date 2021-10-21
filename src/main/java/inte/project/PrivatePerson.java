@@ -8,8 +8,8 @@ public class PrivatePerson extends Customer{
     private int yearOfBirth;
     private int monthOfBirth;
     private int dayOfBirth;
-    private int[] monthsWith30days = {4, 6, 9, 11};
-    private int[] monthsWith31days = {1, 3, 5, 7, 8, 10, 12};
+    private int[] monthsWith30Days = {4, 6, 9, 11};
+    private int[] monthsWith31Days = {1, 3, 5, 7, 8, 10, 12};
     
     public PrivatePerson(String name, String address, String email, String phoneNumber, String dateOfBirth){
         super(name, address, email, phoneNumber);
@@ -64,13 +64,13 @@ public class PrivatePerson extends Customer{
                 throw new IllegalArgumentException("There are only 28 days this month");
             }
         }
-        for(int i = 0; i < monthsWith30days.length; i++){
-            if(monthOfDate == monthsWith30days[i] && dayOfDate > 30){
+        for(int i = 0; i < monthsWith30Days.length; i++){
+            if(monthOfDate == monthsWith30Days[i] && dayOfDate > 30){
                 throw new IllegalArgumentException("There are only 30 days in this month");
             }
         }
-        for(int i = 0; i < monthsWith31days.length; i++){
-            if(monthOfDate == monthsWith31days[i] && dayOfDate > 31){
+        for(int i = 0; i < monthsWith31Days.length; i++){
+            if(monthOfDate == monthsWith31Days[i] && dayOfDate > 31){
                 throw new IllegalArgumentException("There are only 31 days in this month");
             }
         }
@@ -88,6 +88,4 @@ public class PrivatePerson extends Customer{
         this.monthOfBirth = monthOfDate;
         this.dayOfBirth = dayOfDate;
     }
-
-    
 }
