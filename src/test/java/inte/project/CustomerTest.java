@@ -145,14 +145,38 @@ public class CustomerTest {
     @Test
     void toStringNotMember(){
         Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2008-06-09");
-        System.out.print(customer);
         assertEquals("Name: Person person\nAddress: Adressvägen 4\nEmail: personperson@gmail.com\nPhonenumber: 0712345678\n\n", customer.toString());
     }
     @Test
     void toStringIsMember(){
-        Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2008-06-09");
-        System.out.print(customer);
-        assertEquals("Name: Person person\nAddress: Adressvägen 4\nEmail: personperson@gmail.com\nPhonenumber: 0712345678\n\n", customer.toString());
+        Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2000-06-09");
+        customer.addMembership();
+        assertEquals("Name: Person person\nAddress: Adressvägen 4\nEmail: personperson@gmail.com\nPhonenumber: 0712345678\n\nMembership\n" +
+                " Created on: 21/10/2021\nPoints: 0\n" +
+                "Created: 21/10/2021\n" +
+                "Expires: 21/10/2022\n", customer.toString());
     }
-
+    @Test
+    void getMembershipNotMember(){
+        Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2000-06-09");
+        assertThrows(IllegalArgumentException.class, () -> customer.getMembership());
+    }
+    @Test
+    void removeNonExistingMember(){
+        Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2000-06-09");
+        assertThrows(IllegalStateException.class, () -> customer.removeMembership());
+    }
+    @Test
+    void companyIsMember(){
+        String orgNumber = "543234-7689";
+        Customer customer = new Company("Daniella Didriksson", "Snövägen 55", "danni@gmail.com", "+46773535788", orgNumber);
+        customer.addMembership();
+        assertNotNull(customer.getMembership());
+    }
+    @Test
+    void hashCodeTest(){
+        Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2000-06-09");
+        assertEquals( customer.getName().hashCode() * 1000 +
+                customer.getEmail().hashCode(), customer.hashCode());
+    }
 }

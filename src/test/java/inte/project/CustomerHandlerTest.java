@@ -35,17 +35,21 @@ class CustomerHandlerTest {
         assertFalse(ch.getCustomerByName("name").isMember());
     }
     @Test
-    void exceptionGetByAdressOrName(){
+    void exceptionGetByAdress(){
         CustomerHandler ch = new CustomerHandler();
         assertThrows(IllegalArgumentException.class, () -> ch.getCustomerByAdress("address"));
-        assertThrows(IllegalArgumentException.class, () -> ch.getCustomerByAdress("address"));
+    }
+    @Test
+    void exceptionGetByName(){
+        CustomerHandler ch = new CustomerHandler();
+        assertThrows(IllegalArgumentException.class, () -> ch.getCustomerByName("name"));
     }
     @Test
     void exceptionAddSameCustomer(){
         CustomerHandler ch = new CustomerHandler();
         Customer cu = new PrivatePerson("name", "address", "email", "0708988900", "1997-05-13");
         ch.addCustomer(cu);;
-        assertThrows(IllegalArgumentException.class, () -> ch.addCustomer(new PrivatePerson("name", "address", "email", "0708988900", "1997-05-13")));
+        assertThrows(IllegalArgumentException.class, () -> ch.addCustomer(cu));
     }
 
     @Test

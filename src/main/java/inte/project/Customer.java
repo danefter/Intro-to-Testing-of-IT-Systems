@@ -20,14 +20,11 @@ public abstract class Customer {
         this.address = address;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        membership = null;
     }
 
     public boolean isMember(){ 
         return member;
-    }
-
-    public void setIsMember(boolean value){ //eg customer.setIsMember(false);
-        this.member = value; 
     }
 
     public void addMembership(){ //create membership better name?
@@ -123,18 +120,17 @@ public abstract class Customer {
         }
     }
 
-    @Override
-    public int hashCode(){
-        return name.hashCode() * 1000 + email.hashCode();
-    }
 
-    @Override
     public String toString(){
         String stringCustomer = "Name: " + name + "\nAddress: " + address + "\nEmail: " + email + "\nPhonenumber: " + phoneNumber + "\n\n";
         if(membership != null){
             stringCustomer += getMembership().toString();
         }
         return stringCustomer;
+    }
+    @Override
+    public int hashCode(){
+        return name.hashCode() * 1000 + email.hashCode();
     }
 
 }
