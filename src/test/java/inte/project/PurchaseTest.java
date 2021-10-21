@@ -125,7 +125,9 @@ public class PurchaseTest {
                  "\n347654 Stove 2000:00 kr Appliances Store: null, " +
                  "\n346576 Mixer 2000:00 kr Household Store: null, " +
                  "\n341276 Mobile 1000:00 kr Tele Store: null, " +
-                "\n348723 Fridge 2000:00 kr Appliances Store: null]" + "\nTotal discount amount: " + "0:00 kr"
+                "\n348723 Fridge 2000:00 kr Appliances Store: null]" +
+                 "\nTotal amount paid: " + "9000:00 kr"+
+                "\nTotal discount amount: " + "0:00 kr"
                 , purchase.toString());
     }
 
@@ -219,7 +221,9 @@ public class PurchaseTest {
                         "\n347654 Stove 2000:00 kr Appliances Store: null Discount: 500:00 kr, " +
                         "\n346576 Mixer 2000:00 kr Household Store: null, " +
                         "\n341276 Mobile 1000:00 kr Tele Store: null, " +
-                        "\n348723 Fridge 2000:00 kr Appliances Store: null Discount: 500:00 kr]" + "\nTotal discount amount: " + "1000:00 kr"
+                        "\n348723 Fridge 2000:00 kr Appliances Store: null Discount: 500:00 kr]" +
+                         "\nTotal amount paid: " + "8000:00 kr"+
+                        "\nTotal discount amount: " + "1000:00 kr"
                 , purchase.toString());
     }
 

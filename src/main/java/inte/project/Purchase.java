@@ -160,16 +160,13 @@ public class Purchase implements Discount{
         if (purchaseDiscountPercent == 0.0)
         return "Purchase date: " + getDateOfPurchase() + "\nPayment methods: "
                 + getPaymentMethodsAsString() + "\nProducts: " + getProductsAsString()+
-                "\nTotal discount amount: " + purchaseDiscountAmount;
+                "\nTotal amount paid: " + currentTotal
+                +"\nTotal discount amount: " + purchaseDiscountAmount;
         return "Purchase date: " + getDateOfPurchase() + "\nPayment methods: "
                 + getPaymentMethodsAsString() + "\nProducts: " + getProductsAsString()+
-                "\nTotal discount amount: " + purchaseDiscountAmount+
+                "\nTotal amount paid: " + currentTotal
+                +"\nTotal discount amount: " + purchaseDiscountAmount+
                 " ("  + purchaseDiscountPercent*100 + "% off!)";
-    }
-
-    public String toStringWithTotalDiscount() {
-        return "Purchase date: " + getDateOfPurchase() + "\nPayment methods: "
-                + getPaymentMethodsAsString() +"\nTotal discount:";
     }
 
 }
