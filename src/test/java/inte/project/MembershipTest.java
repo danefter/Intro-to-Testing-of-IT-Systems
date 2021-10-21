@@ -10,9 +10,9 @@ class MembershipTest {
     
     @Test
     void addingACustomerToBeAMemberSetsCorrectMembershipID() { 
-        Customer customer = new PrivatePerson("Anna Andersson", "Almvägen 1", "anna@gmail.com", "070123456", "2000-02-10");     
+        PrivatePerson customer = new PrivatePerson("Anna Andersson", "Almvägen 1", "anna@gmail.com", "070123456", "2000-02-10");
         customer.addMembership();
-        int correctID = ((PrivatePerson)customer).getDateOfBirth().hashCode() * customer.getEmail().hashCode() * 2000;
+        int correctID = customer.getDateOfBirth().hashCode() * customer.getEmail().hashCode() * 2000;
         assertEquals(correctID, customer.getMembership().getMemberID());
     }
 

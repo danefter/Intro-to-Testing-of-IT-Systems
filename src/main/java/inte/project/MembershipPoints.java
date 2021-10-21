@@ -15,11 +15,7 @@ public class MembershipPoints {
     }
     
     public MembershipPoints(int points){
-        if(points < 0){
-            this.points = 0;
-        }else{
-            this.points = points;
-        }
+        this.points = Math.max(points, 0);
         period = new Period();
     }
 
