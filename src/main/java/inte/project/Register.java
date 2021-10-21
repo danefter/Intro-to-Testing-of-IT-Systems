@@ -31,7 +31,7 @@ public class Register {
 
     public void calculateCurrentTotal(Product... products) {
         for (Product p: products)
-            this.currentTotal.add(p.getPrice());
+            this.currentTotal.add(p.getPricePlusVAT());
         }
 
     public Money getCurrentTotal() {

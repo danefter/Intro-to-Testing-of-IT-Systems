@@ -6,62 +6,74 @@ import org.junit.jupiter.api.Test;
 
 class StoreTest {
 
+    private static final String ADDRESS = "Vasagata 12";
+    private static final String NEW_ADDRESS = "Gamlagata 3";
+    private static final int POST_CODE = 12456;
+    private static final int NEW_POST_CODE = 34895;
+    private static final String CITY = "Stockholm";
+    private static final String PHONE_NUMBER = "0706524324";
+    private static final String NEW_PHONE_NUMBER = "0722222222";
+    private static final String WRONG_PHONE_NUMBER = "4563fgdd";
+    private static final int PRODUCT_QUANTITY = 100;
+    private Store store;
+    private  Product product;
+
     @Test
     void constructorTestAddress() {
-        Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+        store = new Store(ADDRESS,12456,"Stockholm","0706524324");
 
-        assertEquals("Vasagata 12",store.getAddress());
+        assertEquals(ADDRESS,store.getAddress());
     }
 
     @Test
     void testSetAddress() {
-        Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
-        store.setAddress("Gamlagata 3");
+        store = new Store(ADDRESS,12456,"Stockholm","0706524324");
+        store.setAddress(NEW_ADDRESS);
 
-        assertEquals("Gamlagata 3",store.getAddress());
+        assertEquals(NEW_ADDRESS,store.getAddress());
     }
 
     @Test
     void constructorTestPostCode() {
-        Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+        store = new Store("Vasagata 12",POST_CODE,"Stockholm","0706524324");
 
-        assertEquals(12456,store.getPostCode());
+        assertEquals(POST_CODE,store.getPostCode());
     }
 
     @Test
     void testSetPostCode() {
-        Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
-        store.setPostCode(34895);
+        store = new Store("Vasagata 12",POST_CODE,"Stockholm","0706524324");
+        store.setPostCode(NEW_POST_CODE);
 
-        assertEquals(34895,store.getPostCode());
+        assertEquals(NEW_POST_CODE,store.getPostCode());
     }
 
     @Test
     void constructorTestCity() {
-        Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+        store = new Store("Vasagata 12",12456,CITY,"0706524324");
 
-        assertEquals("Stockholm",store.getCity());
+        assertEquals(CITY,store.getCity());
     }
 
     @Test
     void constructorTestPhoneNumber() {
-        Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+        store = new Store("Vasagata 12",12456,"Stockholm",PHONE_NUMBER);
 
-        assertEquals("0706524324",store.getPhoneNumber());
+        assertEquals(PHONE_NUMBER,store.getPhoneNumber());
     }
 
     @Test
     void testSetPhoneNumber() {
-        Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
-        store.setPhoneNumber("0722222222");
+        store = new Store("Vasagata 12",12456,"Stockholm",PHONE_NUMBER);
+        store.setPhoneNumber(NEW_PHONE_NUMBER);
 
-        assertEquals("0722222222",store.getPhoneNumber());
+        assertEquals(NEW_PHONE_NUMBER,store.getPhoneNumber());
     }
 
     @Test
     void phoneNumberIsNotDigits() {
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
-            new Store("Vasastan 8",14567,"Stockholm","4563fgdd");
+            new Store("Vasastan 8",14567,"Stockholm",WRONG_PHONE_NUMBER);
         });
 
         assertEquals("Phone Number must contain only digits",e.getMessage());
@@ -69,17 +81,17 @@ class StoreTest {
 
     @Test
     void testGetProductQuantity() {
-        Product product = new HouseHold("986543","Mixer",new Money(1000));
-        Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
-        store.addProduct(product, 100);
+        product = new HouseHold("986543","Mixer",new Money(1000));
+        store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+        store.addProduct(product, PRODUCT_QUANTITY);
 
-        assertEquals(100,store.getQuantity(product));
+        assertEquals(PRODUCT_QUANTITY,store.getQuantity(product));
     }
 
     @Test
     void testAddProduct() {
-        Product product = new HouseHold("986543","Mixer",new Money(1000));
-        Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+        product = new HouseHold("986543","Mixer",new Money(1000));
+        store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
         store.addProduct(product, 100);
 
         assertTrue(store.products.containsKey(product));
@@ -87,9 +99,9 @@ class StoreTest {
 
     @Test
     void testAddProductWithExistingQuantity() {
-        Product product = new HouseHold("986543","Mixer",new Money(1000));
-        Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
-        store.addProduct(product, 100);
+        product = new HouseHold("986543","Mixer",new Money(1000));
+        store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+        store.addProduct(product, PRODUCT_QUANTITY);
         store.addProduct(product,200);
 
         assertEquals(300,store.products.get(product));
@@ -97,8 +109,8 @@ class StoreTest {
 
     @Test
     void testDeleteProduct() {
-        Product product = new Appliances("348723","Fridge",new Money(5000));
-        Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+        product = new Appliances("348723","Fridge",new Money(5000));
+        store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
         store.addProduct(product,300);
 
         store.deleteProduct(product,300);
@@ -109,9 +121,9 @@ class StoreTest {
 
     @Test
     void testDeleteNotExistingProduct() {
-        Product product = new Appliances("348723","Fridge",new Money(5000));
+        product = new Appliances("348723","Fridge",new Money(5000));
         IllegalStateException e = assertThrows(IllegalStateException.class, () -> {
-            Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+            store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
             store.deleteProduct(product,350);
         });
 
@@ -121,9 +133,9 @@ class StoreTest {
 
     @Test
     void testDeleteProductsWithMoreQuantity(){
-        Product product = new Appliances("348723","Fridge",new Money(5000));
+        product = new Appliances("348723","Fridge",new Money(5000));
         IllegalStateException e = assertThrows(IllegalStateException.class, () -> {
-            Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+            store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
             store.addProduct(product,300);
             store.deleteProduct(product,350);
         });
@@ -133,12 +145,12 @@ class StoreTest {
 
     @Test
     void testSearchAfterProducts() {
-        Product product = new Appliances("348723","Fridge",new Money(5000));
+        product = new Appliances("348723","Fridge",new Money(5000));
         Product product1 = new Appliances("347654","Stove",new Money(4500));
         Product product2 = new Tele("341276","Mobile",new Money(10000));
         Product product3 = new HouseHold("346576","Mixer",new Money(1500));
 
-        Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+        store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
         store.addProduct(product,100);
         store.addProduct(product1,30);
         store.addProduct(product2,400);
