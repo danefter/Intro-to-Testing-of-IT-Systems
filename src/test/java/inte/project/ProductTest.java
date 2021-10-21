@@ -12,6 +12,7 @@ class ProductTest {
     private static final int NEW_PRICE = 300;
     private static final int PRICE_WITHOUT_VAT = 4500;
     private static final int PRICE_PLUS_VAT = 5850;
+    private static final int VAT_VALUE = 1350;
     private static final String INVALID_ID = "24987";
     private static final int INVALID_PRICE = -45;
     private Product product;
@@ -56,6 +57,13 @@ class ProductTest {
 
         assertEquals(PRICE_PLUS_VAT,product.getPricePlusVAT());
 
+    }
+
+    @Test
+    void testGetVatValue() {
+        product = new Tele("986523","phone",new Money(PRICE_WITHOUT_VAT));
+
+        assertEquals(VAT_VALUE,product.getVatValue());
     }
 
     @Test

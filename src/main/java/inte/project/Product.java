@@ -47,6 +47,12 @@ public abstract class Product implements Vat , Comparable<Product>{
         return  (int)(getVat() * getPrice().getAmountInOre() + getPrice().getAmountInOre());
     }
 
+    public int getVatValue() {
+        int pricePlusVat = getPricePlusVAT();
+        int originalPrice = getPrice().getAmountInOre();
+        return pricePlusVat - originalPrice;
+    }
+
     public void addStore(Store s) {
         this.store = s;
     }
@@ -59,9 +65,6 @@ public abstract class Product implements Vat , Comparable<Product>{
         return store;
     }
 
-    public String toString() {
-        return Id + " " + name + " " + price + " " +type + " Store: " + store;
-    }
 
     public int compareTo(Product product) {
         if (price.getAmountInOre() < product.getPrice().getAmountInOre())
@@ -74,6 +77,10 @@ public abstract class Product implements Vat , Comparable<Product>{
             return 1;
         else
             return 0;
+    }
+
+    public String toString() {
+        return Id + " " + name + " " + price + " " +type + " Store: " + store;
     }
 
 }

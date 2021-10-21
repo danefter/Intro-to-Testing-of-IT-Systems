@@ -10,10 +10,15 @@ public class Payment {
     private Money amountPaid = new Money(0);
     private Money paymentAmount;
     private String paymentType;
+    private Customer customer;
 
     private HashMap<String, Card> cardPayments = new HashMap<>();
     private HashMap<Integer, Cash> cashPayment = new HashMap<>();
     private MembershipPoints pointPayment = new MembershipPoints();
+
+    public Payment(Money paymentAmount) {
+        this.paymentAmount = paymentAmount;
+    }
 
     public Payment(Money paymentAmount, Cash... cash) {
         this.paymentAmount = paymentAmount;
@@ -23,12 +28,11 @@ public class Payment {
         this.paymentType = "Cash";
     }
 
-    public Payment(Money paymentAmount, Card... cards) {
+    public Payment(Money paymentAmount, Card card) {
         this.paymentAmount = paymentAmount;
-        for (Card card: cards) {
-            cardPayments.put(card.getCardType(), card);
-            card.pay(paymentAmount);
-        }
+        cardPayments.put(card.getCardType(), card);
+        card.pay(paymentAmount);
+        customer = card.getCardOwner();
         this.paymentType = "Card";
     }
 
@@ -59,7 +63,12 @@ public class Payment {
         return Collections.unmodifiableCollection(this.cashPayment.values());
     }
 
+
     public String getPaymentType() {
         return paymentType;
+    }
+
+    public Customer getCustomer() {
+        return customer;
     }
 }
