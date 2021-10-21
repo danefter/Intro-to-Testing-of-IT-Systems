@@ -39,9 +39,7 @@ class MembershipPointsTest {
     @Test
     void addPointIsNegative(){
         MembershipPoints membershipPoints = new MembershipPoints(100);
-        Assertions.assertThrows(IllegalArgumentException.class, () ->{
-            membershipPoints.addPoints(-100);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> membershipPoints.addPoints(-100));
         assertEquals(100, membershipPoints.getAllPoints());
     }
 
@@ -54,9 +52,7 @@ class MembershipPointsTest {
     @Test
     void subtractPointsBeyondZero(){
         MembershipPoints membershipPoints = new MembershipPoints(100);
-        Assertions.assertThrows(IllegalArgumentException.class, () ->{
-            membershipPoints.subtractPoints(200);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> membershipPoints.subtractPoints(200));
     }
 
     @Test
@@ -69,8 +65,6 @@ class MembershipPointsTest {
     @Test
     void collecting200PointsWhenOnly100ExistsThrowsException(){
         MembershipPoints membershipPoints = new MembershipPoints(100);
-        assertThrows(IllegalArgumentException.class, () -> {
-            membershipPoints.getCertainAmountOfPoints(200);
-        });
+        assertThrows(IllegalArgumentException.class, () -> membershipPoints.getCertainAmountOfPoints(200));
     }
 }

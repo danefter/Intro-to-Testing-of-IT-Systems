@@ -84,4 +84,13 @@ class CustomerHandlerTest {
         customerHandler.removeCustomer(customerHandler.getCustomerByAdress("Adressvägen 9"));
         assertTrue(customerHandler.getAllCustomers().isEmpty());
     }
+    @Test
+    void changingAddressIsSavedWhenFoundWithOtherVariable(){
+        CustomerHandler ch = new CustomerHandler();
+        String orgNumber = "345623-6787";
+        Customer customer = new Company("Lina Larsson", "Storgatan 15", "linalarsson89@gmail.com", "0708707066", orgNumber);
+        ch.addCustomer(customer);
+        ch.getCustomerByAdress("Storgatan 15").setAddress("Sjöholmsvägen rätt");
+        assertEquals("Sjöholmsvägen rätt", ch.getCustomerByPhoneNumber("0708707066").getAddress());
+    }
 }
