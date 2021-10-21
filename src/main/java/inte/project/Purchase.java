@@ -66,7 +66,7 @@ public class Purchase implements Discount{
             if (p.getType().equals(productType) && amount.getAmountOfCrown() > p.getPrice().getAmountOfCrown())
                 throw new IllegalArgumentException("Discount causes price increase.");
             if (p.getType().equals(productType)) {
-                this.currentTotal = currentTotal.subtract(amount);
+                this.currentTotal = currentTotal.subtract(applyDiscountAmount(amount));
             }
         }
     }
@@ -77,12 +77,13 @@ public class Purchase implements Discount{
         if (p == null) throw new NullPointerException("Product not included in purchase.");
         this.currentTotal = currentTotal.subtract((int) (p.getPrice().getAmountInOre() * applyDiscountPercent(percent)));
     }
+    
     public void applyDiscountAmountToProduct(Money amount, String productId){
         Product p = productsToPurchase.get(productId);
         if (p == null) throw new NullPointerException("Product not included in purchase.");
         if (amount.getAmountOfCrown() > p.getPrice().getAmountOfCrown())
             throw new IllegalArgumentException("Discount causes price increase.");
-        this.currentTotal = currentTotal.subtract(amount);
+        this.currentTotal = currentTotal.subtract(applyDiscountAmount(amount));
     }
 
     public Collection<Card> getCardsFromPayment() {
