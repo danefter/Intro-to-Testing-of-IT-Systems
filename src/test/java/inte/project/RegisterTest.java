@@ -49,6 +49,7 @@ public class RegisterTest {
         register.makePurchase(purchase, payment);
         Assertions.assertEquals(purchase.getCurrentPayment(), register.getTotalBalance());
     }
+    /*
     @Test
     void unregisteredCustomerBecomesMemberAndCompletesPurchase() {
         Register register = new Register(new Store("Vasagata 12",12456,"Stockholm","0706524324"));
@@ -66,7 +67,7 @@ public class RegisterTest {
         // TODO Betalar
         // TODO Skriver kvitto
     }
-
+*/
     @Test
     void addCashPaymentToRegisterAddsCash(){}
 

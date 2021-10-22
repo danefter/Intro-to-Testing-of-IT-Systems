@@ -11,7 +11,16 @@ public class CardTest {
     }
 
     @Test
-    void constructorSetsCardType() {
+    void constructorSetsGiftCardType() {
+        String dateOfBirth = "1999-04-03";
+        Money balance = new Money(5000, 0);
+        Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
+        Card card = new GiftCard("Giftcard", customer, balance);
+        Assertions.assertEquals("Giftcard", card.getCardType());
+    }
+
+    @Test
+    void constructorSetsDebitCardType() {
         String dateOfBirth = "1999-04-03";
         Money balance = new Money(5000, 0);
         Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
