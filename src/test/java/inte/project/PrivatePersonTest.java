@@ -94,4 +94,12 @@ public class PrivatePersonTest {
         });
     }
 
+    @Test
+    void day31NotPossibleInApril(){
+        String dateOfBirth = "1999-04-31";
+        assertThrows(IllegalArgumentException.class, () -> {
+            new PrivatePerson("name", "address", "email", "0712345678", dateOfBirth);
+        });
+    }
+
 }

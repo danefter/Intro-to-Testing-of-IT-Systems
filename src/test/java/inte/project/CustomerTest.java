@@ -9,14 +9,16 @@ public class CustomerTest {
     void constructorSetsName(){
         String dateOfBirth = "1995-10-13";
         Customer customer = new PrivatePerson("Anna Andersson", "Vasagatan 12", "anna.andersson@gmail.com", "0702445137", dateOfBirth); 
-        assertEquals("Anna Andersson", customer.getName());
-    } 
+        String name = customer.getName();
+        assertEquals("Anna Andersson", name);
+    }
 
     @Test
     void constructorSetsAddress(){
         String dateOfBirth = "1973-04-11";
         Customer customer = new PrivatePerson("Benny Björk", "Sveagatan 43", "bjorn_gunnarsson@gmail.com", "0734778559", dateOfBirth);
-        assertEquals("Sveagatan 43", customer.getAddress());
+        String address = customer.getAddress();
+        assertEquals("Sveagatan 43", address);
     }
 
     @Test 
@@ -151,10 +153,9 @@ public class CustomerTest {
     void toStringIsMember(){
         Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2000-06-09");
         customer.addMembership();
-        assertEquals("Name: Person person\nAddress: Adressvägen 4\nEmail: personperson@gmail.com\nPhonenumber: 0712345678\n\nMembership\n" +
-                " Created on: 21/10/2021\nPoints: 0\n" +
-                "Created: 21/10/2021\n" +
-                "Expires: 21/10/2022\n", customer.toString());
+        String actualString = customer.toString();
+        assertEquals("Name: Person person\nAddress: Adressvägen 4\nEmail: personperson@gmail.com\nPhonenumber: 0712345678\n" +
+                customer.getMembership().toString(), actualString);
     }
     @Test
     void getMembershipNotMember(){
@@ -178,5 +179,21 @@ public class CustomerTest {
         Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2000-06-09");
         assertEquals( customer.getName().hashCode() * 1000 +
                 customer.getEmail().hashCode(), customer.hashCode());
+    }
+
+    @Test
+    void customerUnder18CanNotBecomeMember(){
+        Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2008-06-09");
+        assertThrows(IllegalArgumentException.class, () -> {
+            customer.addMembership();
+        });
+    }
+
+    @Test
+    void removingMembershipOnCustomerWithoutMembershipThrowsException(){
+        Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2000-06-09");
+        assertThrows(IllegalStateException.class, () -> {
+            customer.removeMembership();
+        });
     }
 }

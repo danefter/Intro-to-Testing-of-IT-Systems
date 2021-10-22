@@ -36,6 +36,10 @@ public class Membership {
     public MembershipPoints getMembershipPoints(){
         return membershipPoints;
     }
+
+    public String getMembershipCreatedDate(){
+        return membershipCreatedDate;
+    }
     
 
     public String toString(){

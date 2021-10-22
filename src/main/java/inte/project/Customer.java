@@ -122,7 +122,7 @@ public abstract class Customer {
 
 
     public String toString(){
-        String stringCustomer = "Name: " + name + "\nAddress: " + address + "\nEmail: " + email + "\nPhonenumber: " + phoneNumber + "\n\n";
+        String stringCustomer = "Name: " + name + "\nAddress: " + address + "\nEmail: " + email + "\nPhonenumber: " + phoneNumber + "\n";
         if(membership != null){
             stringCustomer += getMembership().toString();
         }
