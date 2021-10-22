@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 class MembershipPointsTest {
     @Test
     void constructorObjectExists(){
@@ -43,10 +46,20 @@ class MembershipPointsTest {
     @Test
     void toStringNoPoints(){
         MembershipPoints membershipPoints = new MembershipPoints();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date today = new Date();
+        String date = formatter.format(today);
+        String dateAYearFromNow = date;
+        String[] splittedDate = dateAYearFromNow.split("/");
+        int year = Integer.parseInt(splittedDate[2]);
+        year += 1;
+        splittedDate[2] = "" + year;
+        dateAYearFromNow = splittedDate[0]+"/"+splittedDate[1]+"/"+("" +year);
         assertEquals("Points: 0\n" +
-                "Created: 21/10/2021\n" +
-                "Expires: 21/10/2022" , membershipPoints.toString());
+                "Created: " + date+"\n" +
+                "Expires: " + dateAYearFromNow, membershipPoints.toString());
     }
+    
     @Test
     void addPointToExistingMembershipPoint(){
         MembershipPoints membershipPoints = new MembershipPoints(100);
