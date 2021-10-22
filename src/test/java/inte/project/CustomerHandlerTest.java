@@ -101,32 +101,26 @@ class CustomerHandlerTest {
                 "Address: Adressvägen 9\n" +
                 "Email: blam@gmail.com\n" +
                 "Phonenumber: 5212345678\n" +
-                "\n" +
                 ", Name: maggie\n" +
                 "Address: Adressvägen 6\n" +
                 "Email: maggie@gmail.com\n" +
                 "Phonenumber: 2512345678\n" +
-                "\n" +
                 ", Name: lukas\n" +
                 "Address: Adressvägen 5\n" +
                 "Email: lukas@gmail.com\n" +
                 "Phonenumber: 1612345678\n" +
-                "\n" +
                 ", Name: Person person\n" +
                 "Address: Adressvägen 4\n" +
                 "Email: personperson@gmail.com\n" +
                 "Phonenumber: 0712345678\n" +
-                "\n" +
                 ", Name: blim\n" +
                 "Address: Adressvägen 8\n" +
                 "Email: blim@gmail.com\n" +
                 "Phonenumber: 4312345678\n" +
-                "\n" +
                 ", Name: magnus\n" +
                 "Address: Adressvägen 7\n" +
                 "Email: magnus@gmail.com\n" +
-                "Phonenumber: 3412345678\n" +
-                "\n]", customerHandler.getAllCustomers().toString());
+                "Phonenumber: 3412345678\n]", customerHandler.getAllCustomers().toString());
     }
     @Test
     void removeCustomerTest(){
