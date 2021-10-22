@@ -50,7 +50,7 @@ public class RegisterTest {
         Assertions.assertEquals(purchase.getCurrentPayment(), register.getTotalBalanceInOre());
     }
     @Test
-    void registerMember() {
+    void unregisteredCustomerBecomesMemberAndCompletesPurchase() {
         Register register = new Register(new Store("Vasagata 12",12456,"Stockholm","0706524324"));
         ArrayList<Cash> cash = new ArrayList<>();
         CustomerHandler ch = new CustomerHandler();
