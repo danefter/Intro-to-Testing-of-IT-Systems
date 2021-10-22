@@ -11,7 +11,8 @@ class ProductTest {
     private static final int PRICE = 2999;
     private static final int NEW_PRICE = 300;
     private static final int PRICE_WITHOUT_VAT = 4500;
-    private static final int PRICE_PLUS_VAT = 5850;
+    private static final int PRICE_PLUS_VAT30 = 5850;
+    private static final int PRICE_PLUS_VAT25 = 5625;
     private static final int VAT_VALUE = 1350;
     private static final String INVALID_ID = "24987";
     private static final int INVALID_PRICE = -45;
@@ -52,11 +53,18 @@ class ProductTest {
     }
 
     @Test
-    void testGetPricePlusVat() {
+    void testGetPricePlusVat30() {
         product = new Tele("986523","phone",new Money(PRICE_WITHOUT_VAT));
 
-        assertEquals(PRICE_PLUS_VAT,product.getPricePlusVAT());
+        assertEquals(PRICE_PLUS_VAT30,product.getPricePlusVAT());
 
+    }
+
+    @Test
+    void testGetPricePlusVat25() {
+        product = new HouseHold("986523","phone",new Money(PRICE_WITHOUT_VAT));
+
+        assertEquals(PRICE_PLUS_VAT25,product.getPricePlusVAT());
     }
 
     @Test
