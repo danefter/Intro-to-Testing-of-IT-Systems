@@ -112,6 +112,12 @@ public class Purchase implements Discount{
         return paymentMethods.get("Card");
     }
 
+    public void addProduct(Product product) {
+        productsToPurchase.put(product.getId(), product);
+        productsToPurchaseAsStrings.put(product.getId(), product.toString());
+        currentTotal = currentTotal.add(product.getPricePlusVAT());
+    }
+
     public Collection<Cash> getCashFromPayment() {
         return paymentMethods.get("Cash").getCashPaymentValues();
     }
@@ -119,7 +125,8 @@ public class Purchase implements Discount{
     public void removeProduct(String ID) {
         Product productToRemove = productsToPurchase.get(ID);
         productsToPurchase.remove(ID);
-        currentTotal = currentTotal.subtract(productToRemove.getPrice());
+        currentTotal = currentTotal.subtract(productToRemove.getPricePlusVAT());
+
     }
 
     public void setDateOfPurchase() {
@@ -141,11 +148,11 @@ public class Purchase implements Discount{
     }
 
     public Collection<String> getProductsAsString() {
-        ArrayList<String> paymentMethodsToString = new ArrayList<>();
+        ArrayList<String> productsToString = new ArrayList<>();
         for (String p : productsToPurchaseAsStrings.values()) {
-            paymentMethodsToString.add("\n"+p);
+            productsToString.add("\n"+p);
         }
-        return Collections.unmodifiableCollection(paymentMethodsToString);
+        return Collections.unmodifiableCollection(productsToString);
     }
 
     public String getDateOfPurchase() {
@@ -182,8 +189,14 @@ public class Purchase implements Discount{
 
     //purchaseId with date + first letter of customer nam + first 3 numbers of payment (without VAT)
     public String getPurchaseId() {
-        purchaseId = getDateOfPurchase() + customer.getName().charAt(0)
-                + Integer.toString(currentTotalWithoutVat.getAmountInOre()).substring(0,2);
+        if (paymentMethods.containsKey("Card") || paymentMethods.containsKey("Points")) {
+            purchaseId = getDateOfPurchase() + customer.getName().charAt(0)
+                    + ""+ currentTotalWithoutVat.toString().substring(0, 2);
+        }
+        else {
+            purchaseId = getDateOfPurchase() + "C"
+                    + currentTotalWithoutVat.toString().substring(0,2);
+        }
         return purchaseId;
     }
 }

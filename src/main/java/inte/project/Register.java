@@ -11,8 +11,7 @@ public class Register {
 
     private Report dailyreport = new Report();
 
-    private final ScannerInput scanner = new ScannerInput();
-
+    private final Scanner scanner = new Scanner(System.in);
 
     //saves purchases based on ID
     private HashMap<String, Purchase> dailyPurchases = new HashMap<>();
@@ -21,6 +20,8 @@ public class Register {
     private HashMap<String, HashMap<String, Purchase>> dailyReports = new HashMap<>();
 
     private HashMap<Integer, Cash> cashBalance = new HashMap<>();
+
+    private HashMap<String, Product> inventory = new HashMap<>();
 
     private Money totalBalance = new Money(0);
 
@@ -36,28 +37,31 @@ public class Register {
             new Cash(new Money(500, 0), 0),
             new Cash(new Money(1000, 0), 0));
 
-    public Register(Store store) {
+    public Register(Store store, Product... products) {
         this.store = store;
         for (Cash cash: ACCEPTED_DENOMINATIONS)
             this.cashBalance.putIfAbsent(cash.getDenomination().getAmountOfCrown(), cash);
+        for (Product p:products) {
+            p.addStore(store);
+            inventory.put(p.getId(), p);
+        }
         }
 
-     //doesn't actually scan anything, needs functional scanner
-    public Purchase scanProductsForPurchase(Product... productInputs){
-        return new Purchase(scanner.scanProducts(productInputs));
-    }
+        public Purchase scanProductsForPurchase(Product... products) {
+        Purchase purchase = new Purchase();
+        for (Product product: products) {;
+                purchase.addProduct(inventory.get(product.getId()));
+                inventory.remove(product.getId());
+        }
+        return purchase;
+        }
 
-    //supposed to allow the employee to choose payment methods based on the customers desires
-    public Payment[] scannerInputsPaymentMethods(Payment... payments) {
-        return payments;
-    }
-
-    //makes the purchase based on choasen methods
-    public void makePurchaseWithDesiredPaymentMethods(Purchase purchase, Payment... payments) {
-        purchase.paySeparatelyForProducts(scannerInputsPaymentMethods(payments));
+    public void makePurchase(Purchase purchase, Payment... payments) {
+        purchase.paySeparatelyForProducts(payments);
         if (purchase.getCashFromPayment() != null) addCashPaymentToRegister(purchase);
         totalBalance = totalBalance.add(purchase.getCurrentPayment());
-        printReciept(purchase);
+        addToDailyReports(purchase);
+        printReceipt(purchase);
         }
 
     //gets the cash
@@ -68,7 +72,7 @@ public class Register {
     }
 
     //literally just a system out print of purchase.getInfo
-    public void printReciept(Purchase purchase){
+    public void printReceipt(Purchase purchase){
         Receipt receipt = new Receipt(purchase, store);
         receipt.print();
     }
@@ -84,7 +88,7 @@ public class Register {
         return Collections.unmodifiableCollection(cashBalance.values());
     }
 
-    public Money getTotalBalanceInOre() {
+    public Money getTotalBalance() {
         return totalBalance;
     }
 }
