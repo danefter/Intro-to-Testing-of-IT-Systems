@@ -6,5 +6,4 @@ public class Tele extends Product implements Vat30 {
         super(Id,name,price,"Tele");
     }
 
-
 }

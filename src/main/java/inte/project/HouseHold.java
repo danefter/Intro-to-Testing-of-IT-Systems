@@ -6,7 +6,4 @@ public class HouseHold extends Product implements Vat25{
         super(Id,name,price,"Household");
     }
 
-
-
-
 }

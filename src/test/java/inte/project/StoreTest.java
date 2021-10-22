@@ -149,15 +149,19 @@ class StoreTest {
         Product product1 = new Appliances("347654","Stove",new Money(4500));
         Product product2 = new Tele("341276","Mobile",new Money(10000));
         Product product3 = new HouseHold("346576","Mixer",new Money(1500));
+        Product product4 = new Appliances("897654","Stove",new Money(4500));
+        Product product5 = new Appliances("001200","Stove",new Money(4500));
 
         store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
         store.addProduct(product,100);
         store.addProduct(product1,30);
         store.addProduct(product2,400);
         store.addProduct(product3,350);
+        store.addProduct(product4,50);
+        store.addProduct(product5,300);
 
 
-        String pro =  product1 + " " + store.getQuantity(product1)+ "\n" + product +" "+ store.getQuantity(product) + "\n" ;
+        String pro = product5 + " " + store.getQuantity(product5)+ "\n" + product1 + " " + store.getQuantity(product1)+ "\n" + product4 +" " + store.getQuantity(product4)+ "\n"+ product +" "+ store.getQuantity(product) + "\n" ;
 
         assertEquals(pro,store.searchProduct("Appliances"));
     }

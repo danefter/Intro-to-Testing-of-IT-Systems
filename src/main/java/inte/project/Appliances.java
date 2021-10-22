@@ -6,5 +6,4 @@ public class Appliances extends Product implements Vat30{
         super(Id,name,price,"Appliances");
     }
 
-
 }
