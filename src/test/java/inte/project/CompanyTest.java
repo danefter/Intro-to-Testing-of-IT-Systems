@@ -41,4 +41,11 @@ public class CompanyTest {
             new Company("Car company", "Gråvägen 4", "carcompany@contact.se", "0707-657 122", orgNumber);
         });
     }
+
+    @Test
+    void companyToString(){
+        String orgNumber = "987600-9876";
+        Company company = new Company("SmartTeams", "Göteborgstorg 2", "smartTeams@contact.se", "+4677-444 1332", orgNumber);
+        assertEquals("Organisation number: " + orgNumber, company.toString());
+    }
 }

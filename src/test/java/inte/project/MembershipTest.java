@@ -50,4 +50,13 @@ class MembershipTest {
         Membership mem = new Membership(100);
         assertEquals(100,mem.getMembershipPoints().getAllPoints());
     }
+
+    @Test
+    void getMembershipCreatedDate(){
+        Membership mem = new Membership(100);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date today = new Date();
+        String dateForCreation = formatter.format(today);
+        assertEquals(dateForCreation, mem.getMembershipCreatedDate());
+    }
 }
