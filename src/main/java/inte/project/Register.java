@@ -1,9 +1,8 @@
 package inte.project;
 //author Dan Jensen
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class Register {
 
@@ -56,9 +55,16 @@ public class Register {
     public void makePurchaseWithDesiredPaymentMethods(Payment... payments) {
         Purchase purchase = scanProductsForPurchase();
         purchase.paySeparatelyForProducts(scannerInputsPaymentMethods(payments));
+        if (purchase.getCashFromPayment() != null) addCashPaymentToRegister(purchase);
         printReciept(purchase);
-    }
+        }
 
+    //gets the cash
+    public void addCashPaymentToRegister(Purchase purchase) {
+        for (Cash cash: purchase.getCashFromPayment()) {
+            cashBalance.get(cash.getDenomination().getAmountOfCrown()).add(cash.getQuantity());
+        }
+    }
 
     //literally just a system out print of purchase.getInfo
     public void printReciept(Purchase purchase){
