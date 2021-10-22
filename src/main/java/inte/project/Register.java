@@ -82,6 +82,19 @@ public class Register {
         dailyPurchases.put(purchase.getPurchaseId(), purchase);
         dailyReports.put(purchase.getDateOfPurchase(), dailyPurchases);
     }
+    public double getPointsForPurchase(int costOfPurchase){
+        if(costOfPurchase < 100){
+            return costOfPurchase * 0.1;
+        }
+        else if(costOfPurchase < 1000){
+            return costOfPurchase * 0.2;
+        }
+        else if(costOfPurchase < 10000){
+            return costOfPurchase * 0.3;
+        }else{
+            return costOfPurchase * 0.4;
+        }
+    }
 
 
     public Collection<Cash> getCashBalance() {
