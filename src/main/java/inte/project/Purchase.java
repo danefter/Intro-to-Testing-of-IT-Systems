@@ -1,5 +1,5 @@
 package inte.project;
-
+//author Dan Jensen
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -10,7 +10,9 @@ public class Purchase implements Discount{
     private Money currentPayment = new Money(0);
     private Customer customer;
     private String dateOfPurchase;
+    private String purchaseId;
 
+    //discounts implemented on total purchase
     private Money purchaseDiscountAmount = new Money(0);
     private double purchaseDiscountPercent = 0.0;
 
@@ -18,6 +20,8 @@ public class Purchase implements Discount{
     private HashMap<String, Product> productsToPurchase = new HashMap<>();
     private HashMap<String, Product> productsPurchased = new HashMap<>();
     private HashMap<String, Payment> paymentMethods = new HashMap<>();
+
+
 
     public Purchase(Product... products) {
         for (Product p: products) {
@@ -160,7 +164,10 @@ public class Purchase implements Discount{
         return customer;
     }
 
-    public String toString() {
+
+    //basically a toString for the Receipt, all of this needs to be collected
+    // in the Reciept class using a PrintWriter for a document, so this method is more of a placeholder for Receipt
+    public String getInfo() {
         if (purchaseDiscountPercent == 0.0)
         return "Purchase date: " + getDateOfPurchase() + "\nPayment methods: "
                 + getPaymentMethodsAsString() + "\nProducts: " + getProductsAsString()+
@@ -173,4 +180,10 @@ public class Purchase implements Discount{
                 " ("  + purchaseDiscountPercent*100 + "% off!)";
     }
 
+    //purchaseId with date + first letter of customer nam + first 3 numbers of payment (without VAT)
+    public String getPurchaseId() {
+        purchaseId = getDateOfPurchase() + customer.getName().charAt(0)
+                + Integer.toString(currentTotalWithoutVat.getAmountInOre()).substring(0,2);
+        return purchaseId;
+    }
 }

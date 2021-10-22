@@ -20,6 +20,8 @@ public class Payment {
         this.paymentAmount = paymentAmount;
     }
 
+
+    //cash payment collects bills to give to Register later
     public Payment(Money paymentAmount, Cash... cash) {
         this.paymentAmount = paymentAmount;
         for (Cash money : cash) {
@@ -28,6 +30,7 @@ public class Payment {
         this.paymentType = "Cash";
     }
 
+    //Card is the type so that card information is saved later, gets overriden by cardType anyways in Purchase later
     public Payment(Money paymentAmount, Card card) {
         this.paymentAmount = paymentAmount;
         this.cardPayment = card;
@@ -35,13 +38,13 @@ public class Payment {
         customer = card.getCardOwner();
         this.paymentType = "Card";
     }
-
+    //points payment
     public Payment(Money paymentAmount, MembershipPoints pointPayment) {
         this.paymentAmount = paymentAmount;
         amountPaid = amountPaid.add(new Money(pointPayment.getCertainAmountOfPoints(paymentAmount.getAmountInOre())));
         this.paymentType = "Points";
     }
-
+    //gets the bills together
     public Money collectCashPayments(Cash money) {
         if (!this.cashPayment.containsKey(money.getDenomination().getAmountOfCrown()))
         this.cashPayment.put(money.getDenomination().getAmountOfCrown(), money);
@@ -49,6 +52,7 @@ public class Payment {
         return money.getTotal();
     }
 
+    //Cah is different because it needs to be able to give change in Register
     public Money getPayment() {
         if (this.paymentType.equals("Cash")) return amountPaid;
         return paymentAmount;

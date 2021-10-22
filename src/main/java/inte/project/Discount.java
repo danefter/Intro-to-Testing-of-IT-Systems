@@ -1,5 +1,5 @@
 package inte.project;
-
+//author Dan Jensen
 public interface Discount {
 
 

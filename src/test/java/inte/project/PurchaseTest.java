@@ -108,7 +108,7 @@ public class PurchaseTest {
     }
 
     @Test
-    void purchaseProductsWithSeparateMethodsToString() {
+    void purchaseProductsWithSeparateMethodsGetInfo() {
         Product product = new Appliances("348723", "Fridge", new Money(2000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(2000, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
@@ -128,7 +128,7 @@ public class PurchaseTest {
                 "\n348723 Fridge 2000:00 kr Appliances Store: null]" +
                  "\nTotal amount paid: " + "9000:00 kr"+
                 "\nTotal discount amount: " + "0:00 kr"
-                , purchase.toString());
+                , purchase.getInfo());
     }
 
     @Test
@@ -203,7 +203,7 @@ public class PurchaseTest {
     }
 
     @Test
-    void purchaseProductsWithSeparateMethodsAndProductTypeDiscountToString() {
+    void purchaseProductsWithSeparateMethodsAndProductTypeDiscountGetInfo() {
         Product product = new Appliances("348723", "Fridge", new Money(2000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(2000, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
@@ -224,7 +224,7 @@ public class PurchaseTest {
                         "\n348723 Fridge 2000:00 kr Appliances Store: null Discount: 500:00 kr]" +
                          "\nTotal amount paid: " + "8000:00 kr"+
                         "\nTotal discount amount: " + "1000:00 kr"
-                , purchase.toString());
+                , purchase.getInfo());
     }
 
     @Test

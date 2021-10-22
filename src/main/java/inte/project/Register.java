@@ -3,16 +3,28 @@ package inte.project;
 
 import java.util.Arrays;
 import java.util.HashMap;
-
 import java.util.List;
 
 public class Register {
-    private int cardPaymentTotal;
-    private int cashPaymentTotal;
-    private Money currentTotal;
-    private Money currentPayment;
+
+
+    private final Store store;
+
+    private Report dailyreport = new Report();
+
+    private final ScannerInput scanner = new ScannerInput();
+
+
+    //saves purchases based on ID
+    private HashMap<String, Purchase> dailyPurchases = new HashMap<>();
+
+    //saves purchase collections based on Date
+    private HashMap<String, HashMap<String, Purchase>> dailyReports = new HashMap<>();
+
     private HashMap<Integer, Cash> cashBalance = new HashMap<>();
 
+
+    //slots for Cash
     List<Cash> acceptedDenominations = Arrays.asList(
             new Cash(new Money(1, 0), 0),
             new Cash(new Money(5, 0), 0),
@@ -24,32 +36,40 @@ public class Register {
             new Cash(new Money(500, 0), 0),
             new Cash(new Money(1000, 0), 0));
 
-    public Register() {
+    public Register(Store store) {
+        this.store = store;
         for (Cash cash: acceptedDenominations)
             this.cashBalance.putIfAbsent(cash.getDenomination().getAmountOfCrown(), cash);
         }
 
-    public void calculateCurrentTotal(Product... products) {
-        for (Product p: products)
-            this.currentTotal.add(p.getPricePlusVAT());
-        }
-
-    public Money getCurrentTotal() {
-        return this.currentTotal;
+     //doesn't actually scan anything, needs functional scanner
+    public Purchase scanProductsForPurchase(Product... productInputs){
+        return new Purchase(scanner.scanProducts(productInputs));
     }
 
-    public int getCashPaymentTotal() {
-        return this.cashPaymentTotal;
+    //supposed to allow the employee to choose payment methods based on the customers desires
+    public Payment[] scannerInputsPaymentMethods(Payment... payments) {
+        return payments;
     }
 
-    public int getCardPaymentTotal(){
-        return cardPaymentTotal;
+    //makes the purchase based on choasen methods
+    public void makePurchaseWithDesiredPaymentMethods(Payment... payments) {
+        Purchase purchase = scanProductsForPurchase();
+        purchase.paySeparatelyForProducts(scannerInputsPaymentMethods(payments));
+        printReciept(purchase);
     }
 
-    public Money getCurrentPayment(){
-        return currentPayment;
+
+    //literally just a system out print of purchase.getInfo
+    public void printReciept(Purchase purchase){
+        Receipt receipt = new Receipt(purchase, store);
+        receipt.print();
     }
 
-    public void printReceipt() {
+    //logs purchases
+    public void addToDailyReports(Purchase purchase){
+        dailyPurchases.put(purchase.getPurchaseId(), purchase);
+        dailyReports.put(purchase.getDateOfPurchase(), dailyPurchases);
     }
+
 }
