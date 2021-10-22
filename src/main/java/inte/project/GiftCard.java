@@ -3,7 +3,7 @@ package inte.project;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+//author Dan Jensen
 public class GiftCard extends Card{
 
     String dateOfIssue;
