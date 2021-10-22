@@ -22,9 +22,10 @@ public class Register {
 
     private HashMap<Integer, Cash> cashBalance = new HashMap<>();
 
+    private Money totalBalance = new Money(0);
 
     //slots for Cash
-    List<Cash> acceptedDenominations = Arrays.asList(
+    private static final List<Cash> ACCEPTED_DENOMINATIONS = Arrays.asList(
             new Cash(new Money(1, 0), 0),
             new Cash(new Money(5, 0), 0),
             new Cash(new Money(10, 0), 0),
@@ -37,7 +38,7 @@ public class Register {
 
     public Register(Store store) {
         this.store = store;
-        for (Cash cash: acceptedDenominations)
+        for (Cash cash: ACCEPTED_DENOMINATIONS)
             this.cashBalance.putIfAbsent(cash.getDenomination().getAmountOfCrown(), cash);
         }
 
@@ -52,10 +53,10 @@ public class Register {
     }
 
     //makes the purchase based on choasen methods
-    public void makePurchaseWithDesiredPaymentMethods(Payment... payments) {
-        Purchase purchase = scanProductsForPurchase();
+    public void makePurchaseWithDesiredPaymentMethods(Purchase purchase, Payment... payments) {
         purchase.paySeparatelyForProducts(scannerInputsPaymentMethods(payments));
         if (purchase.getCashFromPayment() != null) addCashPaymentToRegister(purchase);
+        totalBalance = totalBalance.add(purchase.getCurrentPayment());
         printReciept(purchase);
         }
 
@@ -91,4 +92,12 @@ public class Register {
         }
     }
 
+
+    public Collection<Cash> getCashBalance() {
+        return Collections.unmodifiableCollection(cashBalance.values());
+    }
+
+    public Money getTotalBalanceInOre() {
+        return totalBalance;
+    }
 }
