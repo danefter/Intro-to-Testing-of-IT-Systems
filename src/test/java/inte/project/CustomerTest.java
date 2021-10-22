@@ -49,6 +49,12 @@ public class CustomerTest {
     }
 
     @Test
+    void usingLettersForPhonenumberThrowsException(){
+        String dateOfBirth = "1984-08-5";
+        assertThrows(IllegalArgumentException.class, () -> new PrivatePerson("Eva Ekman", "Ekerövägen 56", "evasmail@gmail.com", "telefonnummer", dateOfBirth));
+    }
+
+    @Test
     void moreDigitsThanAcceptedInPhoneNumberThrowsException(){ //12 is the maximum lenth exlusive the area code, which is 4 if you count the + sign. 16 is the maximum of characters.
         String dateOfBirth = "2002-01-12";
         assertThrows(IllegalArgumentException.class, () -> new PrivatePerson("Fanny Fylke", "Hammarbyvägen 33", "fannyfylke@hotmail.com", "+4677123456789121", dateOfBirth));
