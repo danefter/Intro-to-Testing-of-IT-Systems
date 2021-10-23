@@ -120,7 +120,6 @@ public abstract class Customer {
         }
     }
 
-
     public String toString(){
         String stringCustomer = "Name: " + name + "\nAddress: " + address + "\nEmail: " + email + "\nPhonenumber: " + phoneNumber + "\n";
         if(membership != null){
@@ -128,9 +127,9 @@ public abstract class Customer {
         }
         return stringCustomer;
     }
+
     @Override
     public int hashCode(){
         return name.hashCode() * 1000 + email.hashCode();
     }
-
 }

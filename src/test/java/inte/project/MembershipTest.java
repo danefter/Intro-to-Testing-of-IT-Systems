@@ -45,6 +45,7 @@ class MembershipTest {
         dateForCustomerBecomingMember = formatter.format(today);
         assertEquals("Membership\n Created on: " + dateForCustomerBecomingMember + "\n" + customer.getMembership().getMembershipPoints().toString() + "\n", customer.getMembership().toString());
     }
+    
     @Test
     void constructorWithPointsSetsCorrectPoints(){
         Membership mem = new Membership(100);

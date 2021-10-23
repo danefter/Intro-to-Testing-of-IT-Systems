@@ -101,5 +101,4 @@ public class PrivatePersonTest {
             new PrivatePerson("name", "address", "email", "0712345678", dateOfBirth);
         });
     }
-
 }

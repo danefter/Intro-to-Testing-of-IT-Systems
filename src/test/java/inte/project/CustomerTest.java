@@ -103,6 +103,7 @@ public class CustomerTest {
         customer.setAddress("Sjöholmsväg 4");
         assertEquals("Sjöholmsväg 4", customer.getAddress());
     }
+    
     @Test
     void isMemberWithoutSettingMembership(){
         Customer customer = new PrivatePerson("name", "address", "email", "0707990998", "1997-06-09");
@@ -115,7 +116,6 @@ public class CustomerTest {
         customer.addMembership();
         assertTrue(customer.isMember());
     }
-
 
     @Test
     void removingCustomerMembership(){
@@ -130,6 +130,7 @@ public class CustomerTest {
         Customer customer = new PrivatePerson("name", "address", "email", "0707990998", "1997-06-09");
         customer.addMembership();
     }
+
     @Test
     void removingMembershipSetsCustomerMembershipToFalse(){
         Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "1997-06-09");
@@ -137,6 +138,7 @@ public class CustomerTest {
         customer.removeMembership();
         assertFalse(customer.isMember());
     }
+
     @Test
     void addingACustomerToBeAMemberSetsCorrectID(){
         PrivatePerson customer = new PrivatePerson("name", "address", "email", "0707898890", "1997-06-09");
@@ -150,11 +152,13 @@ public class CustomerTest {
         Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2008-06-09");
         assertThrows(IllegalArgumentException.class, customer::addMembership);
     }
+
     @Test
     void toStringNotMember(){
         Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2008-06-09");
         assertEquals("Name: Person person\nAddress: Adressvägen 4\nEmail: personperson@gmail.com\nPhonenumber: 0712345678\n", customer.toString());
     }
+
     @Test
     void toStringIsMember(){
         Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2000-06-09");
@@ -163,16 +167,19 @@ public class CustomerTest {
         assertEquals("Name: Person person\nAddress: Adressvägen 4\nEmail: personperson@gmail.com\nPhonenumber: 0712345678\n" +
                 customer.getMembership().toString(), actualString);
     }
+
     @Test
     void getMembershipNotMember(){
         Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2000-06-09");
         assertThrows(IllegalStateException.class, () -> customer.getMembership());
     }
+
     @Test
     void removeNonExistingMember(){
         Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2000-06-09");
         assertThrows(IllegalStateException.class, () -> customer.removeMembership());
     }
+
     @Test
     void companyIsMember(){
         String orgNumber = "543234-7689";
@@ -180,6 +187,7 @@ public class CustomerTest {
         customer.addMembership();
         assertNotNull(customer.getMembership());
     }
+
     @Test
     void hashCodeTest(){
         Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2000-06-09");
