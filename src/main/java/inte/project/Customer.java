@@ -83,7 +83,7 @@ public abstract class Customer {
         if(membership != null){
             return membership;
         }else{
-            throw new IllegalArgumentException("Customer is not a member");
+            throw new IllegalStateException("Customer is not a member");
         }
     }
 

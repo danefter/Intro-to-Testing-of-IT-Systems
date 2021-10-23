@@ -29,8 +29,8 @@ class MembershipTest {
         customer.addMembership();
         customer.removeMembership();
         try{
-            customer.getMembership(); //want to catch the IllegalArgumentException
-        }catch(IllegalArgumentException msg){
+            customer.getMembership(); //we want to catch the IllegalStateException
+        }catch(IllegalStateException msg){
             assertEquals("Customer is not a member", msg.getMessage());
         }
     }

@@ -166,7 +166,7 @@ public class CustomerTest {
     @Test
     void getMembershipNotMember(){
         Customer customer = new PrivatePerson("Person person", "Adressvägen 4", "personperson@gmail.com", "0712345678", "2000-06-09");
-        assertThrows(IllegalArgumentException.class, () -> customer.getMembership());
+        assertThrows(IllegalStateException.class, () -> customer.getMembership());
     }
     @Test
     void removeNonExistingMember(){

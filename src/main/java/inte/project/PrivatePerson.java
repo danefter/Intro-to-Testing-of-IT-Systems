@@ -4,6 +4,7 @@ package inte.project;
 import java.time.LocalDate;
 
 public class PrivatePerson extends Customer{
+    private static final int FEBRUARY = 2; 
     private String dateOfBirth;
     private int yearOfBirth;
     private int monthOfBirth;
@@ -57,12 +58,8 @@ public class PrivatePerson extends Customer{
         if(monthOfDate < 1 || monthOfDate > 12){
             throw new IllegalArgumentException("Month needs to be between 1 and 12");
         }
-        if(monthOfDate == 2){
-            if(dayOfDate > 29 && leapyear(yearOfDate)){
-                throw new IllegalArgumentException("This year is a leapyear, so there are only 29 days this month");
-            }else if(dayOfDate > 28 && !leapyear(yearOfDate)){
-                throw new IllegalArgumentException("There are only 28 days this month");
-            }
+        if(monthOfDate == FEBRUARY){
+            checkRulesForFebruary(dayOfDate, yearOfDate);
         }
         for(int i = 0; i < monthsWith30Days.length; i++){
             if(monthOfDate == monthsWith30Days[i] && dayOfDate > 30){
@@ -73,6 +70,14 @@ public class PrivatePerson extends Customer{
             if(monthOfDate == monthsWith31Days[i] && dayOfDate > 31){
                 throw new IllegalArgumentException("There are only 31 days in this month");
             }
+        }
+    }
+
+    private void checkRulesForFebruary(int day, int year){
+        if(day > 29 && leapyear(year)){
+            throw new IllegalArgumentException("This year is a leapyear, so there are only 29 days this month");
+        }else if(day > 28 && !leapyear(year)){
+            throw new IllegalArgumentException("There are only 28 days this month");
         }
     }
 
