@@ -10,7 +10,7 @@ import java.util.Date;
 public class Membership {
     private int membershipID;
     private MembershipPoints membershipPoints;
-    private String membershipCreatedDate;
+    private final String membershipCreatedDate;
 
     public Membership(){
         membershipPoints = new MembershipPoints();
@@ -29,7 +29,7 @@ public class Membership {
     public int getMemberID(){
         return membershipID;
     }
-    
+
     public void setMemberID(int mID){
         membershipID = mID;
     }

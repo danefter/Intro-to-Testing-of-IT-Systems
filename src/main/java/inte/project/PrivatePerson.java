@@ -5,12 +5,12 @@ import java.time.LocalDate;
 
 public class PrivatePerson extends Customer{
     private static final int FEBRUARY = 2; 
-    private String dateOfBirth;
+    private final String dateOfBirth;
     private int yearOfBirth;
     private int monthOfBirth;
     private int dayOfBirth;
-    private int[] monthsWith30Days = {4, 6, 9, 11};
-    private int[] monthsWith31Days = {1, 3, 5, 7, 8, 10, 12};
+    private final int[] monthsWith30Days = {4, 6, 9, 11};
+    private final int[] monthsWith31Days = {1, 3, 5, 7, 8, 10, 12};
     
     public PrivatePerson(String name, String address, String email, String phoneNumber, String dateOfBirth){
         super(name, address, email, phoneNumber);

@@ -2,7 +2,7 @@
 package inte.project;
 
 public class Company extends Customer{
-    private String orgNumber;
+    private final String orgNumber;
 
     public Company(String name, String address, String email, String phoneNumber, String orgNumber){
         super(name, address, email, phoneNumber);
