@@ -1,6 +1,8 @@
 package inte.project;
 //author Marah Zeibak
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -11,6 +13,8 @@ public class Store {
     private String phoneNumber;
 
     protected Map<Product,Integer> products = new TreeMap<>();
+
+    protected ArrayList<Employee> employees = new ArrayList<>();
 
     public Store(String address, int postCode, String city, String phoneNumber) {
         this.address = address;
@@ -84,6 +88,11 @@ public class Store {
             }
         }
         return script;
+    }
+
+    public void addEmployee(Employee employee) {
+        employees.add(employee);
+        employee.addStore(this);
     }
 
     public void checkPhoneNumberISDigits(String phoneNumber) {
