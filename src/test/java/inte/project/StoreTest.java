@@ -16,7 +16,8 @@ class StoreTest {
     private static final String WRONG_PHONE_NUMBER = "4563fgdd";
     private static final int PRODUCT_QUANTITY = 100;
     private Store store;
-    private  Product product;
+    private Product product;
+    private Employee employee;
 
     @Test
     void constructorTestAddress() {
@@ -161,9 +162,22 @@ class StoreTest {
         store.addProduct(product5,300);
 
 
-        String pro = product5 + " " + store.getQuantity(product5)+ "\n" + product1 + " " + store.getQuantity(product1)+ "\n" + product4 +" " + store.getQuantity(product4)+ "\n"+ product +" "+ store.getQuantity(product) + "\n" ;
+        String pro = product5 + " " + store.getQuantity(product5)+ "\n" +
+                    product1 + " " + store.getQuantity(product1)+ "\n" +
+                    product4 +" " + store.getQuantity(product4)+ "\n"+
+                    product +" "+ store.getQuantity(product) + "\n" ;
 
         assertEquals(pro,store.searchProduct("Appliances"));
+    }
+
+    @Test
+    void testAddEmployee() {
+        store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+        employee = new Employee("Sanna","Ericksson","manager",30000);
+
+        store.addEmployee(employee);
+
+        assertTrue(store.employees.contains(employee));
     }
 
 }

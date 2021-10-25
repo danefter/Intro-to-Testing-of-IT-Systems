@@ -29,8 +29,8 @@ class MembershipTest {
         customer.addMembership();
         customer.removeMembership();
         try{
-            customer.getMembership(); //want to catch the IllegalArgumentException
-        }catch(IllegalArgumentException msg){
+            customer.getMembership(); //we want to catch the IllegalStateException
+        }catch(IllegalStateException msg){
             assertEquals("Customer is not a member", msg.getMessage());
         }
     }
@@ -45,6 +45,7 @@ class MembershipTest {
         dateForCustomerBecomingMember = formatter.format(today);
         assertEquals("Membership\n Created on: " + dateForCustomerBecomingMember + "\n" + customer.getMembership().getMembershipPoints().toString() + "\n", customer.getMembership().toString());
     }
+    
     @Test
     void constructorWithPointsSetsCorrectPoints(){
         Membership mem = new Membership(100);

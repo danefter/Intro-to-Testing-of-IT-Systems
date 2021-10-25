@@ -9,7 +9,7 @@ public class Register {
 
     private final Store store;
 
-    private Report dailyreport = new Report();
+    private Report dailyReport = new Report();
 
     private final Scanner scanner = new Scanner(System.in);
 
