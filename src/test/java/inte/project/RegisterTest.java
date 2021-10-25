@@ -31,27 +31,27 @@ public class RegisterTest {
     }
 
     @Test
-    void makePurchaseWithDesiredPaymentMethods(){
+    void makeOrderWithDesiredPaymentMethods(){
         Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
         Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
         Register register = new Register(store, product, product1, product2, product3);
-        Purchase purchase = register.scanProductsForPurchase(product, product1, product2, product3);
+        Order order = register.scanProductsForOrder(product, product1, product2, product3);
         Money money = new Money(1000, 0);
         Money money100 = new Money(100, 0);
         Money money50 = new Money(50, 0);
         Cash cash = new Cash(money, 5);
         Cash cash1 = new Cash(money100, 1);
         Cash cash2 = new Cash(money50, 1);
-        Payment payment = new Payment(purchase.getCurrentTotal(), cash, cash1, cash2);
-        register.makePurchase(purchase, payment);
-        Assertions.assertEquals(purchase.getCurrentPayment(), register.getTotalBalance());
+        Payment payment = new Payment(order.getCurrentTotal(), cash, cash1, cash2);
+        register.makeOrder(order, payment);
+        Assertions.assertEquals(order.getCurrentPayment(), register.getTotalBalance());
     }
     /*
     @Test
-    void unregisteredCustomerBecomesMemberAndCompletesPurchase() {
+    void unregisteredCustomerBecomesMemberAndCompletesOrder() {
         Register register = new Register(new Store("Vasagata 12",12456,"Stockholm","0706524324"));
         ArrayList<Cash> cash = new ArrayList<>();
         CustomerHandler ch = new CustomerHandler();
@@ -61,7 +61,7 @@ public class RegisterTest {
         // Vill bli medlem
         Customer customer = new PrivatePerson("Namn", "address", "email", "0707374653","1995-03-35");
         customer.addMembership();
-        // TODO Skickar summan till getPointsForPurchase(double costOfPurchase)
+        // TODO Skickar summan till getPointsForOrder(double costOfOrder)
         // TODO adderar summan till kundens membership med customer.getMembership.getMembershippoints.addPoints(double points)
         ch.addCustomer(customer);
         // TODO Betalar
@@ -72,7 +72,7 @@ public class RegisterTest {
     void addCashPaymentToRegisterAddsCash(){}
 
     @Test
-    void addToDailyReportsLogsPurchases(){}
+    void addToDailyReportsLogsOrders(){}
 
     @Test
     void printReceipt(){}

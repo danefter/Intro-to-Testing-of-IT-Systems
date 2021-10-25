@@ -5,17 +5,17 @@ package inte.project;
 
 public class Receipt {
 
-    private final Purchase purchase;
+    private final Order order;
 
     private final Store store;
 
-    public Receipt(Purchase purchase, Store store){
-        this.purchase = purchase;
+    public Receipt(Order order, Store store){
+        this.order = order;
         this.store = store;
     }
 
     public void print(){
-        String receipt = store.toString() + "\n" + purchase.getInfo().replaceAll("[\\[\\]]", "");
+        String receipt = store.toString() + "\n" + order.getInfo().replaceAll("[\\[\\]]", "");
         System.out.print(receipt);
     }
 }

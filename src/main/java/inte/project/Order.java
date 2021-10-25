@@ -3,32 +3,32 @@ package inte.project;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class Purchase implements Discount{
+public class Order implements Discount{
 
     private Money currentTotalWithoutVat = new Money(0);
     private Money currentTotal = new Money(0);
     private Money currentPayment = new Money(0);
     private Customer customer;
-    private String dateOfPurchase;
-    private String purchaseId;
+    private String dateOfOrder;
+    private String orderId;
 
-    //discounts implemented on total purchase
-    private Money purchaseDiscountAmount = new Money(0);
-    private double purchaseDiscountPercent = 0.0;
+    //discounts implemented on total order
+    private Money orderDiscountAmount = new Money(0);
+    private double orderDiscountPercent = 0.0;
 
-    private HashMap<String, String> productsToPurchaseAsStrings = new HashMap<>();
-    private HashMap<String, Product> productsToPurchase = new HashMap<>();
-    private HashMap<String, Product> productsPurchased = new HashMap<>();
+    private HashMap<String, String> productsToOrderAsStrings = new HashMap<>();
+    private HashMap<String, Product> productsToOrder = new HashMap<>();
+    private HashMap<String, Product> productsOrderd = new HashMap<>();
     private HashMap<String, Payment> paymentMethods = new HashMap<>();
 
 
 
-    public Purchase(Product... products) {
+    public Order(Product... products) {
         for (Product p: products) {
             this.currentTotalWithoutVat = currentTotalWithoutVat.add(p.getPrice());
             this.currentTotal = currentTotal.add(p.getPricePlusVAT());
-            this.productsToPurchase.put(p.getId(), p);
-            this.productsToPurchaseAsStrings.put(p.getId(), p.toString());
+            this.productsToOrder.put(p.getId(), p);
+            this.productsToOrderAsStrings.put(p.getId(), p.toString());
         }
     }
 
@@ -39,8 +39,8 @@ public class Purchase implements Discount{
             if (!p.getPaymentType().equals("Cash")) customer = p.getCustomer();
         }
         if (currentPayment.getAmountInOre() < currentTotal.getAmountInOre()) throw new IllegalStateException("Insufficient amount.");
-        productsPurchased.putAll(productsToPurchase);
-        setDateOfPurchase();
+        productsOrderd.putAll(productsToOrder);
+        setDateOfOrder();
     }
 
     public void payTotalForProducts(Payment payment) {
@@ -48,64 +48,64 @@ public class Purchase implements Discount{
         paymentMethods.put(payment.getPaymentType(), payment);
         if (currentPayment.getAmountInOre() < currentTotal.getAmountInOre()) throw new IllegalStateException("Insufficient amount.");
         if (!payment.getPaymentType().equals("Cash")) customer = payment.getCustomer();
-        productsPurchased.putAll(productsToPurchase);
-        setDateOfPurchase();
+        productsOrderd.putAll(productsToOrder);
+        setDateOfOrder();
     }
 
-    public void applyDiscountPercentToTotalPurchase(double percent){
+    public void applyDiscountPercentToTotalOrder(double percent){
         if (percent > 1.00) throw new IllegalArgumentException("Discount causes price increase.");
-        this.purchaseDiscountAmount = purchaseDiscountAmount.add((int) (currentTotal.getAmountInOre() * applyDiscountPercent(percent)));
+        this.orderDiscountAmount = orderDiscountAmount.add((int) (currentTotal.getAmountInOre() * applyDiscountPercent(percent)));
         this.currentTotal = currentTotal.subtract((int) (currentTotal.getAmountInOre() * applyDiscountPercent(percent)));
-        this.purchaseDiscountPercent = percent;
+        this.orderDiscountPercent = percent;
     }
 
     public void applyDiscountPercentToProductType(double percent, String productType){
         if (percent > 1.00) throw new IllegalArgumentException("Discount causes price increase.");
-        for (Product p : productsToPurchase.values()) {
+        for (Product p : productsToOrder.values()) {
             if (p.getType().equals(productType)) {
                 this.currentTotal = currentTotal.subtract((int) (p.getPrice().getAmountInOre() * applyDiscountPercent(percent)));
-                productsToPurchaseAsStrings.put(p.getId(), p + " Discount: " + percent*100 + "%");
-                this.purchaseDiscountAmount = purchaseDiscountAmount.add((int) (p.getPrice().getAmountInOre() * applyDiscountPercent(percent)));
+                productsToOrderAsStrings.put(p.getId(), p + " Discount: " + percent*100 + "%");
+                this.orderDiscountAmount = orderDiscountAmount.add((int) (p.getPrice().getAmountInOre() * applyDiscountPercent(percent)));
             }
         }
     }
 
-    public void applyDiscountAmountToTotalPurchase(Money amount){
+    public void applyDiscountAmountToTotalOrder(Money amount){
         if (amount.getAmountOfCrown() > getCurrentTotal().getAmountOfCrown())
             throw new IllegalArgumentException("Discount causes price increase.");
         this.currentTotal = currentTotal.subtract(amount);
-        this.purchaseDiscountAmount = purchaseDiscountAmount.add(amount);
+        this.orderDiscountAmount = orderDiscountAmount.add(amount);
     }
 
     public void applyDiscountAmountToProductType(Money amount, String productType){
-        for (Product p : productsToPurchase.values()) {
+        for (Product p : productsToOrder.values()) {
             if (p.getType().equals(productType) && amount.getAmountOfCrown() > p.getPrice().getAmountOfCrown())
                 throw new IllegalArgumentException("Discount causes price increase.");
             if (p.getType().equals(productType)) {
                 this.currentTotal = currentTotal.subtract(applyDiscountAmount(amount));
-                productsToPurchaseAsStrings.put(p.getId(), p + " Discount: " + amount);
-                this.purchaseDiscountAmount = purchaseDiscountAmount.add(amount);
+                productsToOrderAsStrings.put(p.getId(), p + " Discount: " + amount);
+                this.orderDiscountAmount = orderDiscountAmount.add(amount);
             }
         }
     }
 
     public void applyDiscountPercentToProduct(double percent, String productId){
         if (percent > 1.00) throw new IllegalArgumentException("Discount causes price increase.");
-        Product p = productsToPurchase.get(productId);
-        if (p == null) throw new NullPointerException("Product not included in purchase.");
+        Product p = productsToOrder.get(productId);
+        if (p == null) throw new NullPointerException("Product not included in order.");
         this.currentTotal = currentTotal.subtract((int) (p.getPrice().getAmountInOre() * applyDiscountPercent(percent)));
-        productsToPurchaseAsStrings.put(p.getId(), p + " Discount: " + percent*100 + "%");
-        this.purchaseDiscountAmount = purchaseDiscountAmount.add((int) (p.getPrice().getAmountInOre() * applyDiscountPercent(percent)));
+        productsToOrderAsStrings.put(p.getId(), p + " Discount: " + percent*100 + "%");
+        this.orderDiscountAmount = orderDiscountAmount.add((int) (p.getPrice().getAmountInOre() * applyDiscountPercent(percent)));
     }
     
     public void applyDiscountAmountToProduct(Money amount, String productId){
-        Product p = productsToPurchase.get(productId);
-        if (p == null) throw new NullPointerException("Product not included in purchase.");
+        Product p = productsToOrder.get(productId);
+        if (p == null) throw new NullPointerException("Product not included in order.");
         if (amount.getAmountOfCrown() > p.getPrice().getAmountOfCrown())
             throw new IllegalArgumentException("Discount causes price increase.");
         this.currentTotal = currentTotal.subtract(applyDiscountAmount(amount));
-        productsToPurchaseAsStrings.put(p.getId(), p + " Discount: " + amount);
-        this.purchaseDiscountAmount = purchaseDiscountAmount.add(amount);
+        productsToOrderAsStrings.put(p.getId(), p + " Discount: " + amount);
+        this.orderDiscountAmount = orderDiscountAmount.add(amount);
     }
 
     public Payment getCardPayment() {
@@ -113,8 +113,8 @@ public class Purchase implements Discount{
     }
 
     public void addProduct(Product product) {
-        productsToPurchase.put(product.getId(), product);
-        productsToPurchaseAsStrings.put(product.getId(), product.toString());
+        productsToOrder.put(product.getId(), product);
+        productsToOrderAsStrings.put(product.getId(), product.toString());
         currentTotal = currentTotal.add(product.getPricePlusVAT());
     }
 
@@ -123,24 +123,24 @@ public class Purchase implements Discount{
     }
 
     public void removeProduct(String ID) {
-        Product productToRemove = productsToPurchase.get(ID);
-        productsToPurchase.remove(ID);
+        Product productToRemove = productsToOrder.get(ID);
+        productsToOrder.remove(ID);
         currentTotal = currentTotal.subtract(productToRemove.getPricePlusVAT());
 
     }
 
-    public void setDateOfPurchase() {
+    public void setDateOfOrder() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date today = new Date();
-        dateOfPurchase = formatter.format(today);
+        dateOfOrder = formatter.format(today);
     }
 
-    public HashMap<String, Product> getProductsPurchased() {
-        return productsPurchased;
+    public HashMap<String, Product> getProductsOrderd() {
+        return productsOrderd;
     }
 
-    public Collection<Product> getProductsToPurchase() {
-        return productsToPurchase.values();
+    public Collection<Product> getProductsToOrder() {
+        return productsToOrder.values();
     }
 
     public Collection<String> getPaymentMethodsAsString() {
@@ -153,14 +153,14 @@ public class Purchase implements Discount{
 
     public Collection<String> getProductsAsString() {
         ArrayList<String> productsToString = new ArrayList<>();
-        for (String p : productsToPurchaseAsStrings.values()) {
+        for (String p : productsToOrderAsStrings.values()) {
             productsToString.add("\n"+p);
         }
         return Collections.unmodifiableCollection(productsToString);
     }
 
-    public String getDateOfPurchase() {
-        return dateOfPurchase;
+    public String getDateOfOrder() {
+        return dateOfOrder;
     }
 
     public Money getCurrentTotal() {
@@ -179,28 +179,28 @@ public class Purchase implements Discount{
     //basically a toString for the Receipt, all of this needs to be collected
     // in the Reciept class using a PrintWriter for a document, so this method is more of a placeholder for Receipt
     public String getInfo() {
-        if (purchaseDiscountPercent == 0.0)
-        return "Purchase date: " + getDateOfPurchase() + "\nPayment methods: "
+        if (orderDiscountPercent == 0.0)
+        return "Order date: " + getDateOfOrder() + "\nPayment methods: "
                 + getPaymentMethodsAsString() + "\nProducts: " + getProductsAsString()+
                 "\nTotal amount paid: " + currentTotal
-                +"\nTotal discount amount: " + purchaseDiscountAmount;
-        return "Purchase date: " + getDateOfPurchase() + "\nPayment methods: "
+                +"\nTotal discount amount: " + orderDiscountAmount;
+        return "Order date: " + getDateOfOrder() + "\nPayment methods: "
                 + getPaymentMethodsAsString() + "\nProducts: " + getProductsAsString()+
                 "\nTotal amount paid: " + currentTotal
-                +"\nTotal discount amount: " + purchaseDiscountAmount+
-                " ("  + purchaseDiscountPercent*100 + "% off!)";
+                +"\nTotal discount amount: " + orderDiscountAmount+
+                " ("  + orderDiscountPercent*100 + "% off!)";
     }
 
-    //purchaseId with date + first letter of customer nam + first 3 numbers of payment (without VAT)
-    public String getPurchaseId() {
+    //orderId with date + first letter of customer nam + first 3 numbers of payment (without VAT)
+    public String getOrderId() {
         if (paymentMethods.containsKey("Card") || paymentMethods.containsKey("Points")) {
-            purchaseId = getDateOfPurchase() + customer.getName().charAt(0)
+            orderId = getDateOfOrder() + customer.getName().charAt(0)
                     + ""+ currentTotalWithoutVat.toString().substring(0, 2);
         }
         else {
-            purchaseId = getDateOfPurchase() + "C"
+            orderId = getDateOfOrder() + "C"
                     + currentTotalWithoutVat.toString().substring(0,2);
         }
-        return purchaseId;
+        return orderId;
     }
 }
