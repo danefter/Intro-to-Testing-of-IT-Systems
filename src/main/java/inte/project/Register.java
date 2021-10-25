@@ -6,7 +6,6 @@ import java.util.stream.Stream;
 
 public class Register {
 
-
     private final Store store;
 
     private Report dailyReport = new Report();
@@ -82,17 +81,25 @@ public class Register {
         dailyPurchases.put(purchase.getPurchaseId(), purchase);
         dailyReports.put(purchase.getDateOfPurchase(), dailyPurchases);
     }
-    public double getPointsForPurchase(int costOfPurchase){
-        if(costOfPurchase < 100){
-            return costOfPurchase * 0.1;
-        }
-        else if(costOfPurchase < 1000){
-            return costOfPurchase * 0.2;
-        }
-        else if(costOfPurchase < 10000){
-            return costOfPurchase * 0.3;
-        }else{
-            return costOfPurchase * 0.4;
+
+    public void getPointsForPurchase(Purchase costOfPurchase){
+        int points = 0;
+        int money = costOfPurchase.getCurrentPayment().getAmountInOre();
+        if(costOfPurchase.getCashFromPayment() == null){
+            if(costOfPurchase.getCustomer().isMember()){
+                if(money < 100){
+                    points = (int)(money * 0.1);
+                }
+                else if(money < 1000){
+                    points = (int)(money * 0.2);
+                }
+                else if(money < 10000){
+                    points = (int)(money * 0.3);
+                }else{
+                    points = (int)(money * 0.4);
+                }
+            }
+            costOfPurchase.getCustomer().getMembership().getMembershipPoints().addPoints(points);
         }
     }
 
