@@ -139,6 +139,10 @@ public class Purchase implements Discount{
         return productsPurchased;
     }
 
+    public Collection<Product> getProductsToPurchase() {
+        return productsToPurchase.values();
+    }
+
     public Collection<String> getPaymentMethodsAsString() {
         ArrayList<String> paymentMethodsToString = new ArrayList<>();
         for (Payment p : paymentMethods.values()) {

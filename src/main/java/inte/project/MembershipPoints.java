@@ -19,6 +19,7 @@ public class MembershipPoints {
         period = new Period();
     }
 
+    //kolla hur det funkar med getPOintsfromPurchase
     public MembershipPoints(double points){
         if(points < 0){
             this.points = 0;

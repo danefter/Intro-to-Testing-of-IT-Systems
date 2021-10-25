@@ -2,7 +2,6 @@ package inte.project;
 //author Dan Jensen
 
 import java.util.*;
-import java.util.stream.Stream;
 
 public class Register {
 
@@ -56,6 +55,12 @@ public class Register {
         return purchase;
         }
 
+        public void cancelPurchaseAfterScan(Purchase purchase) {
+            for (Product product : purchase.getProductsToPurchase()) {
+                inventory.put(product.getId(), product);
+            }
+        }
+
     public void makePurchase(Purchase purchase, Payment... payments) {
         purchase.paySeparatelyForProducts(payments);
         if (purchase.getCashFromPayment() != null) addCashPaymentToRegister(purchase);
@@ -82,6 +87,8 @@ public class Register {
         dailyPurchases.put(purchase.getPurchaseId(), purchase);
         dailyReports.put(purchase.getDateOfPurchase(), dailyPurchases);
     }
+
+     //add points kollar membership, returnerar void
     public double getPointsForPurchase(int costOfPurchase){
         if(costOfPurchase < 100){
             return costOfPurchase * 0.1;
