@@ -1,7 +1,9 @@
 //Author: Lovisa
 package inte.project;
-
 import java.time.LocalDate;
+// May introduce null in generateMembership
+
+// Better to save removedmembership as inactive due to potential future functionality, minor
 
 public abstract class Customer {
     private String name;
