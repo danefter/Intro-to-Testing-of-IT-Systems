@@ -49,25 +49,20 @@ public class RegisterTest {
         register.makeOrder(order, payment);
         Assertions.assertEquals(order.getCurrentPayment(), register.getTotalBalance());
     }
-    /*
+
     @Test
-    void unregisteredCustomerBecomesMemberAndCompletesOrder() {
-        Register register = new Register(new Store("Vasagata 12",12456,"Stockholm","0706524324"));
-        ArrayList<Cash> cash = new ArrayList<>();
-        CustomerHandler ch = new CustomerHandler();
-        // TODO Registrerar varor
-        // TODO Inga rabatter
-        // TODO Presentera summan
-        // Vill bli medlem
-        Customer customer = new PrivatePerson("Namn", "address", "email", "0707374653","1995-03-35");
-        customer.addMembership();
-        // TODO Skickar summan till getPointsForOrder(double costOfOrder)
-        // TODO adderar summan till kundens membership med customer.getMembership.getMembershippoints.addPoints(double points)
-        ch.addCustomer(customer);
-        // TODO Betalar
-        // TODO Skriver kvitto
+    void makeOrderCancelPurchaseMethods(){
+        Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+        Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
+        Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
+        Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
+        Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        Register register = new Register(store, product, product1, product2, product3);
+        Collection <Product> productsBefore = register.getInventory();
+        Order order = register.scanProductsForOrder(product, product1, product2, product3);
+        register.cancelOrderAfterScan(order);
+        Assertions.assertIterableEquals(productsBefore, register.getInventory());
     }
-*/
     @Test
     void addCashPaymentToRegisterAddsCash(){}
 

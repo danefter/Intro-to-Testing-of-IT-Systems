@@ -103,6 +103,9 @@ public class Register {
         }
     }
 
+    public Collection<Product> getInventory() {
+        return Collections.unmodifiableCollection(inventory.values());
+    }
 
     public Collection<Cash> getCashBalance() {
         return Collections.unmodifiableCollection(cashBalance.values());

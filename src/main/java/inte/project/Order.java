@@ -22,7 +22,6 @@ public class Order implements Discount{
     private HashMap<String, Payment> paymentMethods = new HashMap<>();
 
 
-
     public Order(Product... products) {
         for (Product p: products) {
             this.currentTotalWithoutVat = currentTotalWithoutVat.add(p.getPrice());
@@ -31,6 +30,7 @@ public class Order implements Discount{
             this.productsToOrderAsStrings.put(p.getId(), p.toString());
         }
     }
+
 
     public void paySeparatelyForProducts(Payment... payments) {
         for (Payment p: payments) {
@@ -126,7 +126,6 @@ public class Order implements Discount{
         Product productToRemove = productsToOrder.get(ID);
         productsToOrder.remove(ID);
         currentTotal = currentTotal.subtract(productToRemove.getPricePlusVAT());
-
     }
 
     public void setDateOfOrder() {
