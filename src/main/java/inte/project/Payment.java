@@ -14,7 +14,7 @@ public class Payment {
 
     private Card cardPayment;
     private HashMap<Integer, Cash> cashPayment = new HashMap<>();
-    private MembershipPoints pointPayment = new MembershipPoints();
+    private MembershipPoints pointPayment;
 
     public Payment(Money paymentAmount) {
         this.paymentAmount = paymentAmount;
@@ -39,8 +39,11 @@ public class Payment {
         this.paymentType = "Card";
     }
     //points payment
-    public Payment(Money paymentAmount, MembershipPoints pointPayment) {
+    public Payment(Money paymentAmount, Customer customer) {
         this.paymentAmount = paymentAmount;
+        this.customer = customer;
+        if (!customer.isMember()) throw new IllegalArgumentException("Customer is not member and can't pay with points.");
+        this.pointPayment = customer.getMembership().getMembershipPoints();
         amountPaid = amountPaid.add(new Money(pointPayment.getCertainAmountOfPoints(paymentAmount.getAmountInOre())));
         this.paymentType = "Points";
     }
@@ -57,7 +60,6 @@ public class Payment {
         if (this.paymentType.equals("Cash")) return amountPaid;
         return paymentAmount;
     }
-
 
     public Collection<Cash> getCashPaymentValues() {
         return Collections.unmodifiableCollection(this.cashPayment.values());

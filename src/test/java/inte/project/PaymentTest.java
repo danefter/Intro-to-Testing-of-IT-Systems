@@ -26,14 +26,22 @@ public class PaymentTest {
 
     @Test
     void pointsPaymentConstructor() {
-        Payment payment = new Payment(new Money(5000, 0), new MembershipPoints(500000));
+        String dateOfBirth = "1999-04-03";
+        Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
+        customer.addMembership();
+        customer.getMembership().getMembershipPoints().addPoints(500000);
+        Payment payment = new Payment(new Money(5000, 0), customer);
         Assertions.assertEquals("Points", payment.getPaymentType());
     }
 
     @Test
     void pointsPaymentToString() {
-        MembershipPoints points = new MembershipPoints(500000);
-        Payment payment = new Payment(new Money(5000, 0), points);
+        String dateOfBirth = "1999-04-03";
+        Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
+        customer.addMembership();
+        customer.getMembership().getMembershipPoints().addPoints(500000);
+        MembershipPoints points = customer.getMembership().getMembershipPoints();
+        Payment payment = new Payment(new Money(5000, 0), customer);
         Assertions.assertEquals(points + "\nAmount paid: 5000:00 kr", payment.toString());
     }
 
@@ -71,10 +79,13 @@ public class PaymentTest {
 
     @Test
     void getPointsPayment() {
-        MembershipPoints points = new MembershipPoints(100000);
-        Money pay = new Money(1000);
-        Payment payment = new Payment(pay, points);
-        Assertions.assertEquals(pay, payment.getPayment());
+        String dateOfBirth = "1999-04-03";
+        Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
+        customer.addMembership();
+        customer.getMembership().getMembershipPoints().addPoints(500000);
+        int points = customer.getMembership().getMembershipPoints().getAllPoints();
+        Payment payment = new Payment(new Money(5000, 0), customer);
+        Assertions.assertEquals(points, payment.getPayment().getAmountInOre());
     }
 
 

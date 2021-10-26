@@ -86,8 +86,11 @@ public class OrderTest {
         Product product2 = new Tele("341276", "Mobile", new Money(100000000));
         Product product3 = new HouseHold("346576", "Mixer", new Money(1500));
         Order order = new Order(product, product1, product2, product3);
-        MembershipPoints points = new MembershipPoints(order.getCurrentTotal().getAmountInOre());
-        Payment payment = new Payment(order.getCurrentTotal(), points);
+        String dateOfBirth = "1999-04-03";
+        Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
+        customer.addMembership();
+        customer.getMembership().getMembershipPoints().addPoints(order.getCurrentTotal().getAmountInOre());
+        Payment payment = new Payment(order.getCurrentTotal(), customer);
         order.payTotalForProducts(payment);
         Assertions.assertEquals(order.getCurrentTotal(), order.getCurrentPayment());
     }
@@ -100,8 +103,11 @@ public class OrderTest {
         Product product3 = new HouseHold("346576", "Mixer", new Money(2000, 0));
         Order order = new Order(product, product1, product2, product3);
         Cash cash = new Cash(new Money(200, 0), 20);
-        MembershipPoints points = new MembershipPoints(5000000);
-        Payment payment = new Payment(new Money(5000, 0), points);
+        String dateOfBirth = "1999-04-03";
+        Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
+        customer.addMembership();
+        customer.getMembership().getMembershipPoints().addPoints(50000000);
+        Payment payment = new Payment(new Money(5000, 0), customer);
         Payment payment2 = new Payment(new Money(4000, 0), cash);
         order.paySeparatelyForProducts(payment, payment2);
         Assertions.assertEquals(order.getCurrentTotal(), order.getCurrentPayment());
@@ -115,12 +121,15 @@ public class OrderTest {
         Product product3 = new HouseHold("346576", "Mixer", new Money(2000, 0));
         Order order = new Order(product, product1, product2, product3);
         Cash cash = new Cash(new Money(200, 0), 20);
-        MembershipPoints points = new MembershipPoints(500000);
-        Payment payment = new Payment(new Money(5000, 0), points);
+        String dateOfBirth = "1999-04-03";
+        Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
+        customer.addMembership();
+        customer.getMembership().getMembershipPoints().addPoints(50000000);
+        Payment payment = new Payment(new Money(5000, 0), customer);
         Payment payment2 = new Payment(new Money(4000, 0), cash);
         order.paySeparatelyForProducts(payment, payment2);
         Assertions.assertEquals("Order date: " + order.getDateOfOrder()
-                + "\nPayment methods: [\n"+ points + "\nAmount paid: 5000:00 kr, \n"
+                + "\nPayment methods: [\n"+ customer.getMembership().getMembershipPoints() + "\nAmount paid: 5000:00 kr, \n"
                 + "Cash:\n" + "Amount paid: 4000:00 kr]" + "\nProducts: [" +
                  "\n347654 Stove 2000:00 kr Appliances Store: null, " +
                  "\n346576 Mixer 2000:00 kr Household Store: null, " +
@@ -139,8 +148,11 @@ public class OrderTest {
         Product product3 = new HouseHold("346576", "Mixer", new Money(2000, 0));
         Order order = new Order(product, product1, product2, product3);
         Cash cash = new Cash(new Money(200, 0), 10);
-        MembershipPoints points = new MembershipPoints(500000);
-        Payment payment = new Payment(new Money(5000, 0), points);
+        String dateOfBirth = "1999-04-03";
+        Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
+        customer.addMembership();
+        customer.getMembership().getMembershipPoints().addPoints(50000000);
+        Payment payment = new Payment(new Money(5000, 0), customer);
         Payment payment2 = new Payment(new Money(1000, 0), cash);
         Exception exception = Assertions.assertThrows(IllegalStateException.class, () -> {
             order.paySeparatelyForProducts(payment, payment2);
@@ -210,13 +222,16 @@ public class OrderTest {
         Product product3 = new HouseHold("346576", "Mixer", new Money(2000, 0));
         Order order = new Order(product, product1, product2, product3);
         Cash cash = new Cash(new Money(200, 0), 20);
-        MembershipPoints points = new MembershipPoints(500000);
+        String dateOfBirth = "1999-04-03";
+        Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
+        customer.addMembership();
+        customer.getMembership().getMembershipPoints().addPoints(50000000);
+        Payment payment = new Payment(new Money(5000, 0), customer);
         order.applyDiscountAmountToProductType(new Money(500, 0), "Appliances");
-        Payment payment = new Payment(new Money(5000, 0), points);
         Payment payment2 = new Payment(new Money(4000, 0), cash);
         order.paySeparatelyForProducts(payment, payment2);
         Assertions.assertEquals("Order date: " + order.getDateOfOrder()
-                        + "\nPayment methods: [\n"+ points + "\nAmount paid: 5000:00 kr, \n"
+                        + "\nPayment methods: [\n"+ customer.getMembership().getMembershipPoints() + "\nAmount paid: 5000:00 kr, \n"
                         + "Cash:\n" + "Amount paid: 4000:00 kr]" + "\nProducts: [" +
                         "\n347654 Stove 2000:00 kr Appliances Store: null Discount: 500:00 kr, " +
                         "\n346576 Mixer 2000:00 kr Household Store: null, " +
