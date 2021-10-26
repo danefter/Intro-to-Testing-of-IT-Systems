@@ -10,7 +10,7 @@ public class Register {
 
     private Report dailyReport = new Report();
 
-    private Scanner scanner = new Scanner(System.in);
+
 
     //saves orders based on ID
     private HashMap<String, Order> dailyOrders = new HashMap<>();
@@ -95,13 +95,13 @@ public class Register {
         printReceipt(order);
     }
 
-    public void payForOrderUsingInput(Order order, Customer customer) {
+    public void payForOrderUsingDebitInput(Order order, Customer customer) {
         int amount = 0;
         int total = order.getCurrentTotal().getAmountOfCrown();
         Payment[] payments = new Payment[0];
         do{
             payments = Arrays.copyOf(payments, payments.length +1);
-            Payment payment = getPaymentInput(order, customer);
+            Payment payment = getPaymentInputDebitCard(order, customer);
             payments[payments.length-1] = payment;
             amount += payment.getPayment().getAmountOfCrown();
     }
@@ -116,7 +116,7 @@ public class Register {
         System.out.print("""
                     
                     Cancel order: (Y/N)""");
-        String input = scanner.nextLine();
+        String input = "Y";
         if(input.equalsIgnoreCase("y")) cancelOrderAfterScan(order);
     }
 
@@ -124,20 +124,39 @@ public class Register {
         System.out.print("""
                     
                     Confirm payment: (Y/N)""");
-        return scanner.nextLine();
+        return "Y";
     }
 
     public void checkIfCustomerWantsMembership(Customer customer) {
         System.out.print("""
                     
                     Would you like to become a member?: (Y/N)""");
-        String input = scanner.nextLine();
+        String input = "Y";
         if(input.equalsIgnoreCase("y")) customer.addMembership();;
     }
-    public Payment getPaymentInput(Order order, Customer customer) {
+
+    public Payment getPaymentInputCash(Order order, Customer customer) {
         order.setCustomer(customer);
         System.out.print("Choose payment method:");
-        return selectPaymentMethod(customer, order.getCurrentTotal().getAmountOfCrown(), scanner.nextLine());
+        return selectPaymentMethod(customer, order.getCurrentTotal().getAmountOfCrown(), "cash");
+    }
+
+    public Payment getPaymentInputDebitCard(Order order, Customer customer) {
+        order.setCustomer(customer);
+        System.out.print("Choose payment method:");
+        return selectPaymentMethod(customer, order.getCurrentTotal().getAmountOfCrown(), "debitcard");
+    }
+
+    public Payment getPaymentInputGiftCard(Order order, Customer customer) {
+        order.setCustomer(customer);
+        System.out.print("Choose payment method:");
+        return selectPaymentMethod(customer, order.getCurrentTotal().getAmountOfCrown(), "giftcard");
+    }
+
+    public Payment getPaymentInputPoints(Order order, Customer customer) {
+        order.setCustomer(customer);
+        System.out.print("Choose payment method:");
+        return selectPaymentMethod(customer, order.getCurrentTotal().getAmountOfCrown(), "points");
     }
 
 
@@ -151,17 +170,17 @@ public class Register {
             presentPointBalance(customer);
             return new Payment(new Money(amount, 0), customer);
         }
-        if (type.equalsIgnoreCase("cash")) return payWithCash(amount);
+        if (type.equalsIgnoreCase("cash")) return payWithCash(amount, 1000, 100);
         else return new Payment(new Money(amount, 0));
     }
 
-    public Payment payWithCash(int total) {
+    public Payment payWithCash(int total, int denomination, int quantity) {
         Payment payment = new Payment(new Money(total, 0));
         int amount = 0;
         do {
             try {
                 System.out.print("Input denominations then quantity for each:");
-                Cash cash = new Cash(new Money(scanner.nextInt(), 0), scanner.nextInt());
+                Cash cash = new Cash(new Money(denomination, 0), quantity);
                 payment.addCashToEmptyPayment(cash);
                 amount = payment.getPayment().getAmountOfCrown();
             }
