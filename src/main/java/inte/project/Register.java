@@ -47,9 +47,8 @@ public class Register {
         }
 
         public Order scanProductsForOrder(Product... products) {
-        Order order = new Order();
+        Order order = new Order(products);
         for (Product product: products) {;
-                order.addProduct(inventory.get(product.getId()));
                 inventory.remove(product.getId());
         }
         return order;
@@ -59,15 +58,20 @@ public class Register {
             for (Product product : order.getProductsToOrder()) {
                 inventory.put(product.getId(), product);
             }
+            Collection<Product> cancelledProducts = order.getProductsToOrder();
+            order.getProductsToOrder().removeAll(cancelledProducts);
+            order.setDateOfOrder();
+            printReceipt(order);
         }
 
-    public void makeOrder(Order order, Payment... payments) {
-        order.paySeparatelyForProducts(payments);
+    public void payForOrder(Order order, Payment... payments) {
+        if (order.payTotalForProducts(payments)){
         if (order.getCashFromPayment() != null) addCashPaymentToRegister(order);
         totalBalance = totalBalance.add(order.getCurrentPayment());
-        addToDailyReports(order);
+        addToDailyReports(order);}
+        else System.out.print("Insufficient payment, please try again");
         printReceipt(order);
-        }
+    }
 
     //gets the cash
     public void addCashPaymentToRegister(Order order) {

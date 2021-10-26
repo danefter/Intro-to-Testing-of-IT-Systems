@@ -18,7 +18,7 @@ public class Order implements Discount{
 
     private HashMap<String, String> productsToOrderAsStrings = new HashMap<>();
     private HashMap<String, Product> productsToOrder = new HashMap<>();
-    private HashMap<String, Product> productsOrderd = new HashMap<>();
+    private HashMap<String, Product> productsOrdered = new HashMap<>();
     private HashMap<String, Payment> paymentMethods = new HashMap<>();
 
 
@@ -31,25 +31,17 @@ public class Order implements Discount{
         }
     }
 
-
-    public void paySeparatelyForProducts(Payment... payments) {
+    public boolean payTotalForProducts(Payment... payments) {
         for (Payment p: payments) {
+            if(p.getPaymentType().equals("Insufficient amount.")) return false;
             this.currentPayment = currentPayment.add(p.getPayment());
             paymentMethods.put(p.getPaymentType(), p);
-            if (!p.getPaymentType().equals("Cash")) customer = p.getCustomer();
+            if (p.getPaymentType().equals("Card") || p.getPaymentType().equals("Points")) customer = p.getCustomer();
         }
         if (currentPayment.getAmountInOre() < currentTotal.getAmountInOre()) throw new IllegalStateException("Insufficient amount.");
-        productsOrderd.putAll(productsToOrder);
+        productsOrdered.putAll(productsToOrder);
         setDateOfOrder();
-    }
-
-    public void payTotalForProducts(Payment payment) {
-        this.currentPayment = currentPayment.add(payment.getPayment());
-        paymentMethods.put(payment.getPaymentType(), payment);
-        if (currentPayment.getAmountInOre() < currentTotal.getAmountInOre()) throw new IllegalStateException("Insufficient amount.");
-        if (!payment.getPaymentType().equals("Cash")) customer = payment.getCustomer();
-        productsOrderd.putAll(productsToOrder);
-        setDateOfOrder();
+        return true;
     }
 
     public void applyDiscountPercentToTotalOrder(double percent){
@@ -112,11 +104,6 @@ public class Order implements Discount{
         return paymentMethods.get("Card");
     }
 
-    public void addProduct(Product product) {
-        productsToOrder.put(product.getId(), product);
-        productsToOrderAsStrings.put(product.getId(), product.toString());
-        currentTotal = currentTotal.add(product.getPricePlusVAT());
-    }
 
     public Collection<Cash> getCashFromPayment() {
         return paymentMethods.get("Cash").getCashPaymentValues();
@@ -134,8 +121,8 @@ public class Order implements Discount{
         dateOfOrder = formatter.format(today);
     }
 
-    public HashMap<String, Product> getProductsOrderd() {
-        return productsOrderd;
+    public HashMap<String, Product> getProductsOrdered() {
+        return productsOrdered;
     }
 
     public Collection<Product> getProductsToOrder() {
@@ -181,11 +168,11 @@ public class Order implements Discount{
         if (orderDiscountPercent == 0.0)
         return "Order date: " + getDateOfOrder() + "\nPayment methods: "
                 + getPaymentMethodsAsString() + "\nProducts: " + getProductsAsString()+
-                "\nTotal amount paid: " + currentTotal
+                "\nTotal amount paid with VAT: " + currentPayment
                 +"\nTotal discount amount: " + orderDiscountAmount;
-        return "Order date: " + getDateOfOrder() + "\nPayment methods: "
+        else return "Order date: " + getDateOfOrder() + "\nPayment methods: "
                 + getPaymentMethodsAsString() + "\nProducts: " + getProductsAsString()+
-                "\nTotal amount paid: " + currentTotal
+                "\nTotal amount paid with VAT: " + currentPayment
                 +"\nTotal discount amount: " + orderDiscountAmount+
                 " ("  + orderDiscountPercent*100 + "% off!)";
     }

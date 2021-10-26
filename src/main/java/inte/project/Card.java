@@ -41,6 +41,9 @@ public abstract class Card {
         return amount;
     }
 
+    public Money getBalance() {
+        return balance;
+    }
 
     public String toString() {
         return cardType + ": " + cardOwner.getName();

@@ -80,6 +80,24 @@ public class OrderTest {
     }
 
     @Test
+    void orderProductsWithCashIsCorrect() {
+        Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
+        Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
+        Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
+        Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        Order order = new Order(product, product1, product2, product3);
+        Money money = new Money(1000, 0);
+        Money money100 = new Money(100, 0);
+        Money money50 = new Money(50, 0);
+        Cash cash = new Cash(money, 5);
+        Cash cash1 = new Cash(money100, 1);
+        Cash cash2 = new Cash(money50, 1);
+        Payment payment = new Payment(order.getCurrentTotal(), cash, cash1, cash2);
+        order.payTotalForProducts(payment);
+        Assertions.assertEquals(order.getCurrentPayment(), order.getCurrentTotal());
+    }
+
+    @Test
     void orderProductsWithPoints() {
         Product product = new Appliances("348723", "Fridge", new Money(5000));
         Product product1 = new Appliances("347654", "Stove", new Money(4500));
@@ -109,7 +127,7 @@ public class OrderTest {
         customer.getMembership().getMembershipPoints().addPoints(50000000);
         Payment payment = new Payment(new Money(5000, 0), customer);
         Payment payment2 = new Payment(new Money(4000, 0), cash);
-        order.paySeparatelyForProducts(payment, payment2);
+        order.payTotalForProducts(payment, payment2);
         Assertions.assertEquals(order.getCurrentTotal(), order.getCurrentPayment());
     }
 
@@ -127,7 +145,7 @@ public class OrderTest {
         customer.getMembership().getMembershipPoints().addPoints(50000000);
         Payment payment = new Payment(new Money(5000, 0), customer);
         Payment payment2 = new Payment(new Money(4000, 0), cash);
-        order.paySeparatelyForProducts(payment, payment2);
+        order.payTotalForProducts(payment, payment2);
         Assertions.assertEquals("Order date: " + order.getDateOfOrder()
                 + "\nPayment methods: [\n"+ customer.getMembership().getMembershipPoints() + "\nAmount paid: 5000:00 kr, \n"
                 + "Cash:\n" + "Amount paid: 4000:00 kr]" + "\nProducts: [" +
@@ -135,7 +153,7 @@ public class OrderTest {
                  "\n346576 Mixer 2000:00 kr Household Store: null, " +
                  "\n341276 Mobile 1000:00 kr Tele Store: null, " +
                 "\n348723 Fridge 2000:00 kr Appliances Store: null]" +
-                 "\nTotal amount paid: " + "9000:00 kr"+
+                 "\nTotal amount paid with VAT: " + "9000:00 kr"+
                 "\nTotal discount amount: " + "0:00 kr"
                 , order.getInfo());
     }
@@ -155,7 +173,7 @@ public class OrderTest {
         Payment payment = new Payment(new Money(5000, 0), customer);
         Payment payment2 = new Payment(new Money(1000, 0), cash);
         Exception exception = Assertions.assertThrows(IllegalStateException.class, () -> {
-            order.paySeparatelyForProducts(payment, payment2);
+            order.payTotalForProducts(payment, payment2);
         });
         Assertions.assertEquals("Insufficient amount.", exception.getMessage());
     }
@@ -229,7 +247,7 @@ public class OrderTest {
         Payment payment = new Payment(new Money(5000, 0), customer);
         order.applyDiscountAmountToProductType(new Money(500, 0), "Appliances");
         Payment payment2 = new Payment(new Money(4000, 0), cash);
-        order.paySeparatelyForProducts(payment, payment2);
+        order.payTotalForProducts(payment, payment2);
         Assertions.assertEquals("Order date: " + order.getDateOfOrder()
                         + "\nPayment methods: [\n"+ customer.getMembership().getMembershipPoints() + "\nAmount paid: 5000:00 kr, \n"
                         + "Cash:\n" + "Amount paid: 4000:00 kr]" + "\nProducts: [" +
@@ -237,7 +255,7 @@ public class OrderTest {
                         "\n346576 Mixer 2000:00 kr Household Store: null, " +
                         "\n341276 Mobile 1000:00 kr Tele Store: null, " +
                         "\n348723 Fridge 2000:00 kr Appliances Store: null Discount: 500:00 kr]" +
-                         "\nTotal amount paid: " + "8000:00 kr"+
+                         "\nTotal amount paid with VAT: " + "9000:00 kr"+
                         "\nTotal discount amount: " + "1000:00 kr"
                 , order.getInfo());
     }

@@ -11,11 +11,12 @@ import java.util.List;
 
 public class RegisterTest {
 
-    public RegisterTest() {}
+    public RegisterTest() {
+    }
 
     @Test
     void denominationsConstructed() {
-        Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+        Store store = new Store("Vasagata 12", 12456, "Stockholm", "0706524324");
         Register register = new Register(store);
         List<Cash> denominations = Arrays.asList(
                 new Cash(new Money(1, 0), 0),
@@ -31,8 +32,8 @@ public class RegisterTest {
     }
 
     @Test
-    void makeOrderWithDesiredPaymentMethods(){
-        Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+    void makeOrderWithDesiredPaymentMethods() {
+        Store store = new Store("Vasagata 12", 12456, "Stockholm", "0706524324");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
@@ -46,30 +47,25 @@ public class RegisterTest {
         Cash cash1 = new Cash(money100, 1);
         Cash cash2 = new Cash(money50, 1);
         Payment payment = new Payment(order.getCurrentTotal(), cash, cash1, cash2);
-        register.makeOrder(order, payment);
-        Assertions.assertEquals(order.getCurrentPayment(), register.getTotalBalance());
+        register.payForOrder(order, payment);
+        Assertions.assertEquals(order.getCurrentPayment(), order.getCurrentTotal());
     }
 
     @Test
-    void makeOrderCancelPurchaseMethods(){
-        Store store = new Store("Vasagata 12",12456,"Stockholm","0706524324");
+    void makeOrderCancelPurchaseMethods() {
+        Store store = new Store("Vasagata 12", 12456, "Stockholm", "0706524324");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
         Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
         Register register = new Register(store, product, product1, product2, product3);
-        Collection <Product> productsBefore = register.getInventory();
+        Collection<Product> productsBefore = register.getInventory();
         Order order = register.scanProductsForOrder(product, product1, product2, product3);
         register.cancelOrderAfterScan(order);
         Assertions.assertIterableEquals(productsBefore, register.getInventory());
     }
-    @Test
-    void addCashPaymentToRegisterAddsCash(){}
 
-    @Test
-    void addToDailyReportsLogsOrders(){}
-
-    @Test
-    void printReceipt(){}
-
+   
 }
+
+
