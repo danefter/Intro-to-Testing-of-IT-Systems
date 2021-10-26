@@ -55,7 +55,12 @@ public class Register {
         }
 
         public void cancelOrderAfterScan(Order order) {
-            for (Product product : order.getProductsToOrder()) {
+            System.out.print("""
+
+
+                    Order cancelled, Receipt:
+                    """);
+        for (Product product : order.getProductsToOrder()) {
                 inventory.put(product.getId(), product);
             }
             Collection<Product> cancelledProducts = order.getProductsToOrder();
@@ -66,6 +71,8 @@ public class Register {
 
 
     public void payForOrder(Order order, Payment... payments) {
+        String paymentConfirmation = waitForPaymentConfirmation();
+        if (paymentConfirmation.equalsIgnoreCase("y")){
         if (order.payTotalForProducts(payments)){
             System.out.print("""
 
@@ -83,6 +90,8 @@ public class Register {
         totalBalance = totalBalance.add(order.getCurrentPayment());
         addToDailyReports(order);}
         else System.out.print("Insufficient payment, please try again");
+        }
+        if (paymentConfirmation.equalsIgnoreCase("n")) checkIfCancelOfOrderRequested(order);
         printReceipt(order);
     }
 
@@ -106,9 +115,7 @@ public class Register {
     public void checkIfCancelOfOrderRequested(Order order) {
         System.out.print("""
                     
-                    Cancel order: (Y/N)
-                    
-                    """);
+                    Cancel order: (Y/N)""");
         String input = scanner.nextLine();
         if(input.equalsIgnoreCase("y")) cancelOrderAfterScan(order);
     }
@@ -116,18 +123,14 @@ public class Register {
     public String waitForPaymentConfirmation() {
         System.out.print("""
                     
-                    Confirm payment: (Y/N)
-                    
-                    """);
+                    Confirm payment: (Y/N)""");
         return scanner.nextLine();
     }
 
     public void checkIfCustomerWantsMembership(Customer customer) {
         System.out.print("""
                     
-                    Would you like to become a member?: (Y/N)
-                    
-                    """);
+                    Would you like to become a member?: (Y/N)""");
         String input = scanner.nextLine();
         if(input.equalsIgnoreCase("y")) customer.addMembership();;
     }
@@ -181,7 +184,7 @@ public class Register {
     public void presentTotal(Order order) {
         String totalInfo = "Products: " + order.getProductsAsString()+
                 "\nTotal with VAT: " + order.getCurrentTotal();
-        totalInfo = totalInfo.replaceAll("Store: "+ store.toString(), "");
+        totalInfo = totalInfo.replaceAll(",", "");
         System.out.print(totalInfo.replaceAll("[\\[\\]]", ""));
         checkIfCancelOfOrderRequested(order);
     }

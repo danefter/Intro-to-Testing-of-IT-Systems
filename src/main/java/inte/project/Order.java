@@ -27,7 +27,8 @@ public class Order implements Discount{
             this.currentTotalWithoutVat = currentTotalWithoutVat.add(p.getPrice());
             this.currentTotal = currentTotal.add(p.getPricePlusVAT());
             this.productsToOrder.put(p.getId(), p);
-            this.productsToOrderAsStrings.put(p.getId(), p.toString());
+            this.productsToOrderAsStrings.put(p.getId(),
+                    (p.toString().replaceAll("Store: "+ p.getStore().toString(), "")).replaceAll(p.getType(), "") + "+ VAT: "+ p.getVatValue()/ 1000 +"%");
         }
     }
 
@@ -170,15 +171,15 @@ public class Order implements Discount{
     // in the Reciept class using a PrintWriter for a document, so this method is more of a placeholder for Receipt
     public String getInfo() {
         if (orderDiscountPercent == 0.0)
-        return "Order date: " + getDateOfOrder() + "\nPayment methods: "
-                + getPaymentMethodsAsString() + "\nProducts: " + getProductsAsString()+
+        return ("Order date: " + getDateOfOrder() + "\nPayment methods: "
+                + getPaymentMethodsAsString() + "\nProducts: " + getProductsAsString() +
                 "\nTotal amount paid with VAT: " + currentPayment
-                +"\nTotal discount amount: " + orderDiscountAmount;
-        else return "Order date: " + getDateOfOrder() + "\nPayment methods: "
+                +"\nTotal discount amount: " + orderDiscountAmount).replaceAll(",", "");
+        else return ("Order date: " + getDateOfOrder() + "\nPayment methods: "
                 + getPaymentMethodsAsString() + "\nProducts: " + getProductsAsString()+
                 "\nTotal amount paid with VAT: " + currentPayment
                 +"\nTotal discount amount: " + orderDiscountAmount+
-                " ("  + orderDiscountPercent*100 + "% off!)";
+                " ("  + orderDiscountPercent*100 + "% off!)").replaceAll(",", "");
     }
 
     //orderId with date + first letter of customer nam + first 3 numbers of payment (without VAT)
