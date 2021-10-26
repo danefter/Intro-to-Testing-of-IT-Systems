@@ -10,7 +10,7 @@ public class Register {
 
     private Report dailyReport = new Report();
 
-    private final Scanner scanner = new Scanner(System.in);
+    private Scanner scanner = new Scanner(System.in);
 
     //saves orders based on ID
     private HashMap<String, Order> dailyOrders = new HashMap<>();
@@ -97,9 +97,9 @@ public class Register {
             amount += payment.getPayment().getAmountOfCrown();
     }
         while(amount < total);
-        if(confirmPayment().equalsIgnoreCase("y"))
+        if(waitForPaymentConfirmation().equalsIgnoreCase("y"))
         payForOrder(order, payments);
-        if(confirmPayment().equalsIgnoreCase("n"))
+        if(waitForPaymentConfirmation().equalsIgnoreCase("n"))
             checkIfCancelOfOrderRequested(order);
     }
 
@@ -113,7 +113,7 @@ public class Register {
         if(input.equalsIgnoreCase("y")) cancelOrderAfterScan(order);
     }
 
-    public String confirmPayment() {
+    public String waitForPaymentConfirmation() {
         System.out.print("""
                     
                     Confirm payment: (Y/N)
