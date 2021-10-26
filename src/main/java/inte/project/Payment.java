@@ -72,6 +72,14 @@ public class Payment {
         else this.cashPayment.get(money.getDenomination().getAmountOfCrown()).add(money.getQuantity());
     }
 
+    public void addCashToEmptyPayment(Cash... cash) {
+        for (Cash money : cash) {
+            this.collectCashPayments(money);
+            amountPaid = amountPaid.add(money.getTotal());
+        }
+        this.paymentType = "Cash";
+    }
+
     //Cash is different because it needs to be able to give change in Register
     public Money getPayment() {
         if (this.paymentType.equals("Cash")) return amountPaid;

@@ -64,14 +64,92 @@ public class Register {
             printReceipt(order);
         }
 
+
     public void payForOrder(Order order, Payment... payments) {
         if (order.payTotalForProducts(payments)){
         if (order.getCashFromPayment() != null) addCashPaymentToRegister(order);
+        if (order.getCustomer().getMembership()!= null)
+            order.getCustomer().getMembership().getMembershipPoints().addPoints((int)
+                    getPointsForOrder(order.getCurrentPayment().getAmountInOre()));
         totalBalance = totalBalance.add(order.getCurrentPayment());
         addToDailyReports(order);}
         else System.out.print("Insufficient payment, please try again");
         printReceipt(order);
     }
+
+    public void payForOrderUsingInput(Order order, Customer customer) {
+        int amount = 0;
+        int total = order.getCurrentTotal().getAmountOfCrown();
+        Payment[] payments = new Payment[0];
+        do{
+            payments = Arrays.copyOf(payments, payments.length +1);
+            Payment payment = waitForInput(order, customer);
+            payments[payments.length-1] = payment;
+            amount += payment.getPayment().getAmountOfCrown();
+    }
+        while(amount < total);
+        payForOrder(order, payments);
+    }
+
+
+    public Payment waitForInput(Order order, Customer customer) {
+        order.setCustomer(customer);
+        System.out.print("Choose payment method:");
+        return selectPaymentMethod(customer, order.getCurrentTotal().getAmountOfCrown(), scanner.nextLine());
+    }
+
+
+    public Payment selectPaymentMethod(Customer customer, int amount, String type) {
+        if (type.equalsIgnoreCase("giftcard")) {
+            presentGiftCardBalance(customer.getGiftCard());
+            return new Payment(new Money(amount, 0), customer.getGiftCard());
+        }
+        if (type.equalsIgnoreCase("debitcard")) return new Payment(new Money(amount, 0), customer.getDebitCard());
+        if (type.equalsIgnoreCase("points")) {
+            presentPointBalance(customer);
+            return new Payment(new Money(amount, 0), customer);
+        }
+        if (type.equalsIgnoreCase("cash")) return payWithCash(amount);
+        else return new Payment(new Money(amount, 0));
+    }
+
+    public Payment payWithCash(int total) {
+        Payment payment = new Payment(new Money(total, 0));
+        int amount = 0;
+        do {
+            try {
+                System.out.print("Input denominations then quantity for each:");
+                Cash cash = new Cash(new Money(scanner.nextInt(), 0), scanner.nextInt());
+                payment.addCashToEmptyPayment(cash);
+                amount = payment.getPayment().getAmountOfCrown();
+            }
+            catch (InputMismatchException e) {
+                System.out.print("Not an integer");
+            }
+        }
+        while (total < amount);
+        return payment;
+    }
+
+    public void customerBecomesMember(Customer customer){
+        customer.addMembership();
+    }
+
+    public void presentPointBalance(Customer customer) {
+        if (customer.getMembership() != null) System.out.print(customer.getMembership().getMembershipPoints().toString());
+    }
+
+    public void presentGiftCardBalance(GiftCard giftCard) {
+        System.out.print(giftCard.getBalance());
+    }
+
+    public void presentTotal(Order order) {
+        String totalInfo = "Products: " + order.getProductsAsString()+
+                "\nTotal with VAT: " + order.getCurrentTotal();
+        totalInfo = totalInfo.replaceAll("Store: "+ store.toString(), "");
+        System.out.print(totalInfo.replaceAll("[\\[\\]]", ""));
+    }
+
 
     //gets the cash
     public void addCashPaymentToRegister(Order order) {

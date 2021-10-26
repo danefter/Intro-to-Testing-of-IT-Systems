@@ -44,6 +44,7 @@ public class Order implements Discount{
         return true;
     }
 
+
     public void applyDiscountPercentToTotalOrder(double percent){
         if (percent > 1.00) throw new IllegalArgumentException("Discount causes price increase.");
         this.orderDiscountAmount = orderDiscountAmount.add((int) (currentTotal.getAmountInOre() * applyDiscountPercent(percent)));
@@ -161,6 +162,9 @@ public class Order implements Discount{
         return customer;
     }
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
     //basically a toString for the Receipt, all of this needs to be collected
     // in the Reciept class using a PrintWriter for a document, so this method is more of a placeholder for Receipt

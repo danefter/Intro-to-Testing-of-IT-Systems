@@ -12,7 +12,9 @@ public abstract class Customer {
     private String phoneNumber;
     private boolean member;
     private Membership membership;
-    
+    private GiftCard giftCard;
+    private DebitCard debitCard;
+
     public Customer(String name, String address, String email, String phoneNumber){
         phoneNumber = removePotentialSpaces(phoneNumber);
         phoneNumber = removeHyphen(phoneNumber);
@@ -133,5 +135,21 @@ public abstract class Customer {
     @Override
     public int hashCode(){
         return name.hashCode() * 1000 + email.hashCode();
+    }
+
+    public GiftCard getGiftCard() {
+        return giftCard;
+    }
+
+    public void setGiftCard(GiftCard card) {
+        this.giftCard = card;
+    }
+
+    public DebitCard getDebitCard() {
+        return debitCard;
+    }
+
+    public void setDebitCard(DebitCard debitCard) {
+        this.debitCard = debitCard;
     }
 }
