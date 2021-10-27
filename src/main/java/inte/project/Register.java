@@ -331,7 +331,7 @@ public class Register {
     //literally just a system out print of order.getInfo
     public void printReceipt(Order order){
         Receipt receipt = new Receipt(order, store);
-        receipt.print();
+        System.out.print(receipt.print());
     }
 
     //logs orders
