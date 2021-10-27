@@ -13,10 +13,6 @@ public abstract class Card {
         this.balance = balance;
     }
 
-    public String getBalanceAmount() {
-        return this.balance.toString();
-    }
-
     public Customer getCardOwner() {
         return this.cardOwner;
     }

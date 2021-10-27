@@ -21,7 +21,7 @@ public class PaymentTest {
         PrivatePerson person = new PrivatePerson("Albin Ahl", "Regngatan 33", "abbeAhl@gmail.com", "0707896779", "1993-6-5");
         GiftCard card = new GiftCard("Giftcard", person, new Money(100000000));
         Payment payment = new Payment(new Money(5000, 0), card);
-        Assertions.assertEquals("Giftcard: Albin Ahl," + " Balance: " + card.getBalanceAmount() + "\nAmount paid: 5000:00 kr\nRemaining balance: 995000:00 kr" , payment.toString());
+        Assertions.assertEquals("Giftcard: Albin Ahl," + " Balance: " + card.getBalance() + "\nAmount paid: 5000:00 kr\nRemaining balance: 995000:00 kr" , payment.toString());
     }
 
     @Test
