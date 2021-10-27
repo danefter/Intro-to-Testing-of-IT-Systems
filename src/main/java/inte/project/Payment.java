@@ -113,7 +113,7 @@ public class Payment {
         if (this.paymentType.equals("Card") && cardPayment.getCardType().equals("Debitcard"))
             return getCardPayment().toString() + "\nAmount paid: " + paymentAmount;
         if (this.paymentType.equals("Card") && cardPayment.getCardType().equals("Giftcard"))
-            return getCardPayment().toString() + "\nAmount paid: " + paymentAmount + "\nRemaining balance: " + cardPayment.getBalanceAmount();
+            return getCardPayment().toString() + "\nAmount paid: " + paymentAmount + "\nRemaining balance: " + cardPayment.getBalance();
         if (this.paymentType.equals("Points"))
             return pointPayment.toString() + "\nAmount paid: " + paymentAmount;
         else
