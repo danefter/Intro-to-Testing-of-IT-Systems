@@ -321,6 +321,15 @@ public class OrderTest {
         });
         Assertions.assertEquals("Discount causes price increase.", exception.getMessage());
     }
+    @Test
+    void getOrderId() {
+        Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
+        Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
+        Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
+        Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        Order order = new Order(product, product1, product2, product3);
+        Assertions.assertEquals("nullC40", order.getOrderId());
+    }
 
 
 }

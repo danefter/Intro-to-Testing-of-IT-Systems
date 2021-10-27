@@ -87,6 +87,14 @@ public class PaymentTest {
         Payment payment = new Payment(new Money(5000, 0), customer);
         Assertions.assertEquals(points, payment.getPayment().getAmountInOre());
     }
+    @Test
+    void addCashToPayment() {
+        PrivatePerson person = new PrivatePerson("Albin Ahl", "Regngatan 33", "abbeAhl@gmail.com", "0707896779", "1993-6-5");
+        DebitCard card = new DebitCard("Debitcard", person, new Money(100000000));
+        Payment payment = new Payment(new Money(5000, 0), card);
+        Money money = new Money(5, 2);
+        payment.addCashToEmptyPayment(new Cash(money, 10));
+    }
 
 
 
