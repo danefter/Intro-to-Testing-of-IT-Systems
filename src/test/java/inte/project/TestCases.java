@@ -7,6 +7,7 @@ public class TestCases {
 
     public TestCases() {}
 
+    @Test
     public void tf1(){
         Store store = new Store("Vasagata 12", 12456, "Stockholm", "0706524324");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
@@ -27,6 +28,7 @@ public class TestCases {
         Assertions.assertEquals(order.getCurrentPayment(), order.getCurrentTotal());
     }
 
+    @Test
     public void tf2(){
         Store store = new Store("Vasagata 12", 12456, "Stockholm", "0706524324");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
@@ -47,6 +49,7 @@ public class TestCases {
         Assertions.assertEquals(order.getCurrentPayment(), order.getCurrentTotal());
     }
 
+    @Test
     public void tf3(){
         Store store = new Store("Vasagata 12", 12456, "Stockholm", "0706524324");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
@@ -67,6 +70,7 @@ public class TestCases {
         Assertions.assertEquals(order.getCurrentPayment(), order.getCurrentTotal());
     }
 
+    @Test
     public void tf4(){
         Store store = new Store("Vasagata 12", 12456, "Stockholm", "0706524324");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
@@ -87,6 +91,7 @@ public class TestCases {
         Assertions.assertEquals(order.getCurrentPayment(), order.getCurrentTotal());
     }
 
+    @Test
     public void tf5(){
         Store store = new Store("Vasagata 12", 12456, "Stockholm", "0706524324");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
@@ -107,6 +112,7 @@ public class TestCases {
         Assertions.assertEquals(order.getCurrentPayment(), order.getCurrentTotal());
     }
 
+    @Test
     public void tf6(){
         Store store = new Store("Vasagata 12", 12456, "Stockholm", "0706524324");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
@@ -127,6 +133,7 @@ public class TestCases {
         Assertions.assertEquals(order.getCurrentPayment(), order.getCurrentTotal());
     }
 
+    @Test
     public void tf7(){
         Store store = new Store("Vasagata 12", 12456, "Stockholm", "0706524324");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
@@ -147,6 +154,7 @@ public class TestCases {
         Assertions.assertEquals(order.getCurrentPayment(), order.getCurrentTotal());
     }
 
+    @Test
     public void tf8(){
         Store store = new Store("Vasagata 12", 12456, "Stockholm", "0706524324");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));

@@ -14,8 +14,8 @@ public class Receipt {
         this.store = store;
     }
 
-    public void print(){
+    public String print(){
         String receipt = "\n" + store.toString() + "\n" + order.getInfo().replaceAll("[\\[\\]]", "");
-        System.out.print(receipt);
+        return receipt;
     }
 }

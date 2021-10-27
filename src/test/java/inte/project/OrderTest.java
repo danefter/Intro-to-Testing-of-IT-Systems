@@ -7,10 +7,15 @@ public class OrderTest {
 
     @Test
     void returnCurrentPayment() {
+        Store store = new Store("addressvägen 1", 18799, "city", "0789882005");
         Product product = new Appliances("348723", "Fridge", new Money(100, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(100, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(100, 0));
         Product product3 = new HouseHold("346576", "Mixer", new Money(100, 0));
+        product1.addStore(store);
+        product2.addStore(store);
+        product3.addStore(store);
+        product.addStore(store);
         Order order = new Order(product, product1, product2, product3);
         Assertions.assertEquals(order.getCurrentTotal(), new Money(515, 0));
     }
@@ -18,10 +23,15 @@ public class OrderTest {
 
         @Test
         void orderProductsWithInsufficientAmount() {
+            Store store = new Store("addressvägen 1", 18799, "city", "0789882005");
             Product product = new Appliances("348723", "Fridge", new Money(5000));
             Product product1 = new Appliances("347654", "Stove", new Money(4500));
             Product product2 = new Tele("341276", "Mobile", new Money(10000));
             Product product3 = new HouseHold("346576", "Mixer", new Money(1500));
+            product1.addStore(store);
+            product2.addStore(store);
+            product3.addStore(store);
+            product.addStore(store);
             Order order = new Order(product, product1, product2, product3);
             Money money = new Money(10, 0);
             Cash cash = new Cash(money, 1);
@@ -35,10 +45,15 @@ public class OrderTest {
 
     @Test
     void orderProductsWithOnePayment() {
+        Store store = new Store("addressvägen 1", 18799, "city", "0789882005");
         Product product = new Appliances("348723", "Fridge", new Money(5000));
         Product product1 = new Appliances("347654", "Stove", new Money(4500));
         Product product2 = new Tele("341276", "Mobile", new Money(10000));
         Product product3 = new HouseHold("346576", "Mixer", new Money(1500));
+        product1.addStore(store);
+        product2.addStore(store);
+        product3.addStore(store);
+        product.addStore(store);
         Order order = new Order(product, product1, product2, product3);
         PrivatePerson person = new PrivatePerson("Albin Ahl", "Regngatan 33", "abbeAhl@gmail.com", "0707896779", "1993-6-5");
         DebitCard card = new DebitCard("Debitcard", person, new Money(100000000));
@@ -49,10 +64,15 @@ public class OrderTest {
 
     @Test
     void orderProductsWithCard() {
+        Store store = new Store("addressvägen 1", 18799, "city", "0789882005");
         Product product = new Appliances("348723", "Fridge", new Money(5000));
         Product product1 = new Appliances("347654", "Stove", new Money(4500));
         Product product2 = new Tele("341276", "Mobile", new Money(10000));
         Product product3 = new HouseHold("346576", "Mixer", new Money(1500));
+        product1.addStore(store);
+        product2.addStore(store);
+        product3.addStore(store);
+        product.addStore(store);
         Order order = new Order(product, product1, product2, product3);
         PrivatePerson person = new PrivatePerson("Albin Ahl", "Regngatan 33", "abbeAhl@gmail.com", "0707896779", "1993-6-5");
         GiftCard card1 = new GiftCard("Giftcard", person, new Money(100000000));
@@ -63,10 +83,15 @@ public class OrderTest {
 
     @Test
     void orderProductsWithCash() {
+        Store store = new Store("addressvägen 1", 18799, "city", "0789882005");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
         Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        product1.addStore(store);
+        product2.addStore(store);
+        product3.addStore(store);
+        product.addStore(store);
         Order order = new Order(product, product1, product2, product3);
         Money money = new Money(1000, 0);
         Money money100 = new Money(100, 0);
@@ -81,10 +106,15 @@ public class OrderTest {
 
     @Test
     void orderProductsWithCashIsCorrect() {
+        Store store = new Store("addressvägen 1", 18799, "city", "0789882005");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
         Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        product1.addStore(store);
+        product2.addStore(store);
+        product3.addStore(store);
+        product.addStore(store);
         Order order = new Order(product, product1, product2, product3);
         Money money = new Money(1000, 0);
         Money money100 = new Money(100, 0);
@@ -99,10 +129,15 @@ public class OrderTest {
 
     @Test
     void orderProductsWithPoints() {
+        Store store = new Store("addressvägen 1", 18799, "city", "0789882005");
         Product product = new Appliances("348723", "Fridge", new Money(5000));
         Product product1 = new Appliances("347654", "Stove", new Money(4500));
         Product product2 = new Tele("341276", "Mobile", new Money(100000000));
         Product product3 = new HouseHold("346576", "Mixer", new Money(1500));
+        product1.addStore(store);
+        product2.addStore(store);
+        product3.addStore(store);
+        product.addStore(store);
         Order order = new Order(product, product1, product2, product3);
         String dateOfBirth = "1999-04-03";
         Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
@@ -115,10 +150,15 @@ public class OrderTest {
 
     @Test
     void orderProductsWithSeparateMethods() {
+        Store store = new Store("addressvägen 1", 18799, "city", "0789882005");
         Product product = new Appliances("348723", "Fridge", new Money(2000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(2000, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
         Product product3 = new HouseHold("346576", "Mixer", new Money(2000, 0));
+        product1.addStore(store);
+        product2.addStore(store);
+        product3.addStore(store);
+        product.addStore(store);
         Order order = new Order(product, product1, product2, product3);
         Cash cash = new Cash(new Money(200, 0), 20);
         String dateOfBirth = "1999-04-03";
@@ -133,10 +173,15 @@ public class OrderTest {
 
     @Test
     void orderProductsWithSeparateMethodsGetInfo() {
+        Store store = new Store("addressvägen 1", 18799, "city", "0789882005");
         Product product = new Appliances("348723", "Fridge", new Money(2000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(2000, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
         Product product3 = new HouseHold("346576", "Mixer", new Money(2000, 0));
+        product1.addStore(store);
+        product2.addStore(store);
+        product3.addStore(store);
+        product.addStore(store);
         Order order = new Order(product, product1, product2, product3);
         Cash cash = new Cash(new Money(200, 0), 20);
         String dateOfBirth = "1999-04-03";
@@ -147,12 +192,12 @@ public class OrderTest {
         Payment payment2 = new Payment(new Money(4000, 0), cash);
         order.payTotalForProducts(payment, payment2);
         Assertions.assertEquals("Order date: " + order.getDateOfOrder()
-                + "\nPayment methods: [\n"+ customer.getMembership().getMembershipPoints() + "\nAmount paid: 5000:00 kr, \n"
+                + "\nPayment methods: [\n"+ customer.getMembership().getMembershipPoints() + "\nAmount paid: 5000:00 kr \n"
                 + "Cash:\n" + "Amount paid: 4000:00 kr]" + "\nProducts: [" +
-                 "\n347654 Stove 2000:00 kr Appliances Store: null, " +
-                 "\n346576 Mixer 2000:00 kr Household Store: null, " +
-                 "\n341276 Mobile 1000:00 kr Tele Store: null, " +
-                "\n348723 Fridge 2000:00 kr Appliances Store: null]" +
+                 "\n347654 Stove 2000:00 kr  + VAT: 60% " +
+                 "\n346576 Mixer 2000:00 kr  + VAT: 50% " +
+                 "\n341276 Mobile 1000:00 kr  + VAT: 30% " +
+                "\n348723 Fridge 2000:00 kr  + VAT: 60%]" +
                  "\nTotal amount paid with VAT: " + "9000:00 kr"+
                 "\nTotal discount amount: " + "0:00 kr"
                 , order.getInfo());
@@ -160,10 +205,15 @@ public class OrderTest {
 
     @Test
     void orderProductsWithSeparateMethodsInsufficientAmount() {
+        Store store = new Store("addressvägen 1", 18799, "city", "0789882005");
         Product product = new Appliances("348723", "Fridge", new Money(2000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(2000, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
         Product product3 = new HouseHold("346576", "Mixer", new Money(2000, 0));
+        product1.addStore(store);
+        product2.addStore(store);
+        product3.addStore(store);
+        product.addStore(store);
         Order order = new Order(product, product1, product2, product3);
         Cash cash = new Cash(new Money(200, 0), 10);
         String dateOfBirth = "1999-04-03";
@@ -180,7 +230,9 @@ public class OrderTest {
 
     @Test
     void applyDiscountPercentToAllOrders() {
+        Store store = new Store("addressvägen 1", 18799, "city", "0789882005");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
+        product.addStore(store);
         Order order = new Order(product);
         order.applyDiscountPercentToTotalOrder(0.25);
         Assertions.assertEquals(new Money(975, 0), order.getCurrentTotal());
@@ -188,10 +240,15 @@ public class OrderTest {
 
     @Test
     void applyDiscountPercentToProductType() {
+        Store store = new Store("addressvägen 1", 18799, "city", "0789882005");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
         Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        product1.addStore(store);
+        product2.addStore(store);
+        product3.addStore(store);
+        product.addStore(store);
         Order order = new Order(product, product1, product2, product3);
         order.applyDiscountPercentToProductType(1.00, "Appliances");
         Assertions.assertEquals(new Money(3150, 0), order.getCurrentTotal());
@@ -199,10 +256,15 @@ public class OrderTest {
 
     @Test
     void applyDiscountAmountToAllOrders() {
+        Store store = new Store("addressvägen 1", 18799, "city", "0789882005");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
         Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        product1.addStore(store);
+        product2.addStore(store);
+        product3.addStore(store);
+        product.addStore(store);
         Order order = new Order(product, product1, product2, product3);
         order.applyDiscountAmountToTotalOrder(new Money(2000, 0));
         Assertions.assertEquals(new Money(3150, 0), order.getCurrentTotal());
@@ -210,10 +272,15 @@ public class OrderTest {
 
     @Test
     void applyDiscountAmountToProductType() {
+        Store store = new Store("addressvägen 1", 18799, "city", "0789882005");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
         Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        product1.addStore(store);
+        product2.addStore(store);
+        product3.addStore(store);
+        product.addStore(store);
         Order order = new Order(product, product1, product2, product3);
         order.applyDiscountAmountToProductType(new Money(500, 0), "Appliances");
         Assertions.assertEquals(new Money(4150, 0), order.getCurrentTotal());
@@ -221,10 +288,15 @@ public class OrderTest {
 
     @Test
     void applyDiscountAmountToProductTypeThrows() {
+        Store store = new Store("addressvägen 1", 18799, "city", "0789882005");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
         Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        product1.addStore(store);
+        product2.addStore(store);
+        product3.addStore(store);
+        product.addStore(store);
         Order order = new Order(product, product1, product2, product3);
         Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             order.applyDiscountAmountToProductType(new Money(1500, 0), "Appliances");
@@ -234,10 +306,15 @@ public class OrderTest {
 
     @Test
     void orderProductsWithSeparateMethodsAndProductTypeDiscountGetInfo() {
+        Store store = new Store("addressvägen 1", 18799, "city", "0789882005");
         Product product = new Appliances("348723", "Fridge", new Money(2000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(2000, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
         Product product3 = new HouseHold("346576", "Mixer", new Money(2000, 0));
+        product1.addStore(store);
+        product2.addStore(store);
+        product3.addStore(store);
+        product.addStore(store);
         Order order = new Order(product, product1, product2, product3);
         Cash cash = new Cash(new Money(200, 0), 20);
         String dateOfBirth = "1999-04-03";
@@ -249,12 +326,12 @@ public class OrderTest {
         Payment payment2 = new Payment(new Money(4000, 0), cash);
         order.payTotalForProducts(payment, payment2);
         Assertions.assertEquals("Order date: " + order.getDateOfOrder()
-                        + "\nPayment methods: [\n"+ customer.getMembership().getMembershipPoints() + "\nAmount paid: 5000:00 kr, \n"
+                        + "\nPayment methods: [\n"+ customer.getMembership().getMembershipPoints() + "\nAmount paid: 5000:00 kr \n"
                         + "Cash:\n" + "Amount paid: 4000:00 kr]" + "\nProducts: [" +
-                        "\n347654 Stove 2000:00 kr Appliances Store: null Discount: 500:00 kr, " +
-                        "\n346576 Mixer 2000:00 kr Household Store: null, " +
-                        "\n341276 Mobile 1000:00 kr Tele Store: null, " +
-                        "\n348723 Fridge 2000:00 kr Appliances Store: null Discount: 500:00 kr]" +
+                        "\n347654 Stove 2000:00 kr Appliances Store: " + store.toString() + " Discount: 500:00 kr " +
+                        "\n346576 Mixer 2000:00 kr  + VAT: 50% " +
+                        "\n341276 Mobile 1000:00 kr  + VAT: 30% " +
+                        "\n348723 Fridge 2000:00 kr Appliances Store: " + store.toString() + " Discount: 500:00 kr]" +
                          "\nTotal amount paid with VAT: " + "9000:00 kr"+
                         "\nTotal discount amount: " + "1000:00 kr"
                 , order.getInfo());
@@ -262,10 +339,15 @@ public class OrderTest {
 
     @Test
     void applyDiscountAmountToAllOrdersThrows() {
+        Store store = new Store("addressvägen 1", 18799, "city", "0789882005");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
         Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        product1.addStore(store);
+        product2.addStore(store);
+        product3.addStore(store);
+        product.addStore(store);
         Order order = new Order(product, product1, product2, product3);
         Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             order.applyDiscountAmountToTotalOrder(new Money(20000, 0));
@@ -275,7 +357,9 @@ public class OrderTest {
 
     @Test
     void applyDiscountPercentToAllOrdersThrows() {
+        Store store = new Store("addressvägen 1", 18799, "city", "0789882005");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
+        product.addStore(store);
         Order order = new Order(product);
         Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             order.applyDiscountPercentToTotalOrder(1.50);
@@ -285,10 +369,15 @@ public class OrderTest {
 
     @Test
     void applyDiscountPercentToProductTypeThrows() {
+        Store store = new Store("addressvägen 1", 18799, "city", "0789882005");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
         Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        product1.addStore(store);
+        product2.addStore(store);
+        product3.addStore(store);
+        product.addStore(store);
         Order order = new Order(product, product1, product2, product3);
         Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             order.applyDiscountPercentToProductType(1.50, "Appliances");
@@ -298,10 +387,15 @@ public class OrderTest {
 
     @Test
     void applyDiscountPercentToProductThrowsNegativeDiscount() {
+        Store store = new Store("addressvägen 1", 18799, "city", "0789882005");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
         Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        product1.addStore(store);
+        product2.addStore(store);
+        product3.addStore(store);
+        product.addStore(store);
         Order order = new Order(product, product1, product2, product3);
         Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             order.applyDiscountPercentToProduct(1.50, "348723");
@@ -311,10 +405,15 @@ public class OrderTest {
 
     @Test
     void applyDiscountAmountToProductThrowsNegativeDiscount() {
+        Store store = new Store("addressvägen 1", 18799, "city", "0789882005");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
         Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        product1.addStore(store);
+        product2.addStore(store);
+        product3.addStore(store);
+        product.addStore(store);
         Order order = new Order(product, product1, product2, product3);
         Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             order.applyDiscountAmountToProduct(new Money(1500, 0), "348723");
