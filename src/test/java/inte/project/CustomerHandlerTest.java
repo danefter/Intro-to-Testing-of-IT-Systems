@@ -48,7 +48,7 @@ class CustomerHandlerTest {
     void exceptionAddSameCustomer(){
         CustomerHandler ch = new CustomerHandler();
         Customer cu = new PrivatePerson("name", "address", "email", "0708988900", "1997-05-13");
-        ch.addCustomer(cu);;
+        ch.addCustomer(cu);
         assertThrows(IllegalArgumentException.class, () -> ch.addCustomer(cu));
     }
 

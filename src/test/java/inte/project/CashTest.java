@@ -131,13 +131,7 @@ public class CashTest {
         Cash cash = new Cash(money, 1);
         Assertions.assertEquals("20:00 kr", cash.toString() );
     }
-    @Test
-    void equalsTest() {
-        Money money = new Money(20, 0);
-        Cash cash = new Cash(money, 1);
-        Money moneyNot = new Money(10, 0);
-        Assertions.assertFalse(cash.equals(moneyNot));
-    }
+
     @Test
     void getTotalInOre() {
         Money money = new Money(20, 0);
@@ -145,7 +139,7 @@ public class CashTest {
         Assertions.assertEquals(2000, cash.getTotalInOre());
     }
     @Test
-    void copmareCash() {
+    void compareCash() {
         Money money = new Money(20, 0);
         Cash cash = new Cash(money, 1);
         Assertions.assertEquals(0, cash.compareTo(cash));

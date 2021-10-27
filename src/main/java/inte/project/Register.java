@@ -48,7 +48,6 @@ public class Register {
     public Order scanProductsForOrder(Product... products) {
         Order order = new Order(products);
         for (Product product : products) {
-            ;
             inventory.remove(product.getId());
         }
         return order;
