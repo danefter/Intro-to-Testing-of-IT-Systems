@@ -73,6 +73,9 @@ public class Order implements Discount{
         this.currentTotal = currentTotal.subtract(amount);
         this.orderDiscountAmount = orderDiscountAmount.add(amount);
     }
+    public Money getOrderDiscountAmount(){
+        return orderDiscountAmount;
+    }
 
     public void applyDiscountAmountToProductType(Money amount, String productType){
         for (Product p : productsToOrder.values()) {
