@@ -3,6 +3,11 @@ package inte.project;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
 public class OrderTest {
 
     @Test
@@ -198,7 +203,7 @@ public class OrderTest {
     }
 
     @Test
-    void applyDiscountAmountToAllOrders() {
+    void applyDiscountAmountToTotalOrder() {
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
@@ -328,8 +333,97 @@ public class OrderTest {
         Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
         Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
         Order order = new Order(product, product1, product2, product3);
-        Assertions.assertEquals("nullC40", order.getOrderId());
+        order.setDateOfOrder();
+        Assertions.assertEquals(order.getDateOfOrder()+"C40", order.getOrderId());
     }
 
+    @Test
+    void setDate() {
+        Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
+        Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
+        Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
+        Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        Order order = new Order(product, product1, product2, product3);
+        order.setDateOfOrder();
+        Assertions.assertEquals(order.getDateOfOrder()+"C40", order.getOrderId());
+    }
 
+    @Test
+    void resetPayments() {
+        Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
+        Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
+        Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
+        Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        Order order = new Order(product, product1, product2, product3);
+        order.resetPaymentMethods();
+        Assertions.assertIterableEquals(Collections.unmodifiableCollection(Collections.emptyMap().values()), order.getPaymentMethodsAsString());
+    }
+
+    @Test
+    void getCash() {
+        Product product = new Appliances("348723", "Fridge", new Money(700, 0));
+        Order order = new Order(product);
+        Money money = new Money(1000, 0);
+        Cash cash = new Cash(money, 1);
+        Payment payment = new Payment(order.getCurrentTotal(), cash);
+        Collection<Cash> casshh = new ArrayList<>();
+        casshh.add(cash);
+        order.payTotalForProducts(payment);
+        Assertions.assertIterableEquals(casshh, order.getCashFromPayment());
+    }
+    @Test
+    void getDiscountAmount(){
+        String dateOfBirth = "1999-04-03";
+        Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
+        Product product = new Appliances("348723", "Fridge", new Money(700, 0));
+        Order order = new Order(product);
+        order.setCustomer(customer);
+        Assertions.assertEquals(customer, order.getCustomer());
+    }
+
+    @Test
+    void resetTotal() {
+        Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
+        Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
+        Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
+        Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        Order order = new Order(product, product1, product2, product3);
+        order.resetCurrentTotal();
+        Assertions.assertEquals(new Money(0), order.getCurrentTotal());
+    }
+
+    @Test
+    void getProductsAsString() {
+        Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
+        Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
+        Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
+        Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        Order order = new Order(product, product1, product2, product3);
+        Collection<Product> products = new ArrayList<>();
+        products.add(product);
+        products.add(product1);
+        products.add(product2);
+        products.add(product3);
+        Assertions.assertEquals("""
+                                   [
+                                   347654 Stove 1000:00 kr  + VAT: 30%,\s
+                                   346576 Mixer 1000:00 kr  + VAT: 25%,\s
+                                   341276 Mobile 1000:00 kr  + VAT: 30%,\s
+                                   348723 Fridge 1000:00 kr  + VAT: 30%]""", order.getProductsAsString().toString());
+    }
+
+    @Test
+    void getProductsToOrder() {
+        Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
+        Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
+        Product product2 = new Tele("341276", "Mobile", new Money(1000, 0));
+        Product product3 = new HouseHold("346576", "Mixer", new Money(1000, 0));
+        Order order = new Order(product, product1, product2, product3);
+        Collection<Product> products = new ArrayList<>();
+        products.add(product1);
+        products.add(product3);
+        products.add(product2);
+        products.add(product);
+        Assertions.assertIterableEquals(products, order.getProductsToOrder());
+    }
 }

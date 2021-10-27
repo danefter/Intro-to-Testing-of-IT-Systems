@@ -73,9 +73,7 @@ public class Order implements Discount{
         this.currentTotal = currentTotal.subtract(amount);
         this.orderDiscountAmount = orderDiscountAmount.add(amount);
     }
-    public Money getOrderDiscountAmount(){
-        return orderDiscountAmount;
-    }
+
 
     public void applyDiscountAmountToProductType(Money amount, String productType){
         for (Product p : productsToOrder.values()) {
@@ -108,28 +106,15 @@ public class Order implements Discount{
         this.orderDiscountAmount = orderDiscountAmount.add(amount);
     }
 
-    public Payment getCardPayment() {
-        return paymentMethods.get("Card");
-    }
-
     public Collection<Cash> getCashFromPayment() {
         return paymentMethods.get("Cash").getCashPaymentValues();
     }
 
-    public void removeProduct(String ID) {
-        Product productToRemove = productsToOrder.get(ID);
-        productsToOrder.remove(ID);
-        currentTotal = currentTotal.subtract(productToRemove.getPricePlusVAT());
-    }
 
     public void setDateOfOrder() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date today = new Date();
         dateOfOrder = formatter.format(today);
-    }
-
-    public HashMap<String, Product> getProductsOrdered() {
-        return productsOrdered;
     }
 
     public Collection<Product> getProductsToOrder() {
@@ -182,34 +167,32 @@ public class Order implements Discount{
     }
 
     public void resetPaymentMethods() {
-        this.paymentMethods = new HashMap<String, Payment>();
+        this.paymentMethods = new HashMap<>();
     }
 
     //basically a toString for the Receipt, all of this needs to be collected
     // in the Reciept class using a PrintWriter for a document, so this method is more of a placeholder for Receipt
     public String getInfo() {
-        if (orderDiscountPercent == 0.0)
-        return ("Order date: " + getDateOfOrder() + "\nPayment methods: "
+        String returnInfo = ("Order date: " + getDateOfOrder() + "\nPayment methods: "
                 + getPaymentMethodsAsString() + "\nProducts: " + getProductsAsString() +
                 "\nTotal amount paid with VAT: " + currentPayment
                 +"\nTotal discount amount: " + orderDiscountAmount).replaceAll(",", "");
-        else return ("Order date: " + getDateOfOrder() + "\nPayment methods: "
-                + getPaymentMethodsAsString() + "\nProducts: " + getProductsAsString() +
-                "\nTotal amount paid with VAT: " + currentPayment
-                +"\nTotal discount amount: " + orderDiscountAmount+
-                " ("  + orderDiscountPercent*100 + "% off!)").replaceAll(",", "");
+        if (orderDiscountPercent > 0.0) returnInfo = returnInfo.concat(" ("  + orderDiscountPercent*100 + "% off!)").replaceAll(",", "");
+        return returnInfo;
     }
 
     //orderId with date + first letter of customer nam + first 3 numbers of payment (without VAT)
     public String getOrderId() {
+        setDateOfOrder();
         if (paymentMethods.containsKey("Card") || paymentMethods.containsKey("Points")) {
-            orderId = getDateOfOrder() + customer.getName().charAt(0)
+            orderId = getDateOfOrder() + customer.getName().charAt(1)
                     + ""+ currentTotalWithoutVat.toString().substring(0, 2);
         }
         else {
             orderId = getDateOfOrder() + "C"
                     + currentTotalWithoutVat.toString().substring(0,2);
         }
+
         return orderId;
     }
 }
