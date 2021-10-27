@@ -6,7 +6,18 @@ package inte.project;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-    class CardTest {
+import java.util.Arrays;
+
+class CardTest {
+
+    @Test
+    void constructorOfSuper() {
+            String dateOfBirth = "1999-04-03";
+            Money balance = new Money(5000, 0);
+            Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
+            Card card = new Card("Giftcard", customer, balance);
+            Assertions.assertEquals("Giftcard", card.getCardType());
+        }
 
     @Test
     void constructorSetsGiftCardType() {

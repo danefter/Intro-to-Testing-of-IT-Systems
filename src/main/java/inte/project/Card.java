@@ -2,7 +2,7 @@ package inte.project;
 
 //author Dan Jensen
 
-public abstract class Card {
+public class Card {
     private final String cardType;
     private final Customer cardOwner;
     private Money balance;

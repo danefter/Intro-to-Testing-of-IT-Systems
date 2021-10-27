@@ -231,14 +231,7 @@ public class Register {
         System.out.print("\ny");
         customer.addMembership();
     }
-/*
-    public Payment getPaymentInputCash(Order order, int amount, Customer customer) {
-        order.setCustomer(customer);
-        System.out.print("\nChoose payment method:");
-        System.out.print("\ncash");
-        return selectPaymentMethod(customer, amount, "cash");
-    }
-*/
+
     public Payment getPaymentInputDebitCard(Order order, int amount, Customer customer) {
         order.setCustomer(customer);
         System.out.print("\nChoose payment method:");
