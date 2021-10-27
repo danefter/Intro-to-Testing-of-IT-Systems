@@ -147,12 +147,12 @@ public class OrderTest {
         Payment payment2 = new Payment(new Money(4000, 0), cash);
         order.payTotalForProducts(payment, payment2);
         Assertions.assertEquals("Order date: " + order.getDateOfOrder()
-                + "\nPayment methods: [\n"+ customer.getMembership().getMembershipPoints() + "\nAmount paid: 5000:00 kr, \n"
+                + "\nPayment methods: [\n"+ customer.getMembership().getMembershipPoints() + "\nAmount paid: 5000:00 kr \n"
                 + "Cash:\n" + "Amount paid: 4000:00 kr]" + "\nProducts: [" +
-                 "\n347654 Stove 2000:00 kr Appliances Store: null, " +
-                 "\n346576 Mixer 2000:00 kr Household Store: null, " +
-                 "\n341276 Mobile 1000:00 kr Tele Store: null, " +
-                "\n348723 Fridge 2000:00 kr Appliances Store: null]" +
+                 "\n347654 Stove 2000:00 kr  + VAT: 60% " +
+                 "\n346576 Mixer 2000:00 kr  + VAT: 50% " +
+                 "\n341276 Mobile 1000:00 kr  + VAT: 30% " +
+                "\n348723 Fridge 2000:00 kr  + VAT: 60%]" +
                  "\nTotal amount paid with VAT: " + "9000:00 kr"+
                 "\nTotal discount amount: " + "0:00 kr"
                 , order.getInfo());
@@ -249,12 +249,12 @@ public class OrderTest {
         Payment payment2 = new Payment(new Money(4000, 0), cash);
         order.payTotalForProducts(payment, payment2);
         Assertions.assertEquals("Order date: " + order.getDateOfOrder()
-                        + "\nPayment methods: [\n"+ customer.getMembership().getMembershipPoints() + "\nAmount paid: 5000:00 kr, \n"
+                        + "\nPayment methods: [\n"+ customer.getMembership().getMembershipPoints() + "\nAmount paid: 5000:00 kr \n"
                         + "Cash:\n" + "Amount paid: 4000:00 kr]" + "\nProducts: [" +
-                        "\n347654 Stove 2000:00 kr Appliances Store: null Discount: 500:00 kr, " +
-                        "\n346576 Mixer 2000:00 kr Household Store: null, " +
-                        "\n341276 Mobile 1000:00 kr Tele Store: null, " +
-                        "\n348723 Fridge 2000:00 kr Appliances Store: null Discount: 500:00 kr]" +
+                        "\n347654 Stove 2000:00 kr  + VAT: 60% Discount: 500:00 kr " +
+                        "\n346576 Mixer 2000:00 kr  + VAT: 50% " +
+                        "\n341276 Mobile 1000:00 kr  + VAT: 30% " +
+                        "\n348723 Fridge 2000:00 kr  + VAT: 60% Discount: 500:00 kr]" +
                          "\nTotal amount paid with VAT: " + "9000:00 kr"+
                         "\nTotal discount amount: " + "1000:00 kr"
                 , order.getInfo());

@@ -11,7 +11,6 @@ public class Register {
     private Report dailyReport = new Report();
 
 
-
     //saves orders based on ID
     private HashMap<String, Order> dailyOrders = new HashMap<>();
 
@@ -38,140 +37,245 @@ public class Register {
 
     public Register(Store store, Product... products) {
         this.store = store;
-        for (Cash cash: ACCEPTED_DENOMINATIONS)
+        for (Cash cash : ACCEPTED_DENOMINATIONS)
             this.cashBalance.putIfAbsent(cash.getDenomination().getAmountOfCrown(), cash);
-        for (Product p:products) {
+        for (Product p : products) {
             p.addStore(store);
             inventory.put(p.getId(), p);
         }
-        }
+    }
 
-        public Order scanProductsForOrder(Product... products) {
+    public Order scanProductsForOrder(Product... products) {
         Order order = new Order(products);
-        for (Product product: products) {;
-                inventory.remove(product.getId());
+        for (Product product : products) {
+            ;
+            inventory.remove(product.getId());
         }
         return order;
-        }
+    }
 
-        public void cancelOrderAfterScan(Order order) {
-            System.out.print("""
+    public void cancelOrderAfterScan(Order order) {
+        System.out.print("""
 
 
-                    Order cancelled, Receipt:
-                    """);
+                Order cancelled, Receipt:
+                """);
         for (Product product : order.getProductsToOrder()) {
-                inventory.put(product.getId(), product);
-            }
-            Collection<Product> cancelledProducts = order.getProductsToOrder();
-            order.getProductsToOrder().removeAll(cancelledProducts);
-            order.setDateOfOrder();
-            printReceipt(order);
+            inventory.put(product.getId(), product);
         }
+        Collection<Product> cancelledProducts = order.getProductsToOrder();
+        order.getProductsToOrder().removeAll(cancelledProducts);
+        order.resetCurrentTotal();
+        order.setDateOfOrder();
+        printReceipt(order);
+    }
 
-
-    public void payForOrder(Order order, Payment... payments) {
-        String paymentConfirmation = waitForPaymentConfirmation();
-        if (paymentConfirmation.equalsIgnoreCase("y")){
-        if (order.payTotalForProducts(payments)){
+    public void payForOrderTF1TF4(Order order, Payment... payments) {
+        Customer customer = order.getCustomer();
+        String paymentConfirmation = waitForPaymentConfirmationYes();
+        boolean paid = false;
+        if (paymentConfirmation.equalsIgnoreCase("n")) checkIfCancelOfOrderRequestedNo(order);
+        if (paymentConfirmation.equalsIgnoreCase("y")) paid = order.payTotalForProducts(payments);
+        if (!paid && paymentConfirmation.equalsIgnoreCase("y")) {
+            System.out.print("\nInsufficient payment, please try again");
+            checkIfCancelOfOrderRequestedNo(order);
+        }
+        if (paid) {
+            if (!customer.isMember()) checkIfCustomerWantsMembershipNo(order.getCustomer());
+            if (customer.isMember()) {
+                customer.getMembership().getMembershipPoints().addPoints((int)
+                        getPointsForOrder(order.getCurrentPayment().getAmountInOre()));
+                System.out.print("\nPoints for purchase: " + (int) getPointsForOrder(order.getCurrentPayment().getAmountInOre()));
+            }
+            totalBalance = totalBalance.add(order.getCurrentPayment());
+            addToDailyReports(order);
             System.out.print("""
 
 
                     Payment completed, Receipt:
                     """);
-        if (order.getCashFromPayment() != null) addCashPaymentToRegister(order);
-        if (order.getCustomer() != null) {
-            if (order.getCustomer().getMembership() == null) checkIfCustomerWantsMembership(order.getCustomer());
-            if (order.getCustomer().getMembership() != null) {
-                order.getCustomer().getMembership().getMembershipPoints().addPoints((int)
+            printReceipt(order);
+        }
+    }
+
+
+    public void payForOrderTF2(Order order, Payment... payments) {
+        Customer customer = order.getCustomer();
+        String paymentConfirmation = waitForPaymentConfirmationYes();
+        boolean paid = false;
+        if (paymentConfirmation.equalsIgnoreCase("n")) checkIfCancelOfOrderRequestedNo(order);
+        if (paymentConfirmation.equalsIgnoreCase("y")) paid = order.payTotalForProducts(payments);
+        if (!paid && paymentConfirmation.equalsIgnoreCase("y")) {
+            System.out.print("\nInsufficient payment, please try again");
+            checkIfCancelOfOrderRequestedNo(order);
+        }
+        if (paid) {
+            if (!customer.isMember()) checkIfCustomerWantsMembershipYes(order.getCustomer());
+            if (customer.isMember()) {
+                customer.getMembership().getMembershipPoints().addPoints((int)
                         getPointsForOrder(order.getCurrentPayment().getAmountInOre()));
+                System.out.print("\nPoints for purchase: " + (int) getPointsForOrder(order.getCurrentPayment().getAmountInOre()));
             }
+            totalBalance = totalBalance.add(order.getCurrentPayment());
+            addToDailyReports(order);
+            System.out.print("""
+
+
+                    Payment completed, Receipt:
+                    """);
+            printReceipt(order);
         }
-        totalBalance = totalBalance.add(order.getCurrentPayment());
-        addToDailyReports(order);}
-        else System.out.print("Insufficient payment, please try again");
-        }
-        if (paymentConfirmation.equalsIgnoreCase("n")) checkIfCancelOfOrderRequested(order);
-        printReceipt(order);
     }
 
-    public void payForOrderUsingDebitInput(Order order, Customer customer) {
-        int amount = 0;
-        int total = order.getCurrentTotal().getAmountOfCrown();
-        Payment[] payments = new Payment[0];
-        do{
-            payments = Arrays.copyOf(payments, payments.length +1);
-            Payment payment = getPaymentInputDebitCard(order, customer);
-            payments[payments.length-1] = payment;
-            amount += payment.getPayment().getAmountOfCrown();
-    }
-        while(amount < total);
-        if(waitForPaymentConfirmation().equalsIgnoreCase("y"))
-        payForOrder(order, payments);
-        if(waitForPaymentConfirmation().equalsIgnoreCase("n"))
-            checkIfCancelOfOrderRequested(order);
+    public void payForOrderTF3(Order order, Payment... payments) {
+        Customer customer = order.getCustomer();
+        String paymentConfirmation = waitForPaymentConfirmationYes();
+        boolean paid = false;
+        if (paymentConfirmation.equalsIgnoreCase("n")) checkIfCancelOfOrderRequestedNo(order);
+        if (paymentConfirmation.equalsIgnoreCase("y")) paid = order.payTotalForProducts(payments);
+        if (!paid && paymentConfirmation.equalsIgnoreCase("y")) {
+            System.out.print("\nInsufficient payment, please try again");
+            checkIfCancelOfOrderRequestedNo(order);
+            payForOrderTF3(order, getPaymentInputDebitCard(order, order.getCurrentTotal().getAmountOfCrown(), order.getCustomer()));
+        }
+        if (paid) {
+            if (!customer.isMember()) checkIfCustomerWantsMembershipNo(order.getCustomer());
+            if (customer.isMember()) {
+                customer.getMembership().getMembershipPoints().addPoints((int)
+                        getPointsForOrder(order.getCurrentPayment().getAmountInOre()));
+                System.out.print("\nPoints for purchase: " + (int) getPointsForOrder(order.getCurrentPayment().getAmountInOre()));
+            }
+            totalBalance = totalBalance.add(order.getCurrentPayment());
+            addToDailyReports(order);
+            System.out.print("""
+
+
+                    Payment completed, Receipt:
+                    """);
+            printReceipt(order);
+        }
     }
 
-    public void checkIfCancelOfOrderRequested(Order order) {
+    public void payForOrderTF7TF8(Order order, Payment... payments) {
+        Customer customer = order.getCustomer();
+        String paymentConfirmation = waitForPaymentConfirmationNo();
+        boolean paid = false;
+        if (paymentConfirmation.equalsIgnoreCase("n")) checkIfCancelOfOrderRequestedYes(order);
+        if (paymentConfirmation.equalsIgnoreCase("y")) paid = order.payTotalForProducts(payments);
+        if (!paid && paymentConfirmation.equalsIgnoreCase("y")) {
+            System.out.print("\nInsufficient payment, please try again");
+            checkIfCancelOfOrderRequestedNo(order);
+        }
+        if (paid) {
+            if (!customer.isMember()) checkIfCustomerWantsMembershipNo(order.getCustomer());
+            if (customer.isMember()) {
+                customer.getMembership().getMembershipPoints().addPoints((int)
+                        getPointsForOrder(order.getCurrentPayment().getAmountInOre()));
+                System.out.print("\nPoints for purchase: " + (int) getPointsForOrder(order.getCurrentPayment().getAmountInOre()));
+            }
+            totalBalance = totalBalance.add(order.getCurrentPayment());
+            addToDailyReports(order);
+            System.out.print("""
+
+
+                    Payment completed, Receipt:
+                    """);
+            printReceipt(order);
+        }
+    }
+
+
+    public void checkIfCancelOfOrderRequestedYes(Order order) {
         System.out.print("""
                     
                     Cancel order: (Y/N)""");
-        String input = "Y";
-        if(input.equalsIgnoreCase("y")) cancelOrderAfterScan(order);
+        System.out.print("\ny");
+        cancelOrderAfterScan(order);
     }
 
-    public String waitForPaymentConfirmation() {
+    public void checkIfCancelOfOrderRequestedNo(Order order) {
+        System.out.print("""
+                    
+                    Cancel order: (Y/N)""");
+        System.out.print("\nn");
+    }
+
+    public String waitForPaymentConfirmationNo() {
         System.out.print("""
                     
                     Confirm payment: (Y/N)""");
+        System.out.print("\nn");
+        return "N";
+    }
+
+    public String waitForPaymentConfirmationYes() {
+        System.out.print("""
+                    
+                    Confirm payment: (Y/N)""");
+        System.out.print("\ny");
+
         return "Y";
     }
 
-    public void checkIfCustomerWantsMembership(Customer customer) {
+    public void checkIfCustomerWantsMembershipNo(Customer customer) {
         System.out.print("""
                     
                     Would you like to become a member?: (Y/N)""");
-        String input = "Y";
-        if(input.equalsIgnoreCase("y")) customer.addMembership();;
+        System.out.print("\nn");
     }
 
-    public Payment getPaymentInputCash(Order order, Customer customer) {
-        order.setCustomer(customer);
-        System.out.print("Choose payment method:");
-        return selectPaymentMethod(customer, order.getCurrentTotal().getAmountOfCrown(), "cash");
+    public void checkIfCustomerWantsMembershipYes(Customer customer) {
+        System.out.print("""
+                    
+                    Would you like to become a member?: (Y/N)""");
+        System.out.print("\ny");
+        customer.addMembership();
     }
 
-    public Payment getPaymentInputDebitCard(Order order, Customer customer) {
+    public Payment getPaymentInputCash(Order order, int amount, Customer customer) {
         order.setCustomer(customer);
-        System.out.print("Choose payment method:");
-        return selectPaymentMethod(customer, order.getCurrentTotal().getAmountOfCrown(), "debitcard");
+        System.out.print("\nChoose payment method:");
+        System.out.print("\ncash");
+        return selectPaymentMethod(customer, amount, "cash");
     }
 
-    public Payment getPaymentInputGiftCard(Order order, Customer customer) {
+    public Payment getPaymentInputDebitCard(Order order, int amount, Customer customer) {
         order.setCustomer(customer);
-        System.out.print("Choose payment method:");
-        return selectPaymentMethod(customer, order.getCurrentTotal().getAmountOfCrown(), "giftcard");
+        System.out.print("\nChoose payment method:");
+        System.out.print("\ndebitcard");
+        return selectPaymentMethod(customer, amount, "debitcard");
     }
 
-    public Payment getPaymentInputPoints(Order order, Customer customer) {
+    public Payment getPaymentInputGiftCard(Order order, int amount, Customer customer) {
         order.setCustomer(customer);
-        System.out.print("Choose payment method:");
-        return selectPaymentMethod(customer, order.getCurrentTotal().getAmountOfCrown(), "points");
+        System.out.print("\nChoose payment method:");
+        System.out.print("\ngiftcard");
+        return selectPaymentMethod(customer, amount, "giftcard");
+    }
+
+    public Payment getPaymentInputPoints(Order order, int amount, Customer customer) {
+        order.setCustomer(customer);
+        System.out.print("\nChoose payment method:");
+        System.out.print("\npoints");
+        return selectPaymentMethod(customer, amount, "points");
     }
 
 
     public Payment selectPaymentMethod(Customer customer, int amount, String type) {
+        Payment payment = new Payment(new Money(amount, 0));
         if (type.equalsIgnoreCase("giftcard")) {
             presentGiftCardBalance(customer.getGiftCard());
-            return new Payment(new Money(amount, 0), customer.getGiftCard());
+            payment = new Payment(new Money(amount, 0), customer.getGiftCard());
         }
-        if (type.equalsIgnoreCase("debitcard")) return new Payment(new Money(amount, 0), customer.getDebitCard());
-        if (type.equalsIgnoreCase("points")) {
+        if (type.equalsIgnoreCase("debitcard")) {
+            payment = new Payment(new Money(amount, 0), customer.getDebitCard());
+        }
+            if (type.equalsIgnoreCase("points")) {
             presentPointBalance(customer);
-            return new Payment(new Money(amount, 0), customer);
+            payment = new Payment(new Money(amount, 0), customer);
         }
-        if (type.equalsIgnoreCase("cash")) return payWithCash(amount, 1000, 100);
-        else return new Payment(new Money(amount, 0));
+        if (type.equalsIgnoreCase("cash")) payment = payWithCash(amount, 1000, 100);
+        return payment;
     }
 
     public Payment payWithCash(int total, int denomination, int quantity) {
@@ -193,11 +297,11 @@ public class Register {
     }
 
     public void presentPointBalance(Customer customer) {
-        if (customer.getMembership() != null) System.out.print(customer.getMembership().getMembershipPoints().toString());
+        if (customer.getMembership() != null) System.out.print("\n" + customer.getMembership().getMembershipPoints().toString());
     }
 
     public void presentGiftCardBalance(GiftCard giftCard) {
-        System.out.print(giftCard.getBalance());
+        System.out.print("\n" + giftCard);
     }
 
     public void presentTotal(Order order) {
@@ -205,7 +309,15 @@ public class Register {
                 "\nTotal with VAT: " + order.getCurrentTotal();
         totalInfo = totalInfo.replaceAll(",", "");
         System.out.print(totalInfo.replaceAll("[\\[\\]]", ""));
-        checkIfCancelOfOrderRequested(order);
+        checkIfCancelOfOrderRequestedNo(order);
+    }
+
+    public void presentTotalCancel(Order order) {
+        String totalInfo = "Products: " + order.getProductsAsString()+
+                "\nTotal with VAT: " + order.getCurrentTotal();
+        totalInfo = totalInfo.replaceAll(",", "");
+        System.out.print(totalInfo.replaceAll("[\\[\\]]", ""));
+        checkIfCancelOfOrderRequestedYes(order);
     }
 
 

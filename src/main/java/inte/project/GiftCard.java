@@ -19,4 +19,9 @@ public class GiftCard extends Card{
     public String getCardType() {
         return "Giftcard";
     }
+
+    @Override
+    public String toString() {
+        return getCardType() + ": " + this.getCardOwner().getName() + ", Balance: " + this.getBalanceAmount();
+    }
 }

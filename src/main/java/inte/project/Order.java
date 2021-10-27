@@ -28,13 +28,16 @@ public class Order implements Discount{
             this.currentTotal = currentTotal.add(p.getPricePlusVAT());
             this.productsToOrder.put(p.getId(), p);
             this.productsToOrderAsStrings.put(p.getId(),
-                    (p.toString().replaceAll("Store: "+ p.getStore().toString(), "")).replaceAll(p.getType(), "") + "+ VAT: "+ p.getVatValue()/ 1000 +"%");
+                    (p.toString().replaceAll(p.getType(), "").replaceAll("Store: "+ p.getStore(), "")) + "+ VAT: "+ p.getVatValue()/ 1000 +"%");
         }
     }
 
     public boolean payTotalForProducts(Payment... payments) {
         for (Payment p: payments) {
-            if(p.getPaymentType().equals("Insufficient amount.")) return false;
+            if(p.getPaymentType().equals("Insufficient amount")) {
+                resetPaymentMethods();
+                return false;
+            }
             this.currentPayment = currentPayment.add(p.getPayment());
             paymentMethods.put(p.getPaymentType(), p);
             if (p.getPaymentType().equals("Card") || p.getPaymentType().equals("Points")) customer = p.getCustomer();
@@ -58,7 +61,7 @@ public class Order implements Discount{
         for (Product p : productsToOrder.values()) {
             if (p.getType().equals(productType)) {
                 this.currentTotal = currentTotal.subtract((int) (p.getPrice().getAmountInOre() * applyDiscountPercent(percent)));
-                productsToOrderAsStrings.put(p.getId(), p + " Discount: " + percent*100 + "%");
+                productsToOrderAsStrings.replace(p.getId(), productsToOrderAsStrings.get(p.getId()).concat(" Discount: " + percent*100 + "%"));
                 this.orderDiscountAmount = orderDiscountAmount.add((int) (p.getPrice().getAmountInOre() * applyDiscountPercent(percent)));
             }
         }
@@ -77,7 +80,7 @@ public class Order implements Discount{
                 throw new IllegalArgumentException("Discount causes price increase.");
             if (p.getType().equals(productType)) {
                 this.currentTotal = currentTotal.subtract(applyDiscountAmount(amount));
-                productsToOrderAsStrings.put(p.getId(), p + " Discount: " + amount);
+                productsToOrderAsStrings.replace(p.getId(), productsToOrderAsStrings.get(p.getId()).concat(" Discount: " + amount));
                 this.orderDiscountAmount = orderDiscountAmount.add(amount);
             }
         }
@@ -88,7 +91,7 @@ public class Order implements Discount{
         Product p = productsToOrder.get(productId);
         if (p == null) throw new NullPointerException("Product not included in order.");
         this.currentTotal = currentTotal.subtract((int) (p.getPrice().getAmountInOre() * applyDiscountPercent(percent)));
-        productsToOrderAsStrings.put(p.getId(), p + " Discount: " + percent*100 + "%");
+        productsToOrderAsStrings.replace(p.getId(), productsToOrderAsStrings.get(p.getId()).concat(" Discount: " + percent*100 + "%"));
         this.orderDiscountAmount = orderDiscountAmount.add((int) (p.getPrice().getAmountInOre() * applyDiscountPercent(percent)));
     }
     
@@ -98,14 +101,13 @@ public class Order implements Discount{
         if (amount.getAmountOfCrown() > p.getPrice().getAmountOfCrown())
             throw new IllegalArgumentException("Discount causes price increase.");
         this.currentTotal = currentTotal.subtract(applyDiscountAmount(amount));
-        productsToOrderAsStrings.put(p.getId(), p + " Discount: " + amount);
+        productsToOrderAsStrings.replace(p.getId(), productsToOrderAsStrings.get(p.getId()).concat(" Discount: " + amount));
         this.orderDiscountAmount = orderDiscountAmount.add(amount);
     }
 
     public Payment getCardPayment() {
         return paymentMethods.get("Card");
     }
-
 
     public Collection<Cash> getCashFromPayment() {
         return paymentMethods.get("Cash").getCashPaymentValues();
@@ -160,11 +162,24 @@ public class Order implements Discount{
     }
 
     public Customer getCustomer(){
+        if (customer == null) {
+            String dateOfBirth = "1999-01-01";
+            Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
+            setCustomer(customer);
+        }
         return customer;
     }
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public void resetCurrentTotal() {
+        this.currentTotal = new Money(0);
+    }
+
+    public void resetPaymentMethods() {
+        this.paymentMethods = new HashMap<String, Payment>();
     }
 
     //basically a toString for the Receipt, all of this needs to be collected
@@ -176,7 +191,7 @@ public class Order implements Discount{
                 "\nTotal amount paid with VAT: " + currentPayment
                 +"\nTotal discount amount: " + orderDiscountAmount).replaceAll(",", "");
         else return ("Order date: " + getDateOfOrder() + "\nPayment methods: "
-                + getPaymentMethodsAsString() + "\nProducts: " + getProductsAsString()+
+                + getPaymentMethodsAsString() + "\nProducts: " + getProductsAsString() +
                 "\nTotal amount paid with VAT: " + currentPayment
                 +"\nTotal discount amount: " + orderDiscountAmount+
                 " ("  + orderDiscountPercent*100 + "% off!)").replaceAll(",", "");

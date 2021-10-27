@@ -111,6 +111,7 @@ public class Payment {
             return getCardPayment().toString() + "\nAmount paid: " + paymentAmount + "\nRemaining balance: " + cardPayment.getBalanceAmount();
         if (this.paymentType.equals("Points"))
             return pointPayment.toString() + "\nAmount paid: " + paymentAmount;
-        return "Cash:" + "\nAmount paid: " + amountPaid;
+        else
+            return "Cash:" + "\nAmount paid: " + amountPaid;
     }
 }
