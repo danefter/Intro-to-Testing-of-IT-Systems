@@ -18,6 +18,7 @@ public class Payment {
 
     public Payment(Money paymentAmount) {
         this.paymentAmount = paymentAmount;
+        this.paymentType = "Insufficient amount";
     }
 
 
@@ -41,7 +42,7 @@ public class Payment {
         this.cardPayment = card;
         if (card.getBalance().getAmountInOre() < paymentAmount.getAmountInOre()) this.paymentType = "Insufficient amount";
         if (card.getBalance().getAmountInOre() >= paymentAmount.getAmountInOre()){
-            card.pay(paymentAmount);
+            amountPaid = amountPaid.add(card.pay(paymentAmount));
             customer = card.getCardOwner();
             this.paymentType = "Card";
         }
@@ -82,14 +83,12 @@ public class Payment {
 
     //Cash is different because it needs to be able to give change in Register
     public Money getPayment() {
-        if (this.paymentType.equals("Cash")) return amountPaid;
-        return paymentAmount;
+        return amountPaid;
     }
 
     public Collection<Cash> getCashPaymentValues() {
         return Collections.unmodifiableCollection(this.cashPayment.values());
     }
-
 
     public String getPaymentType() {
         return paymentType;
@@ -103,20 +102,16 @@ public class Payment {
         return cardPayment;
     }
 
-
-    public Money getAmountPaid(){
-        return amountPaid;
-    }
-
     @Override
     public String toString() {
         if (this.paymentType.equals("Card") && cardPayment.getCardType().equals("Debitcard"))
-            return getCardPayment().toString() + "\nAmount paid: " + paymentAmount;
+            return getCardPayment().toString() + "\nAmount paid: " + amountPaid;
         if (this.paymentType.equals("Card") && cardPayment.getCardType().equals("Giftcard"))
-            return getCardPayment().toString() + "\nAmount paid: " + paymentAmount + "\nRemaining balance: " + cardPayment.getBalance();
+            return getCardPayment().toString() + "\nAmount paid: " + amountPaid + "\nRemaining balance: " + cardPayment.getBalance();
         if (this.paymentType.equals("Points"))
-            return pointPayment.toString() + "\nAmount paid: " + paymentAmount;
-        else
+            return pointPayment.toString() + "\nAmount paid: " + amountPaid;
+        if (this.paymentType.equals("Cash"))
             return "Cash:" + "\nAmount paid: " + amountPaid;
+        else return "Insufficient amount:" + "\nAmount paid: " + amountPaid;
     }
 }
