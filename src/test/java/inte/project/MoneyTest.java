@@ -1,7 +1,10 @@
 package inte.project;
 //author Karolina Klimek kakl1405
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -61,6 +64,30 @@ public class MoneyTest {
         Money twoFifty = new Money(2,50);
         Money two = new Money(200);
         assertEquals("0:50 kr", twoFifty.subtract(two).toString());
+    }
+    @Test
+    void hashTest(){
+        Money first = new Money(2300);
+        int hash = Objects.hash(first.getAmountInOre());
+        Assertions.assertEquals(hash, first.hashCode());
+    }
+    @Test
+    void equalsSame(){
+        Money first = new Money(2300);
+        Assertions.assertTrue(first.equals(first));
+    }
+
+    @Test
+    void equalsNotSame(){
+        Money first = new Money(2300);
+        Customer cust = new PrivatePerson("hej", "nej", "mail", "0707776352", "1994-09-30");
+        Assertions.assertFalse(first.equals(cust));
+    }
+    @Test
+    void equalsNotSameMoney(){
+        Money first = new Money(2300);
+        Money second = new Money(2100);
+        Assertions.assertFalse(first.equals(second));
     }
 
 }
