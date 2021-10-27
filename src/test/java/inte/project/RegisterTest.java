@@ -2,6 +2,9 @@ package inte.project;
 //author Dan Jensen
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -74,6 +77,22 @@ public class RegisterTest {
         Order order = register.scanProductsForOrder(product, product1, product2, product3);
         register.presentTotal(order);
     }
+
+   /* @Test
+    void customerIsMemberAndUsesAllMembershipPointsForPurchase(){
+        Store store = new Store("Vasagata 12", 12456, "Stockholm", "0706524324");
+        Product product = new Appliances("348723", "Video game", new Money(50, 0));
+        Register register = new Register(store, product);
+        Order order = register.scanProductsForOrder(product);
+        register.presentTotal(order);
+        Customer customer = new PrivatePerson("Adam Gunnarsson", "hamnvägen 4", "adam@gmail.com", "0708991667", "1997-08-14");
+        customer.addMembership();
+        customer.getMembership().getMembershipPoints().addPoints(500000000);
+        Payment paymentWithPoints = register.selectPaymentMethod(customer, 500000000, "points");
+        paymentWithPoints.validatePoints();
+        assertEquals(order.getCurrentPayment(), order.getCurrentTotal());
+    } //TODO den här är till för beslutstabellen och behöver göras klar. Ska efterlikna en kund som är medlem och vill betala köpet med sina medlemsskapspoäng!
+    */
 
     @Test
     public void tf1() {
