@@ -5,6 +5,8 @@ package inte.project;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Objects;
+
 public class CashTest {
     public CashTest() {
     }
@@ -116,6 +118,12 @@ public class CashTest {
         Cash cash1 = new Cash(money2, 1);
         Cash cash2 = new Cash(money, 1);
         Assertions.assertNotEquals(cash1, cash2);
+    }
+    @Test
+    void hashCodeWorks() {
+        Money money = new Money(20, 0);
+        Cash cash = new Cash(money, 1);
+        Assertions.assertEquals(Objects.hash(cash.getDenomination().getAmountOfCrown() + cash.getQuantity()),cash.hashCode());
     }
 
 }
