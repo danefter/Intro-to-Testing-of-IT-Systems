@@ -81,7 +81,7 @@ public class Register {
             checkIfCancelOfOrderRequestedNo(order);
         }
         if (paid) {
-            if (!customer.isMember()) checkIfCustomerWantsMembershipNo(order.getCustomer());
+            if (!customer.isMember()) checkIfCustomerWantsMembershipNo();
             if (customer.isMember()) {
                 customer.getMembership().getMembershipPoints().addPoints((int)
                         getPointsForOrder(order.getCurrentPayment().getAmountInOre()));
@@ -139,7 +139,7 @@ public class Register {
             payForOrderTF3(order, getPaymentInputDebitCard(order, order.getCurrentTotal().getAmountOfCrown(), order.getCustomer()));
         }
         if (paid) {
-            if (!customer.isMember()) checkIfCustomerWantsMembershipNo(order.getCustomer());
+            if (!customer.isMember()) checkIfCustomerWantsMembershipNo();
             if (customer.isMember()) {
                 customer.getMembership().getMembershipPoints().addPoints((int)
                         getPointsForOrder(order.getCurrentPayment().getAmountInOre()));
@@ -167,7 +167,7 @@ public class Register {
             checkIfCancelOfOrderRequestedNo(order);
         }
         if (paid) {
-            if (!customer.isMember()) checkIfCustomerWantsMembershipNo(order.getCustomer());
+            if (!customer.isMember()) checkIfCustomerWantsMembershipNo();
             if (customer.isMember()) {
                 customer.getMembership().getMembershipPoints().addPoints((int)
                         getPointsForOrder(order.getCurrentPayment().getAmountInOre()));
@@ -217,7 +217,7 @@ public class Register {
         return "Y";
     }
 
-    public void checkIfCustomerWantsMembershipNo(Customer customer) {
+    public void checkIfCustomerWantsMembershipNo() {
         System.out.print("""
                     
                     Would you like to become a member?: (Y/N)""");
@@ -231,14 +231,14 @@ public class Register {
         System.out.print("\ny");
         customer.addMembership();
     }
-
+/*
     public Payment getPaymentInputCash(Order order, int amount, Customer customer) {
         order.setCustomer(customer);
         System.out.print("\nChoose payment method:");
         System.out.print("\ncash");
         return selectPaymentMethod(customer, amount, "cash");
     }
-
+*/
     public Payment getPaymentInputDebitCard(Order order, int amount, Customer customer) {
         order.setCustomer(customer);
         System.out.print("\nChoose payment method:");
@@ -274,27 +274,9 @@ public class Register {
             presentPointBalance(customer);
             payment = new Payment(new Money(amount, 0), customer);
         }
-        if (type.equalsIgnoreCase("cash")) payment = payWithCash(amount, 1000, 100);
         return payment;
     }
 
-    public Payment payWithCash(int total, int denomination, int quantity) {
-        Payment payment = new Payment(new Money(total, 0));
-        int amount = 0;
-        do {
-            try {
-                System.out.print("Input denominations then quantity for each:");
-                Cash cash = new Cash(new Money(denomination, 0), quantity);
-                payment.addCashToEmptyPayment(cash);
-                amount = payment.getPayment().getAmountOfCrown();
-            }
-            catch (InputMismatchException e) {
-                System.out.print("Not an integer");
-            }
-        }
-        while (total < amount);
-        return payment;
-    }
 
     public void presentPointBalance(Customer customer) {
         if (customer.getMembership() != null) System.out.print("\n" + customer.getMembership().getMembershipPoints().toString());
@@ -319,14 +301,7 @@ public class Register {
         System.out.print(totalInfo.replaceAll("[\\[\\]]", ""));
         checkIfCancelOfOrderRequestedYes(order);
     }
-
-
-    //gets the cash
-    public void addCashPaymentToRegister(Order order) {
-        for (Cash cash: order.getCashFromPayment()) {
-            cashBalance.get(cash.getDenomination().getAmountOfCrown()).add(cash.getQuantity());
-        }
-    }
+    
 
     //literally just a system out print of order.getInfo
     public void printReceipt(Order order){
@@ -363,7 +338,4 @@ public class Register {
         return Collections.unmodifiableCollection(cashBalance.values());
     }
 
-    public Money getTotalBalance() {
-        return totalBalance;
-    }
 }

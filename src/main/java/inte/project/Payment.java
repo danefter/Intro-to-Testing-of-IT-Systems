@@ -16,6 +16,7 @@ public class Payment {
     private HashMap<Integer, Cash> cashPayment = new HashMap<>();
     private MembershipPoints pointPayment;
 
+
     public Payment(Money paymentAmount) {
         this.paymentAmount = paymentAmount;
         this.paymentType = "Insufficient amount";

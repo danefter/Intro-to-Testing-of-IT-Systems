@@ -7,13 +7,11 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class PaymentTest {
-
-    public PaymentTest() {}
+    class PaymentTest {
 
     @Test
     void unspecifiedPaymentConstructor() {
-        Payment payment = new Payment(new Money(100));
+        Payment payment = new Payment(new Money(0));
         Assertions.assertEquals("Insufficient amount", payment.getPaymentType());
     }
 
