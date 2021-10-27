@@ -47,7 +47,7 @@ public class RegisterTest {
         Cash cash1 = new Cash(money100, 1);
         Cash cash2 = new Cash(money50, 1);
         Payment payment = new Payment(order.getCurrentTotal(), cash, cash1, cash2);
-        register.payForOrderTF1TF4(order, payment);
+        register.payForOrderID1ID4(order, payment);
         Assertions.assertEquals(order.getCurrentPayment(), order.getCurrentTotal());
     }
 
@@ -80,7 +80,7 @@ public class RegisterTest {
 
 
     @Test
-    public void tf1() {
+    public void testFall1() {
         Store store = new Store("Vasagata 12", 12456, "Stockholm", "0706524324");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
@@ -96,12 +96,12 @@ public class RegisterTest {
         Cash cash1 = new Cash(money100, 1);
         Cash cash2 = new Cash(money50, 1);
         Payment payment = new Payment(order.getCurrentTotal(), cash, cash1, cash2);
-        register.payForOrderTF1TF4(order, payment);
+        register.payForOrderID1ID4(order, payment);
         Assertions.assertEquals(order.getCurrentPayment(), order.getCurrentTotal());
     }
 
     @Test
-    public void tf2() {
+    public void testFall2() {
         Store store = new Store("Vasagata 12", 12456, "Stockholm", "0706524324");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
@@ -115,12 +115,12 @@ public class RegisterTest {
         GiftCard giftCard = new GiftCard("Giftcard", customer, new Money(10000, 0));
         customer.setGiftCard(giftCard);
         Payment payment = register.getPaymentInputGiftCard(order, order.getCurrentTotal().getAmountOfCrown(), customer);
-        register.payForOrderTF2(order, payment);
+        register.payForOrderID2(order, payment);
         Assertions.assertEquals(order.getCurrentPayment(), order.getCurrentTotal());
     }
 
     @Test
-    public void tf3() {
+    public void testFall3() {
         Store store = new Store("Vasagata 12", 12456, "Stockholm", "0706524324");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
@@ -137,12 +137,12 @@ public class RegisterTest {
         customer.setDebitCard(debitCard);
         customer.addMembership();
         Payment payment = register.getPaymentInputGiftCard(order, order.getCurrentTotal().getAmountOfCrown(), customer);
-        register.payForOrderTF3(order, payment);
+        register.payForOrderID3(order, payment);
         Assertions.assertEquals(order.getCurrentPayment(), order.getCurrentTotal());
     }
 
     @Test
-    public void tf4(){
+    public void testFall4(){
         Store store = new Store("Vasagata 12", 12456, "Stockholm", "0706524324");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
@@ -156,12 +156,12 @@ public class RegisterTest {
         customer.addMembership();
         customer.getMembership().getMembershipPoints().addPoints(10000000);
         Payment payment = register.getPaymentInputPoints(order, order.getCurrentTotal().getAmountOfCrown(), customer);
-        register.payForOrderTF1TF4(order, payment);
+        register.payForOrderID1ID4(order, payment);
         Assertions.assertEquals(order.getCurrentPayment(), order.getCurrentTotal());
     }
 
     @Test
-    public void tf5(){
+    public void testFall5(){
         Store store = new Store("Vasagata 12", 12456, "Stockholm", "0706524324");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
@@ -181,7 +181,7 @@ public class RegisterTest {
     }
 
     @Test
-    public void tf6(){
+    public void testFall6(){
         Store store = new Store("Vasagata 12", 12456, "Stockholm", "0706524324");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
@@ -194,7 +194,7 @@ public class RegisterTest {
     }
 
     @Test
-    public void tf7(){
+    public void testFall7(){
         Store store = new Store("Vasagata 12", 12456, "Stockholm", "0706524324");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
@@ -213,11 +213,11 @@ public class RegisterTest {
         Cash cash1 = new Cash(money100, 1);
         Cash cash2 = new Cash(money50, 1);
         Payment payment = new Payment(order.getCurrentTotal(), cash, cash1, cash2);
-        register.payForOrderTF7TF8(order, payment);
+        register.payForOrderID7ID8(order, payment);
         Assertions.assertEquals(order.getCurrentPayment(), order.getCurrentTotal());
     }
     @Test
-    public void tf8(){
+    public void testFall8(){
         Store store = new Store("Vasagata 12", 12456, "Stockholm", "0706524324");
         Product product = new Appliances("348723", "Fridge", new Money(1000, 0));
         Product product1 = new Appliances("347654", "Stove", new Money(1000, 0));
@@ -236,7 +236,7 @@ public class RegisterTest {
         Cash cash1 = new Cash(money100, 1);
         Cash cash2 = new Cash(money50, 1);
         Payment payment = new Payment(order.getCurrentTotal(), cash, cash1, cash2);
-        register.payForOrderTF7TF8(order, payment);
+        register.payForOrderID7ID8(order, payment);
         Assertions.assertEquals(order.getCurrentPayment(), order.getCurrentTotal());
     }
 

@@ -70,7 +70,7 @@ public class Register {
         printReceipt(order);
     }
 
-    public void payForOrderTF1TF4(Order order, Payment... payments) {
+    public void payForOrderID1ID4(Order order, Payment... payments) {
         Customer customer = order.getCustomer();
         String paymentConfirmation = waitForPaymentConfirmationYes();
         boolean paid = false;
@@ -99,7 +99,7 @@ public class Register {
     }
 
 
-    public void payForOrderTF2(Order order, Payment... payments) {
+    public void payForOrderID2(Order order, Payment... payments) {
         Customer customer = order.getCustomer();
         String paymentConfirmation = waitForPaymentConfirmationYes();
         boolean paid = false;
@@ -127,7 +127,7 @@ public class Register {
         }
     }
 
-    public void payForOrderTF3(Order order, Payment... payments) {
+    public void payForOrderID3(Order order, Payment... payments) {
         Customer customer = order.getCustomer();
         String paymentConfirmation = waitForPaymentConfirmationYes();
         boolean paid = false;
@@ -136,7 +136,7 @@ public class Register {
         if (!paid && paymentConfirmation.equalsIgnoreCase("y")) {
             System.out.print("\nInsufficient payment, please try again");
             checkIfCancelOfOrderRequestedNo(order);
-            payForOrderTF3(order, getPaymentInputDebitCard(order, order.getCurrentTotal().getAmountOfCrown(), order.getCustomer()));
+            payForOrderID3(order, getPaymentInputDebitCard(order, order.getCurrentTotal().getAmountOfCrown(), order.getCustomer()));
         }
         if (paid) {
             if (!customer.isMember()) checkIfCustomerWantsMembershipNo();
@@ -156,7 +156,7 @@ public class Register {
         }
     }
 
-    public void payForOrderTF7TF8(Order order, Payment... payments) {
+    public void payForOrderID7ID8(Order order, Payment... payments) {
         Customer customer = order.getCustomer();
         String paymentConfirmation = waitForPaymentConfirmationNo();
         boolean paid = false;
