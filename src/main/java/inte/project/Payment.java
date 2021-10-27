@@ -102,6 +102,10 @@ public class Payment {
         return cardPayment;
     }
 
+    public MembershipPoints getPointPayment() {
+        return pointPayment;
+    }
+
     @Override
     public String toString() {
         if (this.paymentType.equals("Card") && cardPayment.getCardType().equals("Debitcard"))

@@ -12,9 +12,16 @@ public class PaymentTest {
     public PaymentTest() {}
 
     @Test
-    void unspecifiedPaymentConstrucor() {
+    void unspecifiedPaymentConstructor() {
         Payment payment = new Payment(new Money(100));
         Assertions.assertEquals("Insufficient amount", payment.getPaymentType());
+    }
+
+    @Test
+    void unspecifiedPaymentToString() {
+        Money money = new Money(200, 0);
+        Payment payment = new Payment(money);
+        Assertions.assertEquals("Insufficient amount:\nAmount paid: 0:00 kr", payment.toString());
     }
 
     @Test
@@ -41,6 +48,16 @@ public class PaymentTest {
         customer.getMembership().getMembershipPoints().addPoints(500000);
         Payment payment = new Payment(new Money(5000, 0), customer);
         Assertions.assertEquals("Points", payment.getPaymentType());
+    }
+
+    @Test
+    void pointsPaymentConstructorThrows() {
+        String dateOfBirth = "1999-04-03";
+        Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
+        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            Payment payment = new Payment(new Money(5000, 0), customer);
+        });
+        Assertions.assertEquals("Customer is not member and can't pay with points.", exception.getMessage());
     }
 
     @Test
@@ -107,7 +124,7 @@ public class PaymentTest {
     }
 
     @Test
-    void getPointsPayment() {
+    void pointsPaymentPays() {
         String dateOfBirth = "1999-04-03";
         Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
         customer.addMembership();
@@ -118,12 +135,23 @@ public class PaymentTest {
     }
 
     @Test
+    void getPointsPayment() {
+        String dateOfBirth = "1999-04-03";
+        Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
+        customer.addMembership();
+        customer.getMembership().getMembershipPoints().addPoints(500000);
+        int points = customer.getMembership().getMembershipPoints().getAllPoints();
+        Payment payment = new Payment(new Money(5000, 0), customer);
+        Assertions.assertEquals(customer.getMembership().getMembershipPoints(), payment.getPointPayment());
+    }
+
+    @Test
     void addCashToPayment() {
-        PrivatePerson person = new PrivatePerson("Albin Ahl", "Regngatan 33", "abbeAhl@gmail.com", "0707896779", "1993-6-5");
-        DebitCard card = new DebitCard("Debitcard", person, new Money(100000000));
-        Payment payment = new Payment(new Money(5000, 0), card);
-        Money money = new Money(5, 2);
-        payment.addCashToEmptyPayment(new Cash(money, 10));
+        Money money = new Money(1000, 0);
+        Payment payment = new Payment(money);
+        payment.addCashToEmptyPayment(new Cash(money, 1));
+        Assertions.assertEquals(money, payment.getPayment());
+        Assertions.assertEquals("Cash", payment.getPaymentType());
     }
 
     @Test
@@ -183,5 +211,18 @@ public class PaymentTest {
         customer.getMembership().getMembershipPoints().addPoints(500000);
         Payment payment = new Payment(new Money(5000, 0), customer);
         Assertions.assertEquals("Points", payment.getPaymentType());
+    }
+
+    @Test
+    void equalPayments() {
+        Money money = new Money(1000, 0);
+        Cash cash = new Cash(money, 1);
+        Payment payment = new Payment(money, cash);
+        String dateOfBirth = "1999-04-03";
+        Customer customer = new PrivatePerson("name", "address", "name@email.com", "6666666", dateOfBirth);
+        customer.addMembership();
+        customer.getMembership().getMembershipPoints().addPoints(500000);
+        Payment payment2 = new Payment(new Money(1000, 0), customer);
+        Assertions.assertEquals(payment.getPayment(), payment2.getPayment());
     }
 }
